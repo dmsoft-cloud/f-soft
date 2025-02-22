@@ -1,0 +1,25 @@
+<dms-default-table 
+        [columns]="columns" 
+        [items]="items" 
+        [filteredItems]="filteredItems"  
+        [isAddEmpyRows]="isAddEmpyRows" 
+        [totalPages]="totalPages"
+        [currentPage]="currentPage"
+        [modalMode]="modalMode"
+        [componentDescription]="componentDescription"
+        
+        (reloadTableEvent)="refreshTable()"  
+        (rowSelected)="onSelectItem($event)"
+        (rowManaged)="onManageItem($event)"
+        >
+                <div data-section>
+                        <dms-origin-edit [componentDescription]="componentDescription"  (closeModal)="onCloseModal()" ></dms-origin-edit>
+                </div>
+
+</dms-default-table>
+<div *ngIf="isLoading && !isError">
+        <dms-loading-spinner style="position: fixed; width: 100%; height: 100%; z-index: 1000; justify-content: center; align-items: center; top: 0; left: 0; display: flex; background-color: rgba(0, 0, 0, 0.5);"></dms-loading-spinner>
+</div>
+<div *ngIf="!isLoading && isError" style="position: fixed; width: 100%; height: 100%; z-index: 1000; justify-content: center; align-items: center; top: 0; left: 0; display: flex; background-color: rgba(0, 0, 0, 0.5);" (click)="clearErr()">
+        <p >{{isError}}</p>      
+</div>

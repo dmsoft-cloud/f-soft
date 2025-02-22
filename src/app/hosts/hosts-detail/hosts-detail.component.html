@@ -1,0 +1,52 @@
+<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)" >
+
+    <!--  sezione di modifiche rapide                                               -->    
+    <div variable-section-1 class="container mt-3">
+        <div class="col-md-12">
+            <form #quickEditForm="ngForm" (ngSubmit)="onCreatePost(quickEditForm.value)">
+                <div class="d-flex" >
+                    <div class="col-md-6  mb-3 pe-3">
+                        <label for="id" class="form-label">{{buttonDescriptionD}} Code</label>
+                        <input type="text" class="form-control" id="q_id" name="id" maxlength="20" ngModel disabled>
+                        <!-- Campo nascosto che verrà inviato con il form -->
+                        <input type="hidden" name="id" [ngModel]="q_id">
+                    </div>
+                    <div class=" col-md-6  mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="q_name" name="name" maxlength="50" ngModel [disabled]="!quickModeAcive">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="q_description" name="description" maxlength="100" ngModel [disabled]="!quickModeAcive">
+                </div>
+                <div class="mb-3">
+                    <label for="host" class="form-label">Source Host</label>
+                    <input type="text" class="form-control" id="q_host" name="host" maxlength="100" ngModel [disabled]="!quickModeAcive">
+                </div>
+                <div class="mb-3">
+                    <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" ngModel id="q_status" name="status" [disabled]="!quickModeAcive"></dms-toogle-switch>
+                </div>
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Notes</label>
+                    <textarea class="form-control" id="q_notes" name="notes" rows="5" maxlength="500" ngModel [disabled]="!quickModeAcive"> </textarea>
+                </div>
+                <!-- Campi nascosti da inviare comunque in update-->
+                <input type="hidden" id="host" name="host" ngModel>
+                <input type="hidden" id="remote" name="remote" ngModel>
+                <input type="hidden" id="type" name="type" ngModel>
+    
+                <hr> <!-- Riga a dividere -->
+    
+                <button type="submit" class="btn btn-primary btn-submit col-md-12 mb-3" [disabled]="!quickModeAcive">Submit changes</button>
+                <button type="button" class="btn btn-light btn-reset col-md-12 mb-3" [disabled]="!quickModeAcive">Reset</button>
+            </form>
+        </div>
+    </div>
+
+    <div data-section>
+        <dms-host-edit [componentDescription]="buttonDescriptionD"  (closeModal)="onCloseModal()" ></dms-host-edit>
+    </div>
+
+
+</dms-generic-detail>

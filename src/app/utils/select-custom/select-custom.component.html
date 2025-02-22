@@ -1,0 +1,15 @@
+<div class="mb-3">
+    <label [attr.for]="label" class="form-label">{{label}}</label>
+    <select 
+      class="form-control"
+      [id]="id"
+      [disabled]="isDisabled"
+      (change)="onValueChange($event)">
+      <option *ngIf="showEmptyOption" [value]="emptyOptionValue" [selected]="value === emptyOptionValue">
+        {{ emptyOptionLabel }}
+      </option>
+      <option *ngFor="let option of options" [value]="option.code" [selected]="option.code === value">
+        {{ getOptionLabel(option) }}
+      </option>
+    </select>
+</div>

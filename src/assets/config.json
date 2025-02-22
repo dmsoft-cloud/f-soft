@@ -1,0 +1,7 @@
+{
+    "apiBaseUrl": "https://example.com/api",
+    "googleApi": {
+        "baseUrl":"https://identitytoolkit.googleapis.com",
+        "apiKey":"AIzaSyCgUgx2E1ePeENpz5jrlPYjZeZHXojxkNA"
+    }
+}

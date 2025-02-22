@@ -1,0 +1,33 @@
+
+
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white;
+} 
+
+.dms-modal .modal-content {
+  width:100%;
+} 
+
+.dms-modal{
+  max-width: 100% !important;
+  max-height: 95%;
+}
+
+
+ngb-modal-windows.modal{
+  width:100%;
+}
+
+h4.modal-title{
+  color: rgb(33, 3, 151);
+  font-family: sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modal-footer{
+  .btn-light{
+    border-color: var(--dms-btn-border-grey);
+  }
+}

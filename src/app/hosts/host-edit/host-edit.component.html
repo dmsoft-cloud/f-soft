@@ -1,0 +1,64 @@
+   <!--  sezione inserimento/modifica     -->  
+   <div data-section class="container mt-3">
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <form #manageForm="ngForm" (ngSubmit)="onManageRequest(manageForm.value, editMode)">
+                    <div class="d-flex" >
+                        <div class="col-md-6  mb-3 pe-3">
+                            <label for="id" class="form-label">{{componentDescription}} Code</label>
+                            <input type="text" class="form-control" id="id" name="id" maxlength="20" ngModel disabled>
+                        </div>
+                        <div class=" col-md-6  mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" maxlength="50" ngModel [disabled]="!isEditEnabled">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                    </div>
+                    <div class="mb-3">
+                        <label for="host" class="form-label">Host</label>
+                        <input type="text" class="form-control" id="host" name="host" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                    </div>
+                    <div class="mb-3">
+                        <dms-toogle-switch lableOn="Remote" lableOff="Local" valueOn="S" valueOff="N" ngModel id="remote" name="remote" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type</label>
+                        <input type="text" class="form-control" id="type" name="type" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                    </div>
+                    <div class="mb-3">
+                        <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" ngModel id="status" name="status" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="5" maxlength="500" ngModel [disabled]="!isEditEnabled"> </textarea>
+                    </div>
+                </form>
+            </div>    
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div variable-section-3 class="col-md-12">
+            <div class="container">
+                <div class="row">
+                    <div class=" d-inline-flex justify-content-end">
+                        <div></div>
+                        <button type="button" class="btn btn-light col-md-3 pe-3 me-3" *ngIf="editMode == 'E' || editMode == 'C'" >Reset {{ componentDescription }}</button>
+                        <button type="button" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'I' || editMode == ''"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Insert {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'C'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)" >Copy {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'D'" (click)="submitForm(manageForm)">Delete {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'E'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Update {{ componentDescription }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,168 @@
+<div>
+    <!-- Ricerca -->
+    <div class="row justify-content-end pt-2">
+      <div class="col-md-4 d-flex align-items-end justify-content-end pe-0">
+        <div class="input-group d-flex justify-content-end mb-3 ">
+          <span class="input-group-text bg-white">
+            <i class="bi bi-search bg-white"></i>
+          </span>
+          <input type="text" class="basic-filter form-control" placeholder="Search..." aria-label="Cerca" aria-describedby="button-addon2" [ngModel]="filterText" (input)="filterText = $event.target.value; applyFilter()">
+        </div>
+      </div>
+    </div>
+  
+    <!-- Tabella generica -->
+    <div class="row mt-1 bg-white p-6 rounded">
+      <div class="col px-0">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="col-md-2"></div> <!-- Spazio vuoto per centrare la numerazione di pagine -->
+          <div>
+
+                <nav aria-label="Table pagination" *ngIf="totalPages > 1">
+                  <ul class="pagination justify-content-center mb-0">
+                    <li class="page-item" [ngClass]="{ 'disabled': currentPage === 1 }">
+                      <a class="page-link" (click)="goToPage(currentPage - 1)">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only" hidden>Previous</span>
+                      </a>
+                    </li>
+                    <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [ngClass]="{ 'active': currentPage === i + 1 }">
+                      <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+                    </li>
+                    <li class="page-item" [ngClass]="{ 'disabled': currentPage === totalPages }">
+                      <a class="page-link" (click)="goToPage(currentPage + 1)">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only" hidden>Next</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+
+          </div> <!-- Spazio vuoto per centrare i bottoni -->
+          <div class="d-inline-flex">
+            <!-- Botoni di azione -->
+            <button class="btn btn-outline-light text-custom px-1 py-2" (click)="openFilterModal()">
+              <span> <i class="bi bi-funnel bg-white"></i></span>
+              Filter
+            </button>
+            <button class="btn btn-outline-light text-custom px-1 py-2" (click)="refreshTable()">
+              <span> <i class="bi bi-arrow-clockwise bg-white"></i></span>
+              Refresh
+            </button>
+            <button class="btn btn-outline-light text-custom px-1 py-2" (click)="downloadCSV()">
+              <span> <i class="bi bi-download bg-white"></i></span>
+              Download
+            </button>
+          </div>
+        </div>
+
+
+        <app-default-table-filter *ngIf="isFilterOpen"></app-default-table-filter>
+
+
+
+        <!-- Tabella -->
+        <table class="table custom-table" [ngClass]="{'table-hover': tableHoverFlag}" >
+          <thead>
+            <tr>
+              <!-- Intestazioni delle colonne dinamiche -->
+              <th *ngFor="let column of columns" scope="col" class="position-relative" (click)="sort(column.field)">
+                <ng-container *ngIf="column.type === 'enabled'; else defaultHeader">
+                  <div class="d-flex justify-content-center">
+                    {{ column.header }}
+                  </div>
+                </ng-container>
+                <ng-template #defaultHeader>{{ column.header }}</ng-template>
+                <i class="bi" [ngClass]="{ 'bi-sort-down': sortColumn === column.field && sortOrder === 'asc', 'bi-sort-up': sortColumn === column.field && sortOrder === 'desc', 'bi-sort': sortColumn !== column.field }"></i>
+                <div class="resize-handle" (mousedown)="onResizeStart($event, column.field)"></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Righe della tabella -->
+            <tr   *ngFor="let item of paginatedItems; let i = index"
+                [index]="i"
+                (mouseenter)="highlightRow(i)"
+                (mouseleave)="unhighlightRow(i)"
+                (click)="selectItem(item,'')"
+                >
+              <!--  <td *ngFor="let column of columns">{{ item[column.field] }}</td>  -->
+              <td *ngFor="let column of columns">
+                <ng-container *ngIf="column.type === 'enabled'; else defaultCell">
+                  <div class="d-flex justify-content-center">
+                    <i *ngIf="EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-check-lg text-success"></i>
+                    <i *ngIf="!EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-x-lg text-danger"></i>
+                  </div>
+                </ng-container>
+                <ng-template #defaultCell>{{ item[column.field] }}</ng-template>
+              </td>
+                <!-- Sezione fissa in fondo a sinistra -->
+              <td class="fixed-buttons-column ">
+                <div class="d-inline-flex" > 
+                <!--<div class="d-inline-flex" [hidden]="!highlightedRows[i]" role="group"> --> 
+                  <div class="col-auto"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Show" (click)="manageItem(item,'S', $event)"><span align-middle> <i class="bi-eye bg-white"></i></span></button></div>
+                  <div class="col-auto"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Edit" (click)="manageItem(item,'E', $event)"><span align-middle> <i class=" align-top bi-pencil bg-white"></i></span></button></div>
+                  <div class="col-auto"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Delete" (click)="manageItem(item,'D', $event)"><span align-middle> <i class="bi-trash bg-white"></i></span></button></div>
+                  <div class="col-auto"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Copy" (click)="manageItem(item,'C', $event)"><span align-middle> <i class="bi-copy bg-white"></i></span></button></div>
+                </div>
+              </td>
+            </tr>
+            <!-- Righe vuote -->
+            <ng-container *ngIf="totalPages===currentPage">
+              <ng-container *ngFor="let _ of getEmptyRows()">
+                <tr class="empty-row">
+                  <td [attr.colspan]="columns.length + 1"></td>
+                </tr>
+              </ng-container> 
+            </ng-container>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td [attr.colspan]="columns.length + 1" class="text-center">
+                <div class="col-md-12">{{ items.length }} results </div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+          <!-- Modal -->
+          <ng-template #content let-modal>
+            
+
+            <div class="dms-modal-content">
+             <div class="container">
+                <div class="modal-header flex-column pb-1">
+                    <!-- Prima riga: Bottone di chiusura -->
+                    <div class="container">
+                        <div class="row">
+                            <div class=" d-inline-flex justify-content-end">
+                                <div></div> <!-- Questo div vuoto serve per spingere il pulsante di chiusura a destra -->
+                                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    
+                  <div class="w-100 d-flex justify-content-center mt-2">
+                        <div [ngSwitch]="modalMode">
+                          <h4 *ngSwitchCase = "'E'" class="modal-title">Edit  {{ componentDescription }}</h4>
+                          <h4 *ngSwitchCase = "'D'" class="modal-title">Delete  {{ componentDescription }}</h4>
+                          <h4 *ngSwitchCase = "'C'" class="modal-title">Copy  {{ componentDescription }}</h4>
+                          <h4 *ngSwitchDefault class="modal-title">Show {{ componentDescription }}</h4>
+                        </div>
+                  </div>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                            <ng-content select="[data-section]"></ng-content>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </ng-template>

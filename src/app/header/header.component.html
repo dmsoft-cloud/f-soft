@@ -1,0 +1,90 @@
+    <!-- Topbar Start -->
+    <div
+      class="container-fluid bg-dark text-white-50 py-2 px-0 d-none d-lg-block rounded-top">
+      <div class="row gx-0 align-items-center">
+        <div class="col-lg-4 col-sm-4  px-5 text-start">
+          <div class="h-100 d-inline-flex align-items-center me-4">
+             <div class="row py-0">
+                <p class="fw-bold font-italic mb-0">F-SOFT</p>
+                <small>Flow manager</small>
+             </div>
+          </div>    
+          <div class="h-100 d-inline-flex align-items-center me-4">
+            <small class="far fa-clock me-2"></small>
+            <small>Mon - Fri : 09 AM - 09 PM</small>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-4 px-5 text-center">
+            <div class="h-200 d-inline-flex align-items-center me-4">
+                <div class="row py-0">
+                   <h4 class="fw-bold font-italic mb-0">Loaded Page:  {{ currentPage }} </h4>
+                </div>
+             </div>   
+        </div>
+
+
+
+        <div class="col-lg-4 col-sm-4 px-5 text-end">
+          <div class="h-100 d-inline-flex align-items-center">
+            <button class="btn btn-dark align-middle" >Profile<img src="assets/img/user.webp" class="rounded-circle ms-1" style="width: 50px;"
+              alt="Avatar" /></button>
+            <button class="btn btn-dark align-middle"  (click)="onLogout()">Logout<i class="bi bi-box-arrow-right ms-1" ></i></button>
+
+           
+            <!--
+            <a class="text-white-50 ms-4" href=""
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a class="text-white-50 ms-4" href=""
+              ><i class="bi bi-x"></i
+            ></a>
+            <a class="text-white-50 ms-4" href=""
+              ><i class="bi bi-linkedin"></i
+            ></a>
+            <a class="text-white-50 ms-4" href=""
+              ><i class="bi bi-instagram"></i
+            ></a>
+            -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Topbar End -->
+
+
+
+    <div class="container-fluid">
+       <div class="col-lg-12 mx-auto"> 
+       <!-- Navbar Start -->
+       <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 ">
+         <div href="index.html" class="navbar-brand d-flex align-items-center">
+                <img class="img-fluid me-3" src="assets/img/dmsoft_logo.svg" alt="" style="width: 80px; height: 40px;" />
+          </div>
+         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" appDropdown>
+            <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav rounded pe-4 py-3 py-lg-0">
+                <li><a routerLink="/dashboard" class="nav-item nav-link active">Dashboard</a></li>
+                <!--<li class="nav-item dropdown">
+                    <a appDropdown style="cursor: pointer;" class="nav-link dropdown-toggle"  role="button">Flows<span class="caret"></span></a>
+                    <ul class="dropdown-menu border-1 m-0" aria-labelledby="dropdownMenuButton">
+                        <li routerLinkActive="active"><a routerLink="/flows" class="dropdown-item" style="cursor: pointer;">Flows Materdata</a></li>
+                        <li routerLinkActive="active"><a routerLink="/models" class="dropdown-item" style="cursor: pointer;">Models</a></li>
+                        <li routerLinkActive="active"><a routerLink="/groups" class="dropdown-item" style="cursor: pointer;">Groups</a></li>
+                    </ul>
+                </li> -->
+                <li routerLinkActive="active"><a routerLink="/flows" class="nav-item nav-link" style="cursor: pointer;">Flows Masterdata</a></li>
+                <li routerLinkActive="active"><a routerLink="/models" class="nav-item nav-link" style="cursor: pointer;">Models</a></li>
+                <li routerLinkActive="active"><a routerLink="/groups" class="nav-item nav-link" style="cursor: pointer;">Groups</a></li>
+                <li routerLinkActive="active"><a routerLink="/origins" class="nav-item nav-link">Origins</a></li>
+                <li routerLinkActive="active"><a routerLink="/interfaces" class="nav-item nav-link">Interfaces</a></li>
+                <li routerLinkActive="active"><a routerLink="/logs" class="nav-item nav-link">Logs</a></li>
+                <li routerLinkActive="active"><a routerLink="/comunications" class="nav-item nav-link">Communications</a></li>
+            </div>
+         </div>
+     </nav>
+     <!-- Navbar End -->
+    </div>
+ </div>

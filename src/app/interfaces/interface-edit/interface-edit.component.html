@@ -1,0 +1,112 @@
+   <!--  sezione inserimento/modifica     -->  
+   <div data-section class="container mt-3">
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <form #manageForm="ngForm" (ngSubmit)="onManageRequest(manageForm.value, editMode)">
+                    <div class="d-flex" >
+                        <div class="col-md-6  mb-3 pe-3">
+                            <label for="id" class="form-label">{{componentDescription}} Code</label>
+                            <input type="text" class="form-control" id="id" name="id" maxlength="20" ngModel  [disabled]="!isEditEnabled" required>
+                        </div>
+                        <div class="col-md-6  mb-3">
+                                <dms-toogle-switch lableOn="Enabled" lableOff="Disabled" lableComponent="Interface Enabled" defaultValue="S"  valueOn="S" valueOff="N" ngModel id="status" name="status" defaultValue="S" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="descriptionn" name="description" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                    </div>
+                    <div class="d-flex" >
+                        <div class="col-md-6 pe-3 mb-3">
+                            <!--<label for="connectionType" class="form-label">Connection Type</label>
+                            <select class="form-control" name="connectionType" [ngModel]="connType" id="connectionType" name="connectionType" [disabled]="!isEditEnabled">
+                                <option value="SFTP">SFTP</option>
+                                <option value="FTP">FTP</option>
+                            </select> -->
+                            <dms-select-custom label="Connection Type" 
+                                id="connectionType"
+                                name="connectionType"
+                                [(ngModel)]="connType"
+                                [options]="connectionTypes"
+                                [isDisabled]="!isEditEnabled"
+                                [showEmptyOption]="true"
+                                emptyOptionLabel=""
+                                emptyOptionValue=""
+                                [displayMode]="'code-description'">
+                            </dms-select-custom>
+                        </div>
+                        <div class="col-md-3 pe-3 mb-3">
+                            <dms-toogle-switch lableOn="Yes" lableOff="No" valueOn="S" lableComponent="Passive Mode" defaultValue="N" valueOff="N" ngModel id="passiveMode" name="passiveMode" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <dms-toogle-switch lableOn="On" lableOff="Off" lableComponent="Secure FTP" defaultValue="N" valueOn="S" valueOff="N" ngModel id="secureFtp" name="secureFtp"  [disabled]="!isEditEnabled"></dms-toogle-switch>
+                        </div>
+                    </div>
+                    <div class="d-flex" >
+                        <div class="col-md-6 mb-3 pe-3">
+                            <label for="host" class="form-label">Host</label>
+                            <input type="text" class="form-control" id="host" name="host" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                        </div>
+                        <div class="col-md-3 mb-3 pe-3">
+                            <label for="port" class="form-label">Port</label>
+                            <input type="number" class="form-control" id="port" name="port" maxlength="5" ngModel [disabled]="!isEditEnabled">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Trust Host" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="trustHost" name="trustHost" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                        </div>
+                    </div>
+                    <div class="d-flex" >
+                        <div class="col-md-4 mb-3 pe-3">
+                            <label for="description" class="form-label">User</label>
+                            <input type="text" class="form-control" id="user" name="user" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                        </div>
+                        <div class="col-md-4 mb-3 pe-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" maxlength="5" ngModel [disabled]="!isEditEnabled">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="sftpAlias" class="form-label">Sftp Alias</label>
+                            <input type="text" class="form-control" id="sftpAlias" name="sftpAlias" maxlength="5" ngModel [disabled]="!isEditEnabled">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="knownhost" class="form-label">Known Host</label>
+                        <input type="text" class="form-control" id="knownhost" name="knownhost" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                    </div>
+                    <div class="mb-3">
+                        <label for="keyFile" class="form-label">Key File</label>
+                        <input type="text" class="form-control" id="keyFile" name="keyFile" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="5" maxlength="500" ngModel [disabled]="!isEditEnabled"> </textarea>
+                    </div>
+
+
+                </form>
+            </div>    
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div variable-section-3 class="col-md-12">
+            <div class="container">
+                <div class="row">
+                    <div class=" d-inline-flex justify-content-end">
+                        <div></div>
+                        <button type="button" class="btn btn-light col-md-3 pe-3 me-3" *ngIf="editMode == 'E' || editMode == 'C'" >Reset {{ componentDescription }}</button>
+                        <button type="button" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'I' || editMode == ''"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Insert {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'C'" (click)="submitForm(manageForm)" >Copy {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'D'" (click)="submitForm(manageForm)">Delete {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'E'" (click)="submitForm(manageForm)">Update {{ componentDescription }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

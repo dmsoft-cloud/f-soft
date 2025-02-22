@@ -1,0 +1,17 @@
+<label for="id" class="form-label">{{lableComponent}}</label>
+<div class="dms-toggle">
+    <input id="{{id}}" type="checkbox" >
+    <label for="toggle-switch" class="toggle-switch d-flex" >
+        <div class="radiogroup col-md-6 " [class.active]="isOnSelected" role="radiogroup" aria-orientation="horizontal"  [class.disabled]="isSwitchDisabled"  (click)="!isSwitchDisabled && toggleOn()">
+            <label class="lab p-2"  aria-label="On">{{lableOn}}</label>   
+        </div>
+        <div class="radiogroup col-md-6" [class.active]="!isOnSelected" role="radiogroup" aria-orientation="horizontal"  [class.disabled]="isSwitchDisabled" (click)="!isSwitchDisabled &&  toggleOff()">
+            <label class="lab p-2"  aria-label="Off">{{lableOff}}</label>
+        </div>
+    </label> 
+    <div class="slider-class h-100 p-1"  [ngClass]="{'right': isRight}" data-checked=" ">
+        <button type="button" class="btn btn-primary btn-slider h-100 w-100" [disabled]="isSwitchDisabled" >
+            {{ isOnSelected ? lableOn : lableOff }}
+        </button>
+    </div>
+</div>  

@@ -1,0 +1,78 @@
+<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)"  [isQuickEditEnabled]="isQuickEditEnabled" >
+
+    <!--  sezione di modifiche rapide                                               -->    
+    <div variable-section-1 class="container mt-3">
+        <div class="col-md-12">
+            <form #quickEditForm="ngForm" (ngSubmit)="onCreatePost(quickEditForm.value)">
+                <div class="d-flex" >
+                    <div class="col-md-6  mb-3 pe-3">
+                        <label for="id" class="form-label">{{buttonDescriptionD}} Code</label>
+                        <input type="text" class="form-control" id="q_id" name="id" maxlength="20" ngModel disabled>
+                        <!-- Campo nascosto che verrà inviato con il form -->
+                        <input type="hidden" name="id" [ngModel]="q_id">
+                    </div>
+                    <div class="col-md-6  mb-3">
+                        <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" lableComponent="Model Enabled" defaultValue="S" ngModel id="q_enabled" name="enabled" [disabled]="!quickModeAcive"></dms-toogle-switch>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="q_description" name="description" maxlength="100" ngModel [disabled]="!quickModeAcive">
+                </div>
+                <div class="d-flex" >
+                    <div class="col-md-6  mb-3 pe-3">
+                        <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" lableComponent="Send Mail" defaultValue="S" ngModel id="q_sendMail" name="sendMail" [disabled]="!quickModeAcive"></dms-toogle-switch>
+                    </div>
+                    <div class="col-md-6  mb-3 pe-3">
+                        <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" lableComponent="Delete File" defaultValue="S" ngModel id="q_deleteFile" name="deleteFile" [disabled]="!quickModeAcive"></dms-toogle-switch>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="note" class="form-label">Notes</label>
+                    <textarea class="form-control" id="q_note" name="note" rows="5" maxlength="500" ngModel [disabled]="!quickModeAcive"> </textarea>
+                </div>
+                <!-- Campi nascosti da inviare comunque in update-->
+                <input type="hidden" id="q_type" name="type" ngModel>
+                <input type="hidden" id="q_direction" name="direction" ngModel>
+                <input type="hidden" id="q_decompression" name="decompression" ngModel>
+                <input type="hidden" id="q_compression" name="compression" ngModel>
+                <input type="hidden" id="q_retry" name="retry" ngModel>
+
+                <input type="hidden" id="q_retryInterval" name="retryInterval" ngModel>
+                <input type="hidden" id="q_retention" name="retention" ngModel>
+                <input type="hidden" id="q_internationalization" name="internationalization" ngModel>
+                <input type="hidden" id="q_uniqueHash" name="uniqueHash" ngModel>
+                <input type="hidden" id="q_fetchSize" name="fetchSize" ngModel>
+
+                <input type="hidden" id="q_database" name="database" ngModel>
+                <input type="hidden" id="q_schema" name="schema" ngModel>
+                <input type="hidden" id="q_sourceCharset" name="sourceCharset" ngModel>
+                <input type="hidden" id="q_destCharset" name="destCharset" ngModel>
+                <input type="hidden" id="q_fileFormat" name="fileFormat" ngModel>
+                
+                <input type="hidden" id="q_header" name="header" ngModel>
+                <input type="hidden" id="q_recordDelimiter" name="recordDelimiter" ngModel>
+                <input type="hidden" id="q_fieldDelimiter" name="fieldDelimiter" ngModel>
+                <input type="hidden" id="q_stringDelimiter" name="stringDelimiter" ngModel>
+                <input type="hidden" id="q_removingSpaces" name="removingSpaces" ngModel>
+
+                <input type="hidden" id="q_numericFilling" name="numericFilling" ngModel>
+                <input type="hidden" id="q_integrityCheck" name="integrityCheck" ngModel>
+                <input type="hidden" id="q_createFile" name="createFile" ngModel>
+
+    
+                <hr> <!-- Riga a dividere -->
+    
+                <button type="submit" class="btn btn-primary btn-submit col-md-12 mb-3" [disabled]="!quickModeAcive">Submit changes</button>
+                <button type="button" class="btn btn-light btn-reset col-md-12 mb-3" [disabled]="!quickModeAcive">Reset</button>
+            </form>
+        </div>
+    </div>
+
+    <div data-section>
+        <dms-models-edit [componentDescription]="buttonDescriptionD"  (closeModal)="onCloseModal()" ></dms-models-edit>
+    </div>
+
+
+</dms-generic-detail>
+

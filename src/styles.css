@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+/* template.component.css */
+.custom-table thead tr th {
+    border-bottom: 1px solid #dee2e6; /* Aggiungi bordatura solo alle righe orizzontali */
+  }
+  
+  .custom-table tbody tr td {
+    border-top: none; /* Rimuovi bordatura sulle righe verticali */
+  }
+
+  :root{
+    --dms-toggle-switch-background: rgb(235, 235, 235);
+    --dms-toggle-switch-border: transparent;
+    --dms-toggle-switch-border-radius: 4px;
+    --dms-toggle-switch-font-weight: 500;
+
+    --dms-label-font-weight: 600;
+    --dms-label-font-size:12px;
+
+    --dms-btn-border-grey:#cfcfcfff;
+    --dms-btn-reset-hover:#e6e6e6ff;
+
+    --dms-modal-width: 1200px;
+    --dms-modal-bg: var(--bs-body-bg);
+
+  }
+
+  label{
+    font-size: var(--dms-label-font-size);
+    font-weight: var(--dms-label-font-weight);
+  } 
+
+  .btn-submit{
+    font-size: var(--dms-label-font-size);
+    font-weight: var(--dms-label-font-weight);
+  }
+
+  .btn-reset{
+    font-size: var(--dms-label-font-size);
+    font-weight: var(--dms-label-font-weight);
+    border-color: #cfcfcfff;
+  }
+
+  .btn-reset:hover{
+    background-color: var(--dms-btn-reset-hover);
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }

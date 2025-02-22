@@ -1,0 +1,72 @@
+<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)" >
+
+    <!--  sezione di modifiche rapide                                               -->    
+    <div variable-section-1 class="container mt-3">
+        <div class="col-md-12">
+            <form #quickEditForm="ngForm" (ngSubmit)="onCreatePost(quickEditForm.value)">
+                <div class="d-flex" >
+                    <div class="col-md-6  mb-3 pe-3">
+                        <label for="id" class="form-label">{{buttonDescriptionD}} Code</label>
+                        <input type="text" class="form-control" id="q_id" name="id" maxlength="20" ngModel disabled>
+                        <!-- Campo nascosto che verrà inviato con il form -->
+                        <input type="hidden" name="id" [ngModel]="q_id">
+                    </div>
+                    <div class="col-md-6  mb-3">
+                        <dms-toogle-switch lableOn="Enabled" lableOff="Disabled" valueOn="S" valueOff="N" lableComponent="Flow Enabled" defaultValue="S" ngModel id="q_enabled" name="enabled" [disabled]="!quickModeAcive"></dms-toogle-switch>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="q_description" name="description" maxlength="100" ngModel [disabled]="!quickModeAcive">
+                </div>
+                <div class="d-flex" >
+                    <div class="col-md-6  mb-3 pe-3">
+                        <dms-select-custom label="Model" id="model" name="model" [(ngModel)]="model" [options]="model"
+                                        [disabled]="!quickModeAcive" [showEmptyOption]="true" emptyOptionLabel="" emptyOptionValue="" [displayMode]="'code-description'">
+                        </dms-select-custom>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <dms-select-custom label="Origin" id="origin" name="origin" [(ngModel)]="origin" [options]="origin"
+                                        [disabled]="!quickModeAcive" [showEmptyOption]="true" emptyOptionLabel="" emptyOptionValue="" [displayMode]="'code-description'">
+                        </dms-select-custom>
+                    </div>                    
+                </div>
+                <div class="mb-3">
+                    <dms-select-custom label="Interface Id" id="interfaceId" name="interfaceId" [(ngModel)]="origin" [options]="origin"
+                                    [disabled]="!quickModeAcive" [showEmptyOption]="true" emptyOptionLabel="" emptyOptionValue="" [displayMode]="'code-description'">
+                    </dms-select-custom>
+                </div>
+                <div class="mb-3">
+                    <label for="note" class="form-label">Notes</label>
+                    <textarea class="form-control" id="q_note" name="note" rows="5" maxlength="500" ngModel [disabled]="!quickModeAcive"> </textarea>
+                </div>
+    
+                <hr> <!-- Riga a dividere -->
+
+                <!-- Campi nascosti da inviare comunque in update-->
+                <input type="hidden" id="q_groupId" name="groupId" ngModel>
+                <input type="hidden" id="q_notificationFlow" name="notificationFlow" ngModel>
+                <input type="hidden" id="q_notificationOk" name="notificationOk" ngModel>
+                <input type="hidden" id="q_notificationKo" name="notificationKo" ngModel>
+
+                <input type="hidden" id="q_integrityFileName" name="integrityFileName" ngModel>
+                <input type="hidden" id="q_dbTable" name="dbTable" ngModel>
+                <input type="hidden" id="q_folder" name="folder" ngModel>
+
+                <input type="hidden" id="q_file" name="file" ngModel>
+                <input type="hidden" id="q_remoteFolder" name="remoteFolder" ngModel>
+                <input type="hidden" id="q_remoteFile" name="remoteFile" ngModel>
+                <input type="hidden" id="q_lengthFixed" name="lengthFixed" ngModel>
+    
+                <button type="submit" class="btn btn-primary btn-submit col-md-12 mb-3" [disabled]="!quickModeAcive">Submit changes</button>
+                <button type="button" class="btn btn-light btn-reset col-md-12 mb-3" [disabled]="!quickModeAcive">Reset</button>
+            </form>
+        </div>
+    </div>
+
+    <div data-section>
+        <dms-flow-edit [componentDescription]="buttonDescriptionD"  (closeModal)="onCloseModal()" ></dms-flow-edit>
+    </div>
+
+
+</dms-generic-detail>
