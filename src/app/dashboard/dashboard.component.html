@@ -1,1 +1,12 @@
-<p>dashboard works!</p>
+<div class="container mt-4">
+    <h2>Deal Review</h2>
+    <div class="row main-canvas mx-auto mx-3 ps-3">
+      <div class="col-md-8">
+        <canvas baseChart [data]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [type]="barChartType"></canvas>
+        <canvas baseChart [data]="lineChartData" [labels]="barChartLabels" [options]="barChartOptions" [type]="lineChartType"></canvas>
+      </div>
+      <div class="col-md-4">
+        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [type]="pieChartType"></canvas>
+      </div>
+    </div>
+  </div>

@@ -1,8 +1,9 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { NgChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -65,66 +66,59 @@ export function initializeApp(configService: ConfigService) {
 }
 
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    ToggleSwitchComponent,
-    DefaultTableComponent,
-    DefaultDetailComponent,
-    DefaultTableFilterComponent,
-    ModelsComponent,
-    LogsListComponent,
-    LoginComponent,
-    InterfacesComponent,
-    HostsComponent,
-    HostsListComponent,
-    HostsDetailComponent,
-    HeaderComponent,
-    GroupsComponent,
-    GroupsListComponent,
-    GroupsDetailComponent,
-    FlowsComponent,
-    FlowsListComponent,
-    FlowsDetailComponent,
-    DashboardComponent,
-    GenericDetailComponent,
-    GenericEditComponent,
-    InterfacesListComponent,
-    InterfacesDetailComponent,
-    GroupEditComponent,
-    InterfaceEditComponent,
-    AuthComponent,
-    LoadingSpinnerComponent,
-    ModelsListComponent,
-    ModelsDetailComponent,
-    ModelsEditComponent,
-    HostEditComponent,
-    FlowEditComponent,
-    OriginsComponent,
-    OriginsListComponent,
-    OriginsDetailComponent,
-    OriginEditComponent,
-    SelectCustomComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    CommonModule,
-    NgbModule, // Importa il modulo Modal e configuralo globalmente
-    ReactiveFormsModule
-  ],
-  providers: [{provide:HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [ConfigService],
-      multi: true
-    },
-    provideAnimationsAsync()
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        ToggleSwitchComponent,
+        DefaultTableComponent,
+        DefaultDetailComponent,
+        DefaultTableFilterComponent,
+        ModelsComponent,
+        LogsListComponent,
+        LoginComponent,
+        InterfacesComponent,
+        HostsComponent,
+        HostsListComponent,
+        HostsDetailComponent,
+        HeaderComponent,
+        GroupsComponent,
+        GroupsListComponent,
+        GroupsDetailComponent,
+        FlowsComponent,
+        FlowsListComponent,
+        FlowsDetailComponent,
+        DashboardComponent,
+        GenericDetailComponent,
+        GenericEditComponent,
+        InterfacesListComponent,
+        InterfacesDetailComponent,
+        GroupEditComponent,
+        InterfaceEditComponent,
+        AuthComponent,
+        LoadingSpinnerComponent,
+        ModelsListComponent,
+        ModelsDetailComponent,
+        ModelsEditComponent,
+        HostEditComponent,
+        FlowEditComponent,
+        OriginsComponent,
+        OriginsListComponent,
+        OriginsDetailComponent,
+        OriginEditComponent,
+        SelectCustomComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        NgChartsModule,
+        AppRoutingModule,
+        FormsModule,
+        CommonModule,
+        NgbModule, // Importa il modulo Modal e configuralo globalmente
+        ReactiveFormsModule], providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [ConfigService],
+            multi: true
+        },
+        provideAnimationsAsync(), provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
