@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { MainService } from '../utils/main.service';
 import { FlowStruct } from '../utils/structs/flowStruct';
+import { ConfigService } from '../utils/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,9 @@ export class FlowService extends MainService  {
       ];
       
       
-      constructor(protected http: HttpClient) {
-        super(http);
-       }
+      constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+        super(http, configService );
+      }
       
       
       //metodo per ripulire il form semplificato dopo una cancellazione
@@ -43,7 +44,8 @@ export class FlowService extends MainService  {
       
       // Metodo per recuperare i dati 
       public getFlows():  Observable<FlowStruct[]> {
-        return this.http.get("http://localhost:8080/flows").pipe(
+        const apiBaseUrl = this.getApiBaseUrl();
+        return this.http.get(`${apiBaseUrl}/flows`).pipe(
           map( responseData => {
             if (!Array.isArray(responseData)) {
               console.error("La risposta non è un array:", responseData);
@@ -87,7 +89,8 @@ export class FlowService extends MainService  {
       }
       
         public getFlow(id: string): Observable<FlowStruct> {
-          const url = `http://localhost:8080/flows/flow/${id}`;
+          const apiBaseUrl = this.getApiBaseUrl();
+          const url = `${apiBaseUrl}/flows/flow/${id}`;
           return this.http.get<FlowStruct>(url).pipe(
             catchError((errorRes) => {
               console.error("Error retrieving flow:", errorRes);
@@ -100,7 +103,8 @@ export class FlowService extends MainService  {
       addItem(item: FlowStruct) {
         
         console.log("Flow trasmesso: " + JSON.stringify(item));
-        const url = "http://localhost:8080/flows/flow";
+        const apiBaseUrl = this.getApiBaseUrl();
+        const url = `${apiBaseUrl}/flows/flow`;
     
         // Effettua la richiesta POST e attende la risposta
         this.http.post<FlowStruct>(url, item).pipe(
@@ -117,8 +121,8 @@ export class FlowService extends MainService  {
       }
     
       updateItem(item: FlowStruct) {
-    
-          const url = "http://localhost:8080/flows/flow";
+          const apiBaseUrl = this.getApiBaseUrl();
+          const url =`${apiBaseUrl}/flows/flow`;
       
           // Effettua la richiesta POST e attende la risposta
           this.http.post<FlowStruct>(url, item).pipe(
@@ -138,7 +142,8 @@ export class FlowService extends MainService  {
       }
       
       deleteItem(item: FlowStruct) {
-        const url = `http://localhost:8080/flows/flow/${item.id}`; // URL per eliminare l'elemento
+        const apiBaseUrl = this.getApiBaseUrl();
+        const url = `${apiBaseUrl}/flows/flow/${item.id}`; // URL per eliminare l'elemento
         this.http.delete(url).pipe(
           // Utilizza l'operatore `switchMap` per passare alla chiamata `getFlows` dopo che l'aggiornamento è completato
           switchMap(response => {
@@ -153,7 +158,8 @@ export class FlowService extends MainService  {
       
       
       getItemById(id: string): Observable<FlowStruct> {
-        const url = "http://localhost:8080/flows/flow/${id}";
+        const apiBaseUrl = this.getApiBaseUrl();
+        const url = `${apiBaseUrl}/flows/flow/${id}`; 
         return this.http.get<FlowStruct>(url).pipe(
           catchError((errorRes) => {
             console.error('Errore nel recuperare il flow:', errorRes);

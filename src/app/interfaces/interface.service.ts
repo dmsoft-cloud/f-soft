@@ -3,6 +3,7 @@ import { catchError, map, Observable, Subject, switchMap, throwError } from 'rxj
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { InterfaceStruct } from '../utils/structs/interfaceStruct';
 import { MainService } from '../utils/main.service';
+import { ConfigService } from '../utils/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,9 @@ export class InterfaceService extends MainService {
   private interfaces: InterfaceStruct[] = [
   ];
 
-  constructor(protected http: HttpClient) { super(http); }
+  constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+          super(http, configService );
+  }
 
   //metodo per ripulire il form semplificato dopo una cancellazione
   public emitClearAfetrDelete(){
@@ -38,8 +41,8 @@ export class InterfaceService extends MainService {
 
   // Metodo per recuperare i dati 
   public getInterfaces():  Observable<InterfaceStruct[]>  {
-    // Implementa qui la logica per recuperare i dati, ad esempio da un server o da una fonte dati mock
-    return this.http.get("http://localhost:8080/interfaces").pipe(
+    const apiBaseUrl = this.getApiBaseUrl();
+    return this.http.get(`${apiBaseUrl}/interfaces`).pipe(
       map( responseData => {
         if (!Array.isArray(responseData)) {
           console.error("La risposta non è un array:", responseData);
@@ -77,7 +80,8 @@ export class InterfaceService extends MainService {
 
   //metodo per estrarre  l'elemento della lista selezionato
   public getInterface(id: string): Observable<InterfaceStruct> {
-    const url = `http://localhost:8080/interfaces/interface/${id}`;
+    const apiBaseUrl = this.getApiBaseUrl();
+    const url = `${apiBaseUrl}/interfaces/interface/${id}`;
     return this.http.get<InterfaceStruct>(url).pipe(
       catchError((errorRes) => {
         console.error("Error retrieving interface:", errorRes);
@@ -87,8 +91,8 @@ export class InterfaceService extends MainService {
   }
 
     addItem(item: InterfaceStruct) {
-  
-      const url = "http://localhost:8080/interfaces/interface";
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/interfaces/interface`;
       console.log("Interfaccia da inserire: ", JSON.stringify(item));
       // Effettua la richiesta POST e attende la risposta
       this.http.post<InterfaceStruct>(url, item).pipe(
@@ -104,8 +108,8 @@ export class InterfaceService extends MainService {
 
   
   updateItem(item: InterfaceStruct) {
-
-      const url = "http://localhost:8080/interfaces/interface";
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/interfaces/interface`;
   
       // Effettua la richiesta POST e attende la risposta
       this.http.post<InterfaceStruct>(url, item).pipe(
@@ -126,7 +130,8 @@ export class InterfaceService extends MainService {
 
 
    deleteItem(item: InterfaceStruct) {
-      const url = `http://localhost:8080/interfaces/interface/${item.id}`; // URL per eliminare l'elemento
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/interfaces/interface/${item.id}`; // URL per eliminare l'elemento
       this.http.delete(url).pipe(
         switchMap(response => {
           return this.getInterfaces();
@@ -140,7 +145,8 @@ export class InterfaceService extends MainService {
   
 
   getItemById(id: string): Observable<InterfaceStruct> {
-     const url = "http://localhost:8080/interfaces/interface/${id}";
+     const apiBaseUrl = this.getApiBaseUrl();
+     const url = `${apiBaseUrl}/interfaces/interface/${id}`;
      return this.http.get<InterfaceStruct>(url).pipe(
        catchError((errorRes) => {
          console.error('Errore nel recuperare l\'interfaccia:', errorRes);

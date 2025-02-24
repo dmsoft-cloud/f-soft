@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ConfigService } from './config.service';
 
 
 
@@ -9,7 +10,7 @@ import { Injectable } from '@angular/core';
 export class MainService {
 
   
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient, protected configService: ConfigService) {}
 
   getToken() : string | null {
     //riconverto il json in oggetto)
@@ -23,6 +24,16 @@ export class MainService {
       return null;
     }
     return userData._token;
+  }
+
+  // Metodo di esempio per ottenere l'API base URL
+  getApiBaseUrl(): string | undefined {
+    return this.configService.getApiBaseUrl();
+  }
+
+  // Metodo di esempio per ottenere la configurazione di Google API
+  getGoogleApiConfig(): { baseUrl: string, apiKey: string } | undefined {
+    return this.configService.getGoogleApiConfig();
   }
 
 }

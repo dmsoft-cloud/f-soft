@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, Subject, throwError } from 'rxjs';
 import { MainService } from '../utils/main.service';
 import { HostStruct } from '../utils/structs/hostStruct';
+import { ConfigService } from '../utils/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +38,9 @@ private hosts: HostStruct[] = [
 ];
 
 
-constructor(protected http: HttpClient) {
-  super(http);
- }
+constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+        super(http, configService );
+      }
 
 
 //metodo per ripulire il form semplificato dopo una cancellazione

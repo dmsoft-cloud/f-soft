@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, lastValueFrom  } from 'rxjs';
 
 interface GoogleApiConfig {
   baseUrl: string;
@@ -48,4 +48,13 @@ export class ConfigService {
     return this.config?.googleApi.apiKey;
   }
 
+  isConfigLoaded(): boolean {
+    return !!this.config;
+  }
+
 }
+
+export function initializeApp(configService: ConfigService) {
+  return () => lastValueFrom(configService.loadConfig());
+}
+

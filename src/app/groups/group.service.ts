@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, Subject, switchMap, throwError } from 'rxjs';
 import { GroupStruct } from '../utils/structs/groupStruct';
 import { MainService } from '../utils/main.service';
+import { ConfigService } from '../utils/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,9 @@ export class GroupService extends MainService {
   ];
 
 
-  constructor(protected http: HttpClient) {
-    super(http);
-   }
+  constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+          super(http, configService );
+        }
 
 
   //metodo per ripulire il form semplificato dopo una cancellazione
@@ -42,8 +43,8 @@ export class GroupService extends MainService {
 
   // Metodo per recuperare i dati 
   public getGroups():  Observable<GroupStruct[]> {
-    // Implementa qui la logica per recuperare i dati, ad esempio da un server o da una fonte dati mock
-    return this.http.get("http://localhost:8080/groups").pipe(
+    const apiBaseUrl = this.getApiBaseUrl();
+    return this.http.get(`${apiBaseUrl}/groups`).pipe(
       map( responseData => {
 
         if (!Array.isArray(responseData)) {
@@ -75,7 +76,8 @@ export class GroupService extends MainService {
 
   //metodo per estrarre  l'elemento della lista selezionato
   public getGroup(id: string){
-    const url = `http://localhost:8080/groups/group/${id}`;
+    const apiBaseUrl = this.getApiBaseUrl();
+    const url = `${apiBaseUrl}/groups/group/${id}`;
           return this.http.get<GroupStruct>(url).pipe(
             catchError((errorRes) => {
               console.error("Error retrieving group:", errorRes);
@@ -86,7 +88,8 @@ export class GroupService extends MainService {
 
   
   addItem(item: GroupStruct) {
-    const url = "http://localhost:8080/groups/group";
+    const apiBaseUrl = this.getApiBaseUrl();
+    const url = `${apiBaseUrl}/groups/group`;
 
     // Effettua la richiesta POST e attende la risposta
     this.http.post<GroupStruct>(url, item).pipe(
@@ -101,7 +104,8 @@ export class GroupService extends MainService {
   }
 
   updateItem(item: GroupStruct) {
-      const url = "http://localhost:8080/groups/group";
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url =`${apiBaseUrl}/groups/group`;
   
       // Effettua la richiesta POST e attende la risposta
       this.http.post<GroupStruct>(url, item).pipe(
@@ -118,7 +122,8 @@ export class GroupService extends MainService {
   }
 
   deleteItem(item: GroupStruct) {
-    const url = `http://localhost:8080/groups/group/${item.id}`; // URL per eliminare l'elemento
+    const apiBaseUrl = this.getApiBaseUrl();
+    const url = `${apiBaseUrl}/groups/group/${item.id}`; // URL per eliminare l'elemento
     this.http.delete(url).pipe(
       // Utilizza l'operatore `switchMap` per passare alla chiamata `getOrigins` dopo che l'aggiornamento è completato
       switchMap(response => {
@@ -134,7 +139,8 @@ export class GroupService extends MainService {
 
 
   getItemById(id: string): Observable<GroupStruct> {
-    const url = "http://localhost:8080/groups/group/${id}";
+    const apiBaseUrl = this.getApiBaseUrl();
+    const url = `${apiBaseUrl}/groups/group/${id}`;
     return this.http.get<GroupStruct>(url).pipe(
       catchError((errorRes) => {
         console.error('Errore nel recuperare il gruppo:', errorRes);

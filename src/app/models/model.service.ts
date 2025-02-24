@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { MainService } from '../utils/main.service';
 import { ModelStruct } from '../utils/structs/modelStruct';
+import { ConfigService } from '../utils/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,9 @@ export class ModelService extends MainService  {
     ];
     
     
-    constructor(protected http: HttpClient) {
-      super(http);
-     }
+    constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+            super(http, configService );
+    }
     
     
     //metodo per ripulire il form semplificato dopo una cancellazione
@@ -43,7 +44,8 @@ export class ModelService extends MainService  {
     
     // Metodo per recuperare i dati 
     public getModels():  Observable<ModelStruct[]> {
-      return this.http.get("http://localhost:8080/models").pipe(
+      const apiBaseUrl = this.getApiBaseUrl();
+      return this.http.get(`${apiBaseUrl}/models`).pipe(
         map( responseData => {
           if (!Array.isArray(responseData)) {
             console.error("La risposta non è un array:", responseData);
@@ -98,7 +100,8 @@ export class ModelService extends MainService  {
     }
     
       public getModel(id: string): Observable<ModelStruct> {
-        const url = `http://localhost:8080/models/model/${id}`;
+        const apiBaseUrl = this.getApiBaseUrl();
+        const url = `${apiBaseUrl}/models/model/${id}`;
         return this.http.get<ModelStruct>(url).pipe(
           catchError((errorRes) => {
             console.error("Error retrieving model:", errorRes);
@@ -110,8 +113,9 @@ export class ModelService extends MainService  {
   
     addItem(item: ModelStruct) {
       
-      console.log("Model trasmesso: " + JSON.stringify(item));
-      const url = "http://localhost:8080/models/model";
+      //console.log("Model trasmesso: " + JSON.stringify(item));
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/models/model`;
   
       // Effettua la richiesta POST e attende la risposta
       this.http.post<ModelStruct>(url, item).pipe(
@@ -129,7 +133,8 @@ export class ModelService extends MainService  {
   
     updateItem(item: ModelStruct) {
   
-        const url = "http://localhost:8080/models/model";
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/models/model`;
     
         // Effettua la richiesta POST e attende la risposta
         this.http.post<ModelStruct>(url, item).pipe(
@@ -149,7 +154,8 @@ export class ModelService extends MainService  {
     }
     
     deleteItem(item: ModelStruct) {
-      const url = `http://localhost:8080/models/model/${item.id}`; // URL per eliminare l'elemento
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/models/model/${item.id}`; // URL per eliminare l'elemento
       this.http.delete(url).pipe(
         // Utilizza l'operatore `switchMap` per passare alla chiamata `getModels` dopo che l'aggiornamento è completato
         switchMap(response => {
@@ -164,7 +170,8 @@ export class ModelService extends MainService  {
     
     
     getItemById(id: string): Observable<ModelStruct> {
-      const url = "http://localhost:8080/models/model/${id}";
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/models/model/${id}`;
       return this.http.get<ModelStruct>(url).pipe(
         catchError((errorRes) => {
           console.error('Errore nel recuperare il model:', errorRes);

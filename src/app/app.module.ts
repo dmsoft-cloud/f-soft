@@ -3,7 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+
 import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';  // Importa BaseChartDirective
 
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -43,7 +45,7 @@ import { InterfaceEditComponent } from './interfaces/interface-edit/interface-ed
 import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './utils/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
-import { ConfigService } from './utils/config.service';
+import { ConfigService, initializeApp  } from './utils/config.service';
 import { GenericEditComponent } from './utils/generic-edit/generic-edit.component';
 import { ModelsListComponent } from './models/models-list/models-list.component';
 import { ModelsDetailComponent } from './models/models-detail/models-detail.component';
@@ -59,11 +61,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
 
 
-
-
-export function initializeApp(configService: ConfigService) {
-  return () => configService.loadConfig().toPromise();
-}
 
 
 @NgModule({ declarations: [
@@ -106,14 +103,17 @@ export function initializeApp(configService: ConfigService) {
         OriginEditComponent,
         SelectCustomComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent], 
+    imports: [BrowserModule,
         BrowserAnimationsModule,
-        NgChartsModule,
+        NgChartsModule,  
         AppRoutingModule,
         FormsModule,
         CommonModule,
         NgbModule, // Importa il modulo Modal e configuralo globalmente
-        ReactiveFormsModule], providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+        ReactiveFormsModule], 
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+        ConfigService,
         {
             provide: APP_INITIALIZER,
             useFactory: initializeApp,

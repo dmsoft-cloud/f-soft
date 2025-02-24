@@ -3,6 +3,7 @@ import { catchError, map, Observable, Subject, switchMap, throwError } from 'rxj
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { OriginStruct } from '../utils/structs/originStruct';
 import { MainService } from '../utils/main.service';
+import { ConfigService } from '../utils/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,9 @@ export class OriginService extends MainService {
   ];
   
   
-  constructor(protected http: HttpClient) {
-    super(http);
-   }
+  constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+          super(http, configService );
+  }
   
   
   //metodo per ripulire il form semplificato dopo una cancellazione
@@ -42,7 +43,8 @@ export class OriginService extends MainService {
   
   // Metodo per recuperare i dati 
   public getOrigins():  Observable<OriginStruct[]> {
-    return this.http.get("http://localhost:8080/origins").pipe(
+    const apiBaseUrl = this.getApiBaseUrl();
+    return this.http.get(`${apiBaseUrl}/origins`).pipe(
       map( responseData => {
         if (!Array.isArray(responseData)) {
           console.error("La risposta non è un array:", responseData);
@@ -84,7 +86,8 @@ export class OriginService extends MainService {
   }*/
 
     public getOrigin(id: string): Observable<OriginStruct> {
-      const url = `http://localhost:8080/origins/origin/${id}`;
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/origins/origin/${id}`;
       return this.http.get<OriginStruct>(url).pipe(
         catchError((errorRes) => {
           console.error("Error retrieving origin:", errorRes);
@@ -92,29 +95,12 @@ export class OriginService extends MainService {
         })
       );
     }
-  
-/*
-  addItem(item: OriginStruct)  {
-    const token = this.getToken();
-    const url = "http://localhost:8080/origins/origin";
-    console.log("valore form da inserire: " + JSON.stringify(item));
 
-    // Effettua la richiesta POST e attende la risposta
-    this.http.post<OriginStruct>(url, item).subscribe({
-      next: (response) => {
-        this.origins.push(response); // Aggiunge l'elemento alla lista
-        this.originChanged.next([...this.origins]);  // Notifica il cambiamento della lista
-      },
-      error: (error) => {
-        console.error('Errore nell\'aggiungere l\'origin:', error); // Gestisce l'errore
-      }
-    });
-  }
-    */
 
   addItem(item: OriginStruct) {
 
-    const url = "http://localhost:8080/origins/origin";
+    const apiBaseUrl = this.getApiBaseUrl();
+    const url = `${apiBaseUrl}/origins/origin`;
 
     // Effettua la richiesta POST e attende la risposta
     this.http.post<OriginStruct>(url, item).pipe(
@@ -135,7 +121,8 @@ export class OriginService extends MainService {
 
   updateItem(item: OriginStruct) {
 
-      const url = "http://localhost:8080/origins/origin";
+      const apiBaseUrl = this.getApiBaseUrl();
+      const url = `${apiBaseUrl}/origins/origin`;
   
       // Effettua la richiesta POST e attende la risposta
       this.http.post<OriginStruct>(url, item).pipe(
@@ -155,7 +142,8 @@ export class OriginService extends MainService {
   }
   
   deleteItem(item: OriginStruct) {
-    const url = `http://localhost:8080/origins/origin/${item.id}`; // URL per eliminare l'elemento
+    const apiBaseUrl = this.getApiBaseUrl();
+    const url = `${apiBaseUrl}/origins/origin/${item.id}`;
     this.http.delete(url).pipe(
       // Utilizza l'operatore `switchMap` per passare alla chiamata `getOrigins` dopo che l'aggiornamento è completato
       switchMap(response => {
@@ -170,7 +158,8 @@ export class OriginService extends MainService {
   
   
   getItemById(id: string): Observable<OriginStruct> {
-    const url = "http://localhost:8080/origins/origin/${id}";
+    const apiBaseUrl = this.getApiBaseUrl();
+    const url = `${apiBaseUrl}/origins/origin/${id}`;
     return this.http.get<OriginStruct>(url).pipe(
       catchError((errorRes) => {
         console.error('Errore nel recuperare l\'origin:', errorRes);

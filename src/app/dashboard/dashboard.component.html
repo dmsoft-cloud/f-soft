@@ -1,12 +1,46 @@
-<div class="container mt-4">
-    <h2>Deal Review</h2>
-    <div class="row main-canvas mx-auto mx-3 ps-3">
-      <div class="col-md-8">
-        <canvas baseChart [data]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [type]="barChartType"></canvas>
-        <canvas baseChart [data]="lineChartData" [labels]="barChartLabels" [options]="barChartOptions" [type]="lineChartType"></canvas>
+<div class="container-fluid" style="background: rgb(33, 3, 151); margin: 20px; padding-left: 50px;"  >
+    <br>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            Outbound/Inbound flows
+          </div>
+          <div class="card-body">
+            <canvas id="lineChart"></canvas>
+          </div>
+        </div>
       </div>
       <div class="col-md-4">
-        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [type]="pieChartType"></canvas>
+        <div class="card">
+          <div class="card-header">
+            Error Outbound/inbound
+          </div>
+          <div class="card-body">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            Flows by Interfaces
+          </div>
+          <div class="card-body">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            Flow logs
+          </div>
+          <div class="card-body">
+            <dms-logs-list></dms-logs-list>
+          </div>
+        </div>
       </div>
     </div>
   </div>
