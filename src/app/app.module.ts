@@ -58,7 +58,10 @@ import { OriginsDetailComponent } from './origins/origins-detail/origins-detail.
 import { OriginEditComponent } from './origins/origin-edit/origin-edit.component';
 import { SelectCustomComponent } from './utils/select-custom/select-custom.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
+import { ReactiveFormsModule } from '@angular/forms';
+import { SelectFilteredCustomComponent } from './utils/select-filtered-custom/select-filtered-custom.component';
+import { SelectFiltered2CustomComponent } from './utils/select-filtered2-custom/select-filtered2-custom.component';
+
 
 
 
@@ -101,7 +104,10 @@ import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsMo
         OriginsListComponent,
         OriginsDetailComponent,
         OriginEditComponent,
-        SelectCustomComponent
+        SelectCustomComponent,
+        SelectFilteredCustomComponent,
+        SelectFiltered2CustomComponent
+        
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,

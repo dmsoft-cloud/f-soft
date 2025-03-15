@@ -1,0 +1,32 @@
+<div class="mb-3">
+    <label [attr.for]="id" class="form-label">{{ label }}</label>
+    <div class="input-group">
+      <select
+        class="form-control select-custom-filtered"
+        [id]="id"
+        [disabled]="isDisabled"
+        (change)="onValueChange($event)"
+      >
+        <option *ngIf="showEmptyOption" [value]="emptyOptionValue" [selected]="value === emptyOptionValue">
+          {{ emptyOptionLabel }}
+        </option>
+        <option *ngFor="let option of filteredOptions" [value]="option.code" [selected]="option.code === value">
+          {{ getOptionLabel(option) }}
+        </option>
+      </select>
+      <button class="btn btn-outline-secondary" type="button"  [disabled]="isDisabled" (click)="toggleFilter()">
+        <i class="bi bi-search"></i> <!-- Icona di Bootstrap (puoi usare FontAwesome o altro) -->
+      </button>
+    </div>
+  
+    <!-- Filtro dropdown -->
+    <div *ngIf="isFilterVisible" class="filter-dropdown">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="filterText"
+        (input)="filterOptions()"
+        placeholder="Filter options..."
+      />
+    </div>
+  </div>

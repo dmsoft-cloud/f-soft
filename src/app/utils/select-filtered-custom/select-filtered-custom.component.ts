@@ -1,22 +1,23 @@
 import { Component, Input, Output, EventEmitter, OnInit, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SelectOption } from './select-option.model';
+
 import { Observable } from 'rxjs';
+import { SelectOption } from '../select-custom/select-option.model';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
 @Component({
-  selector: 'dms-select-custom',
-  templateUrl: './select-custom.component.html',
-  styleUrl: './select-custom.component.css',
+  selector: 'dms-select-filtered-custom',
+  templateUrl: 'select-filtered-custom.component.html',
+  styleUrl: 'select-filtered-custom.component.css',
   providers: [
       {
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => SelectCustomComponent), 
+        useExisting: forwardRef(() => SelectFilteredCustomComponent), 
         multi: true
       }
     ]
 })
-export class SelectCustomComponent implements OnInit, ControlValueAccessor {
+export class SelectFilteredCustomComponent implements OnInit, ControlValueAccessor {
 
   @Input() label: string = 'Select an option';
   @Input() options: SelectOption[] = []; // Opzioni della select da enum o da dati statici
@@ -32,28 +33,29 @@ export class SelectCustomComponent implements OnInit, ControlValueAccessor {
 
   @Input() optionsObservable?: Observable<SelectOption[]>; // Input per i dati API
 
-  //private innerValue: string = '';
-
-  //@Output() valueChange = new EventEmitter<string>();
+  filterText: string = '';
+  filteredOptions: SelectOption[] = [];
+  isFilterVisible: boolean = false; // Controlla la visibilità del filtro
 
   ngOnInit() {
-    if (this.optionsObservable){
+    if (this.optionsObservable) {
       this.optionsObservable.subscribe((data) => {
         this.options = [...this.options, ...data]; // Unisce dati enum e API
+        this.filteredOptions = [...this.options]; // Inizializza le opzioni filtrate
       });
+    }
 
-    }    
-    
     if (!this.options) {
       this.options = [];
     }
-    
+
     if (!this.value && this.defaultValue) {
       this.value = this.defaultValue || this.emptyOptionValue;
       this.onChange(this.value);
     }
-  }
 
+    this.filteredOptions = [...this.options]; // Inizializza le opzioni filtrate
+  }
 
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
@@ -96,6 +98,25 @@ export class SelectCustomComponent implements OnInit, ControlValueAccessor {
         return option.description;
       default:
         return `${option.code} - ${option.description}`;
+    }
+  }
+
+  toggleFilter() {
+    this.isFilterVisible = !this.isFilterVisible; // Mostra/nasconde il filtro
+    if (!this.isFilterVisible) {
+      this.filterText = ''; // Resetta il filtro quando viene nascosto
+      this.filterOptions();
+    }
+  }
+
+  filterOptions() {
+    if (!this.filterText) {
+      this.filteredOptions = [...this.options];
+    } else {
+      const filterTextLower = this.filterText.toLowerCase();
+      this.filteredOptions = this.options.filter((option) =>
+        this.getOptionLabel(option).toLowerCase().includes(filterTextLower)
+      );
     }
   }
 

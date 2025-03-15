@@ -1,1 +1,7 @@
-<dms-default-table [columns]="columns" [items]="items" (reloadTableEvent)="refreshTable()"></dms-default-table>
+<dms-default-table 
+    [columns]="columns"
+     [items]="items" (reloadTableEvent)="refreshTable()"
+     [buttonConfig]="{ show: false, edit: false, delete: false, copy: false }">
+
+
+</dms-default-table>

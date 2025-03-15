@@ -1,6 +1,16 @@
-import { Component, Input, OnInit, EventEmitter, Output, ModuleWithComponentFactories, ViewChild, ElementRef} from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output, ModuleWithComponentFactories, ViewChild, ElementRef, TemplateRef} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EntityUtils, YesNo} from '../../common/baseEntity'
+
+
+/**********************************************************************************************
+ *  - per abilitare i pulsanti settare l'elemento buttonConfig
+ *      dichiararlo nel compoennte esterno ed impostare a false i valori da disabilitare
+ *      ad esempio [buttonConfig]="{ show: true, edit: false, delete: false, copy: false }"
+ * 
+ **********************************************************************************************/
+
+
 
 
 interface TableColumn {
@@ -29,6 +39,9 @@ export class DefaultTableComponent implements OnInit {
   @Input() currentPage: number = 1;  //pagina corrente della tabella
 
   @Input() isAddEmpyRows: boolean= false;
+
+  @Input() buttonConfig? = { show: true, edit: true, delete: true, copy: true }; // Configurazione pulsanti
+  @Input() customButtonsTemplate?: TemplateRef<any>; // Template per pulsanti personalizzati
 
 
   /************************************************************************/
@@ -281,6 +294,19 @@ export class DefaultTableComponent implements OnInit {
       this.modalRef.close();
       this.modalRef = null;
     }
+  }
+
+  //usato per determinare il numero di bottoni attivi e dimansionarne lo spazio
+  getActiveButtonsCount(): number {
+    let count = 0;
+    if (this.buttonConfig.show) count++;
+    if (this.buttonConfig.edit) count++;
+    if (this.buttonConfig.delete) count++;
+    if (this.buttonConfig.copy) count++;
+    if (this.customButtonsTemplate) {
+      count += 1; // Supponiamo che ci sia almeno un pulsante extra
+    }
+    return count;
   }
 
   

@@ -11,13 +11,13 @@
                         <!-- Campo nascosto che verrà inviato con il form -->
                         <input type="hidden" name="id" [ngModel]="q_id">
                     </div>
+                    <div class="col-md-6  mb-3">
+                        <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" lableComponent="Group Enabled" defaultValue="S" ngModel id="q_status" name="status" [disabled]="!quickModeAcive"></dms-toogle-switch>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <input type="text" class="form-control" id="q_description" name="description" maxlength="100" ngModel [disabled]="!quickModeAcive">
-                </div>
-                <div class="mb-3">
-                    <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" lableComponent="Group Enabled" defaultValue="S" ngModel id="q_status" name="status" [disabled]="!quickModeAcive"></dms-toogle-switch>
                 </div>
                 <div class="mb-3">
                     <label for="notes" class="form-label">Notes</label>

@@ -97,13 +97,13 @@
                 <ng-template #defaultCell>{{ item[column.field] }}</ng-template>
               </td>
                 <!-- Sezione fissa in fondo a sinistra -->
-              <td class="fixed-buttons-column ">
+              <td class="fixed-buttons-column" [style.width.px]="getActiveButtonsCount() * 40">
                 <div class="d-inline-flex" > 
                 <!--<div class="d-inline-flex" [hidden]="!highlightedRows[i]" role="group"> --> 
-                  <div class="col-auto"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Show" (click)="manageItem(item,'S', $event)"><span align-middle> <i class="bi-eye bg-white"></i></span></button></div>
-                  <div class="col-auto"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Edit" (click)="manageItem(item,'E', $event)"><span align-middle> <i class=" align-top bi-pencil bg-white"></i></span></button></div>
-                  <div class="col-auto"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Delete" (click)="manageItem(item,'D', $event)"><span align-middle> <i class="bi-trash bg-white"></i></span></button></div>
-                  <div class="col-auto"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Copy" (click)="manageItem(item,'C', $event)"><span align-middle> <i class="bi-copy bg-white"></i></span></button></div>
+                  <div class="col-auto" *ngIf="buttonConfig.show"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Show" (click)="manageItem(item,'S', $event)"><span align-middle> <i class="bi-eye bg-white"></i></span></button></div>
+                  <div class="col-auto" *ngIf="buttonConfig.edit"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Edit" (click)="manageItem(item,'E', $event)"><span align-middle> <i class=" align-top bi-pencil bg-white"></i></span></button></div>
+                  <div class="col-auto" *ngIf="buttonConfig.delete"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Delete" (click)="manageItem(item,'D', $event)"><span align-middle> <i class="bi-trash bg-white"></i></span></button></div>
+                  <div class="col-auto" *ngIf="buttonConfig.copy"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Copy" (click)="manageItem(item,'C', $event)"><span align-middle> <i class="bi-copy bg-white"></i></span></button></div>
                 </div>
               </td>
             </tr>

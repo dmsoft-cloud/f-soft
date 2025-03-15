@@ -1,0 +1,26 @@
+<div class="mb-3 position-relative">
+    <label [attr.for]="id" class="form-label">{{ label }}</label>
+
+    <!-- Campo input per la ricerca e selezione -->
+    <input 
+      type="text"
+      class="form-control"
+      [id]="id"
+      [disabled]="isDisabled"
+      [(ngModel)]="searchTerm"
+      (input)="filterOptions()"
+      (focus)="activeDropdown() "
+      (blur)="hideDropdownWithDelay()"
+      placeholder="Search or select..."
+    />
+
+    <!-- Dropdown con le opzioni filtrate -->
+    <ul *ngIf="showDropdown" class="dropdown-menu show w-100" [style.position]="'absolute'">
+      <li *ngIf="showEmptyOption" (click)="selectOption(emptyOptionValue, emptyOptionLabel)">
+        <a class="dropdown-item">{{ emptyOptionLabel }}</a>
+      </li>
+      <li *ngFor="let option of filteredOptions" (click)="selectOption(option.code, option.description)">
+        <a class="dropdown-item">{{ getOptionLabel(option) }}</a>
+      </li>
+    </ul>
+</div>

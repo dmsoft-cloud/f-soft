@@ -99,6 +99,7 @@ export class FlowsDetailComponent extends GenericDetailComponent implements OnIn
 
   toggleQuickEdit(event: boolean){
      this.quickModeAcive = event;  
+     this.isQuickEditEnabled = event; 
   }
   
   onCloseModal(){
@@ -159,9 +160,8 @@ export class FlowsDetailComponent extends GenericDetailComponent implements OnIn
 
     this.flowService.updateItem(newFlow);  //da sostituire con la chiamata al servizio da invocare
     this.genericDetailComponent.closeModal();
-    /*modal.close();
-    this.insertForm.reset();
-    */
+    this.toggleQuickEdit(false);
+    this.genericDetailComponent.toggleQuickEdit(false); 
   }
   
   onManageItem(event : {item: any, mode: string}): void {

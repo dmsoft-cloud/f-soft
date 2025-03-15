@@ -1,0 +1,22 @@
+.filter-dropdown {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+.btn-outline-secondary {
+    border-left-width: 0;
+    border-color: rgba(222, 226, 230);    
+}
+
+.select-custom-filtered{
+    border-right-width: 0;
+}
+
+/* Stile al passaggio del mouse (hover) */
+.input-group button:hover {
+    background-color: #0d6efd; /* Colore di sfondo al passaggio del mouse */
+    color: #fff; /* Cambia il colore del testo per migliorare il contrasto */
+  }
