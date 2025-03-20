@@ -65,11 +65,7 @@ import { EmailsComponent } from './emails/emails.component';
 import { EmailsListComponent } from './emails/emails-list/emails-list.component';
 import { EmailsDetailComponent } from './emails/emails-detail/emails-detail.component';
 import { EmailEditComponent } from './emails/email-edit/email-edit.component';
-import { DefaultTableNewComponent } from './utils/default-table-new/default-table-new.component';
-import { TableModule } from 'primeng/table';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { PaginatorModule } from 'primeng/paginator';
+
 
 
 
@@ -119,9 +115,7 @@ import { PaginatorModule } from 'primeng/paginator';
         EmailsComponent,
         EmailsListComponent,
         EmailsDetailComponent,
-        EmailEditComponent,
-        DefaultTableNewComponent
-        
+        EmailEditComponent
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,
@@ -131,10 +125,7 @@ import { PaginatorModule } from 'primeng/paginator';
         FormsModule,
         CommonModule,
         NgbModule,
-        TableModule,
-        InputTextModule,
-        ButtonModule,
-        PaginatorModule,
+        
         ReactiveFormsModule], 
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
         ConfigService,

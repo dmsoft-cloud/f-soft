@@ -48,7 +48,7 @@
           <thead>
             <tr>
               <!-- Intestazioni delle colonne dinamiche -->
-              <th *ngFor="let column of columns" scope="col" class="position-relative" [style.width.px]="column.width || 'auto'" (click)="sort(column.field)">
+              <th *ngFor="let column of columns" resizable  scope="col" class="position-relative" [style.width.px]="column.width || 'auto'" (click)="sort(column.field)">
                 <ng-container *ngIf="column.type === 'enabled'; else defaultHeader">
                   <div class="d-flex justify-content-center">
                     {{ column.header }}
@@ -56,7 +56,7 @@
                 </ng-container>
                 <ng-template #defaultHeader>{{ column.header }}</ng-template>
                 <i class="bi" [ngClass]="{ 'bi-sort-down': sortColumn === column.field && sortOrder === 'asc', 'bi-sort-up': sortColumn === column.field && sortOrder === 'desc', 'bi-sort': sortColumn !== column.field }"></i>
-                <div class="resize-handle" (mousedown)="onResizeStart($event, column.field)"></div>
+                <div class="resize-handle" resizableHandle (mousedown)="onResizeStart($event, column.field)"></div>
               </th>
             </tr>
           </thead>
