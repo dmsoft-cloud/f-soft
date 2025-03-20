@@ -133,7 +133,7 @@ export class OriginsDetailComponent extends GenericDetailComponent implements On
     this.genericDetailComponent.closeModal();
 
     this.toggleQuickEdit(false);
-    this.genericDetailComponent.toggleQuickEdit(false); 
+    //this.genericDetailComponent.toggleQuickEdit(false); 
 
   }
   

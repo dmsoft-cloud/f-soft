@@ -11,12 +11,13 @@ import { GroupsComponent } from './groups/groups.component';
 import { ModelsComponent } from './models/models.component';
 import { LogsListComponent } from './logs/logs-list/logs-list.component';
 import { AuthComponent } from './auth/auth.component';
+import { EmailsComponent } from './emails/emails.component';
 
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },,
   { path: 'flows', component: FlowsComponent },
-  { path: 'comunications', component: LogsListComponent },
+  { path: 'comunications', component: EmailsComponent },
   { path: 'interfaces', component: InterfacesComponent },
   { path: 'hosts', component: HostsComponent },
   { path: 'origins', component: OriginsComponent },

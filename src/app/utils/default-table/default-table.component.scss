@@ -54,19 +54,19 @@
  vertical-align: 5em;
 }
 
-  .resize-handle {
-    position: absolute;
-    top: 0;
-    right: -5px;
-    bottom: 0;
-    width: 10px;
-    cursor: ew-resize; /* Mostra il cursore come una doppia freccia orizzontale quando ci si posiziona sul bordo della colonna */
-    z-index: 1;
-  }
-  
-  .resize-handle:hover {
-    background-color: #f0f0f0; /* Evidenzia leggermente il manico di ridimensionamento al passaggio del mouse */
-  }
+.resize-handle {
+  position: absolute;
+  top: 0;
+  right: -5px;
+  bottom: 0;
+  width: 10px;
+  cursor: ew-resize; /* Mostra il cursore come una doppia freccia orizzontale */
+  z-index: 1;
+}
+
+.resize-handle:hover {
+  background-color: #f0f0f0; /* Evidenzia leggermente il manico di ridimensionamento */
+}
 
   .basic-filter:focus {
     border-color: transparent; /* Azzerare il colore del bordo quando in focus */

@@ -61,6 +61,15 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ReactiveFormsModule } from '@angular/forms';
 import { SelectFilteredCustomComponent } from './utils/select-filtered-custom/select-filtered-custom.component';
 import { SelectFiltered2CustomComponent } from './utils/select-filtered2-custom/select-filtered2-custom.component';
+import { EmailsComponent } from './emails/emails.component';
+import { EmailsListComponent } from './emails/emails-list/emails-list.component';
+import { EmailsDetailComponent } from './emails/emails-detail/emails-detail.component';
+import { EmailEditComponent } from './emails/email-edit/email-edit.component';
+import { DefaultTableNewComponent } from './utils/default-table-new/default-table-new.component';
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 
@@ -106,7 +115,12 @@ import { SelectFiltered2CustomComponent } from './utils/select-filtered2-custom/
         OriginEditComponent,
         SelectCustomComponent,
         SelectFilteredCustomComponent,
-        SelectFiltered2CustomComponent
+        SelectFiltered2CustomComponent,
+        EmailsComponent,
+        EmailsListComponent,
+        EmailsDetailComponent,
+        EmailEditComponent,
+        DefaultTableNewComponent
         
     ],
     bootstrap: [AppComponent], 
@@ -116,7 +130,11 @@ import { SelectFiltered2CustomComponent } from './utils/select-filtered2-custom/
         AppRoutingModule,
         FormsModule,
         CommonModule,
-        NgbModule, // Importa il modulo Modal e configuralo globalmente
+        NgbModule,
+        TableModule,
+        InputTextModule,
+        ButtonModule,
+        PaginatorModule,
         ReactiveFormsModule], 
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
         ConfigService,

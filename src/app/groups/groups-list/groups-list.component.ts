@@ -36,8 +36,8 @@ export class GroupsListComponent extends DefaultTableComponent  implements OnIni
 
   loadTableData(){
     this.columns = [
-      { header: 'ID', field: 'id', type: '' },
-      { header: 'Description', field: 'description', type: '' },
+      { header: 'ID', field: 'id', type: '', width: 250 },
+      { header: 'Description', field: 'description', type: '', width: 400 },
       { header: 'Enabled', field: 'enabled', type: 'enabled' }
     ];
     this.subscription = this.groupService.groupChanged.subscribe(

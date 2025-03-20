@@ -1,0 +1,119 @@
+<div>
+  <!-- Ricerca -->
+  <div class="row justify-content-end pt-2">
+    <div class="col-md-4 d-flex align-items-end justify-content-end pe-0">
+      <div class="input-group d-flex justify-content-end mb-3">
+        <span class="input-group-text bg-white">
+          <i class="bi bi-search bg-white"></i>
+        </span>
+        <input type="text" pInputText class="basic-filter form-control" placeholder="Search..." [(ngModel)]="filterText" (input)="applyFilter()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabella generica -->
+  <div class="row mt-1 bg-white p-6 rounded">
+    <div class="col px-0">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="col-md-2"></div> <!-- Spazio vuoto per centrare la numerazione di pagine -->
+        <div class="d-inline-flex">
+          <!-- Botoni di azione -->
+          <button pButton type="button" class="p-button-outlined p-button-secondary" (click)="openFilterModal()">
+            <i class="bi bi-funnel"></i>
+            Filter
+          </button>
+          <button pButton type="button" class="p-button-outlined p-button-secondary" (click)="refreshTable()">
+            <i class="bi bi-arrow-clockwise"></i>
+            Refresh
+          </button>
+          <button pButton type="button" class="p-button-outlined p-button-secondary" (click)="downloadCSV()">
+            <i class="bi bi-download"></i>
+            Download
+          </button>
+        </div>
+      </div>
+
+      <app-default-table-filter *ngIf="isFilterOpen"></app-default-table-filter>
+
+      <!-- Tabella PrimeNG -->
+      <p-table [value]="paginatedItems" [resizableColumns]="true" [paginator]="true" [rows]="itemsPerPage" [totalRecords]="filteredItems.length" (onPage)="onPageChange($event)">
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let column of columns" [pResizableColumn]="true" [style.width.px]="column.width || 'auto'">
+              {{ column.header }}
+              <i class="bi" [ngClass]="{ 'bi-sort-down': sortColumn === column.field && sortOrder === 'asc', 'bi-sort-up': sortColumn === column.field && sortOrder === 'desc', 'bi-sort': sortColumn !== column.field }"></i>
+            </th>
+            <th [style.width.px]="getActiveButtonsCount() * 40">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+          <tr (mouseenter)="highlightRow(i)" (mouseleave)="unhighlightRow(i)" (click)="selectItem(item, '')">
+            <td *ngFor="let column of columns" [style.width.px]="column.width || 'auto'">
+              <ng-container *ngIf="column.type === 'enabled'; else defaultCell">
+                <div class="d-flex justify-content-center">
+                  <i *ngIf="EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-check-lg text-success"></i>
+                  <i *ngIf="!EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-x-lg text-danger"></i>
+                </div>
+              </ng-container>
+              <ng-template #defaultCell>{{ item[column.field] }}</ng-template>
+            </td>
+            <td class="fixed-buttons-column">
+              <div class="d-inline-flex">
+                <div class="col-auto" *ngIf="buttonConfig.show">
+                  <button pButton type="button" class="p-button-outlined p-button-secondary" (click)="manageItem(item, 'S', $event)">
+                    <i class="bi-eye"></i>
+                  </button>
+                </div>
+                <div class="col-auto" *ngIf="buttonConfig.edit">
+                  <button pButton type="button" class="p-button-outlined p-button-secondary" (click)="manageItem(item, 'E', $event)">
+                    <i class="bi-pencil"></i>
+                  </button>
+                </div>
+                <div class="col-auto" *ngIf="buttonConfig.delete">
+                  <button pButton type="button" class="p-button-outlined p-button-secondary" (click)="manageItem(item, 'D', $event)">
+                    <i class="bi-trash"></i>
+                  </button>
+                </div>
+                <div class="col-auto" *ngIf="buttonConfig.copy">
+                  <button pButton type="button" class="p-button-outlined p-button-secondary" (click)="manageItem(item, 'C', $event)">
+                    <i class="bi-copy"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<ng-template #content let-modal>
+  <div class="dms-modal-content">
+    <div class="container">
+      <div class="modal-header flex-column pb-1">
+        <div class="container">
+          <div class="row">
+            <div class="d-inline-flex justify-content-end">
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+          </div>
+        </div>
+        <div class="w-100 d-flex justify-content-center mt-2">
+          <div [ngSwitch]="modalMode">
+            <h4 *ngSwitchCase="'E'" class="modal-title">Edit {{ componentDescription }}</h4>
+            <h4 *ngSwitchCase="'D'" class="modal-title">Delete {{ componentDescription }}</h4>
+            <h4 *ngSwitchCase="'C'" class="modal-title">Copy {{ componentDescription }}</h4>
+            <h4 *ngSwitchDefault class="modal-title">Show {{ componentDescription }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <ng-content select="[data-section]"></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

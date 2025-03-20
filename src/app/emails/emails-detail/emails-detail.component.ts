@@ -1,20 +1,21 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subscription } from 'rxjs';
-import { GroupStruct } from '../../utils/structs/groupStruct';
-import { NgForm } from '@angular/forms';
 import { GenericDetailComponent } from '../../utils/generic-detail/generic-detail.component';
+import { SelectOption } from '../../utils/select-custom/select-option.model';
+import { Subscription } from 'rxjs';
+import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GroupService } from '../group.service';
+import { HttpClient } from '@angular/common/http';
+import { EmailService } from '../email.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { EmailStruct } from '../../utils/structs/emailStruct';
 
 @Component({
-  selector: 'dms-groups-detail',
-  templateUrl: './groups-detail.component.html',
-  styleUrl: './groups-detail.component.css'
+  selector: 'dms-emails-detail',
+  templateUrl: './emails-detail.component.html',
+  styleUrl: './emails-detail.component.css'
 })
-export class GroupsDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
+export class EmailsDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
+
   subscription: Subscription; 
   subscriptionManage: Subscription; 
   
@@ -26,16 +27,13 @@ export class GroupsDetailComponent extends GenericDetailComponent implements OnI
 
   quickModeAcive: boolean; //serve a indicare se è attiva la modalità di modifica quick mode
 
-  connectionType: string=""; //tipo di connessione per l'elemento
-
   //usato per popolare i bottoni e le etichette generiche
   @Input() buttonDescriptionD: string = "Default Description";
 
   // Definisci la variabile per memorizzare l'ID che vuoi inviare nel form
   q_id: string = "";
-  
 
-  constructor( modalServiceF: NgbModal, elF: ElementRef, private  http: HttpClient, private groupService: GroupService,
+  constructor( modalServiceF: NgbModal, elF: ElementRef, private  http: HttpClient, private emailService: EmailService,
                 private router: Router, private route: ActivatedRoute){
 
     super(modalServiceF, elF);
@@ -43,29 +41,30 @@ export class GroupsDetailComponent extends GenericDetailComponent implements OnI
   }
   
   ngOnInit(): void {
-    this.subscription = this.groupService.startedEditing.subscribe(
+    this.subscription = this.emailService.startedEditing.subscribe(
       (event: {item: any, mode: string}) => {
-          var selectedItem = event.item as GroupStruct;
+          var selectedItem = event.item as EmailStruct;
 
           // Imposta l'ID nella variabile q_id
           this.q_id = selectedItem.id;
-          this.setAuditlog(selectedItem);
           this.quickEditForm.setValue({
             id: selectedItem.id,
-            description: selectedItem.description,
-            notes: selectedItem.notes,
-            status: selectedItem.enabled
+            subject: selectedItem.subject,
+            bodyHtml: selectedItem.bodyHtml,
+            enabled: selectedItem.enabled,
+            note: selectedItem.note,
+            recipients: selectedItem.recipients         
           })
       } 
     );
 
-    this.groupService.clearAfetrDeleteObservable$.subscribe(
+    this.emailService.clearAfetrDeleteObservable$.subscribe(
       () =>  {
         this.resetForm();
       }
     );
 
-    this.groupService.resetAfetrUpdateObservable$.subscribe(
+    this.emailService.resetAfetrUpdateObservable$.subscribe(
       item =>  {
         this.updateForm(item);
       }
@@ -79,8 +78,8 @@ export class GroupsDetailComponent extends GenericDetailComponent implements OnI
 
 
   toggleQuickEdit(event: boolean){
-    this.quickModeAcive = event; 
-    this.isQuickEditEnabled = event; 
+     this.quickModeAcive = event;  
+     this.isQuickEditEnabled = event; 
   }
   
   onCloseModal(){
@@ -92,36 +91,39 @@ export class GroupsDetailComponent extends GenericDetailComponent implements OnI
     this.quickEditForm.resetForm();
   }
   
-  updateForm(item : GroupStruct) {
+  updateForm(item : EmailStruct) {
     // Update dei campi del form
     this.quickEditForm.setValue({
       id: item.id,
-      description: item.description,
-      notes: item.notes,
-      status: item.enabled
+      subject: item.subject,
+      bodyHtml: item.bodyHtml,
+      enabled: item.enabled,
+      note: item.note,
+      recipients: []
     })
   }
 
   onCreatePost(formValue : any){
+    console.log(formValue);
+    const newEmail = new EmailStruct(
+      this.q_id,
+      formValue.subject,
+      formValue.bodyHtml,
+      formValue.enabled,
+      formValue.note,
+      formValue.recipients,
 
-    const newGroup = new GroupStruct({
-      id: this.q_id,
-      description: formValue.description,
-      enabled: formValue.status,
-      notes: formValue.notes
-    });
+    );
 
-    this.groupService.updateItem(newGroup);  //da sostituire con la chiamata al servizio da invocare
+    this.emailService.updateItem(newEmail);  //da sostituire con la chiamata al servizio da invocare
     this.genericDetailComponent.closeModal();
-
     this.toggleQuickEdit(false);
-    this.genericDetailComponent.toggleQuickEdit(false); 
-    //this.genericDetailComponent.isQuickEditEnabled=false;
-
+    //this.genericDetailComponent.toggleQuickEdit(false); 
   }
   
   onManageItem(event : {item: any, mode: string}): void {
-    this.groupService.manageItem.next(event);
+    this.emailService.manageItem.next(event);
   }
+
 
 }

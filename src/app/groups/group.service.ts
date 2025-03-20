@@ -51,12 +51,8 @@ export class GroupService extends MainService {
           console.error("La risposta non è un array:", responseData);
           return [];
         }
-        this.groups = responseData.map(item => new GroupStruct(
-                  item.id,
-                  item.description || "",
-                  item.enabled || "",
-                  item.notes || ""
-                ));
+        this.groups = responseData.map(item => new GroupStruct(item));
+
         console.log("dati ricevuti dal servizio: " + JSON.stringify(this.groups));
         this.groupChanged.next([...this.groups]);
         return this.groups.slice();

@@ -38,7 +38,8 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/header/header.component.scss"
             ],
             "sourceMap": true,
             "scripts": [
@@ -103,7 +104,8 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/header/header.component.scss"
             ],
             "scripts": []
           }

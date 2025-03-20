@@ -22,6 +22,7 @@
 
     --dms-modal-width: 1200px;
     --dms-modal-bg: var(--bs-body-bg);
+    --dms-navbar-active-text: #007bff;
 
   }
 
@@ -41,8 +42,41 @@
     border-color: #cfcfcfff;
   }
 
+  .btn-log{
+    font-size: var(--dms-label-font-size);
+    font-weight: var(--dms-label-font-weight);
+    border-color: #cfcfcfff;
+  }
+
+  .btn-log:hover,
+  .btn-log:focus,
+  .btn-log:active 
+   {
+    font-size: var(--dms-label-font-size);
+    font-weight: var(--dms-label-font-weight);
+    background-color: rgb(248, 249, 250)
+  }
+
+
   .btn-reset:hover{
     background-color: var(--dms-btn-reset-hover);
   }
+
+
+  .custom-secondary-btn {
+    background-color: rgb(70, 166, 124); /* Colore di default */
+    border-color: rgb(70, 166, 124); /* Colore del bordo */
+    color: white; /* Colore del testo */
+  }
+  
+  .custom-secondary-btn:hover {
+    background-color: #3b966dff; /* Colore quando ci si posiziona sopra */
+    border-color: #3b966dff; /* Colore del bordo quando ci si posiziona sopra */
+  }
+
+  .active{
+    color: var(--dms-navbar-active-text);
+  }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }

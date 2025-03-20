@@ -188,7 +188,7 @@ export class ModelsDetailComponent extends GenericDetailComponent implements OnI
     this.genericDetailComponent.closeModal();
 
     this.toggleQuickEdit(false);
-    this.genericDetailComponent.toggleQuickEdit(false); 
+    //this.genericDetailComponent.toggleQuickEdit(false); 
 
   }
   

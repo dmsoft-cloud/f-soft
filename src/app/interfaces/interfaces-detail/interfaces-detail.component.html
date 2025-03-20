@@ -1,4 +1,4 @@
-<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)" >
+<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)" [isQuickEditEnabled]="isQuickEditEnabled">
 
     <!--  sezione di modifiche rapide                                               -->    
     <div variable-section-1 class="container mt-3">

@@ -1,6 +1,9 @@
+
+
 import { Component, Input, OnInit, EventEmitter, Output, ModuleWithComponentFactories, ViewChild, ElementRef, TemplateRef} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EntityUtils, YesNo} from '../../common/baseEntity'
+import { LazyLoadEvent } from 'primeng/api';
 
 
 /**********************************************************************************************
@@ -21,11 +24,11 @@ interface TableColumn {
 }
 
 @Component({
-  selector: 'dms-default-table',
-  templateUrl: './default-table.component.html',
-  styleUrl: './default-table.component.scss'
+  selector: 'dms-default-table-new',
+  templateUrl: './default-table-new.component.html',
+  styleUrl: './default-table-new.component.scss'
 })
-export class DefaultTableComponent implements OnInit {
+export class DefaultTableNewComponent implements OnInit {
 
   /************************************************************************/
   /*                   variabili generali per impaginare                  */
@@ -118,7 +121,10 @@ export class DefaultTableComponent implements OnInit {
     }
   }
 
-  
+  onPageChange(event: LazyLoadEvent) {
+    this.currentPage = (event.first / this.itemsPerPage) + 1;
+    this.updatePagination();
+  }
 
 
 

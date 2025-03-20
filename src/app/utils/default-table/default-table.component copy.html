@@ -48,7 +48,7 @@
           <thead>
             <tr>
               <!-- Intestazioni delle colonne dinamiche -->
-              <th *ngFor="let column of columns" scope="col" class="position-relative" [style.width.px]="column.width || 'auto'" (click)="sort(column.field)">
+              <th *ngFor="let column of columns" scope="col" class="position-relative" (click)="sort(column.field)">
                 <ng-container *ngIf="column.type === 'enabled'; else defaultHeader">
                   <div class="d-flex justify-content-center">
                     {{ column.header }}
@@ -69,7 +69,7 @@
                 (click)="selectItem(item,'')"
                 >
               <!--  <td *ngFor="let column of columns">{{ item[column.field] }}</td>  -->
-              <td *ngFor="let column of columns" [style.width.px]="column.width || 'auto'">
+              <td *ngFor="let column of columns">
                 <ng-container *ngIf="column.type === 'enabled'; else defaultCell">
                   <div class="d-flex justify-content-center">
                     <i *ngIf="EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-check-lg text-success"></i>

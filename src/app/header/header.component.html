@@ -1,4 +1,5 @@
     <!-- Topbar Start -->
+    <!--
     <div
       class="container-fluid bg-dark text-white-50 py-2 px-0 d-none d-lg-block rounded-top">
       <div class="row gx-0 align-items-center">
@@ -30,26 +31,12 @@
             <button class="btn btn-dark align-middle" >Profile<img src="assets/img/user.webp" class="rounded-circle ms-1" style="width: 50px;"
               alt="Avatar" /></button>
             <button class="btn btn-dark align-middle"  (click)="onLogout()">Logout<i class="bi bi-box-arrow-right ms-1" ></i></button>
-
-           
-            <!--
-            <a class="text-white-50 ms-4" href=""
-              ><i class="bi bi-facebook"></i
-            ></a>
-            <a class="text-white-50 ms-4" href=""
-              ><i class="bi bi-x"></i
-            ></a>
-            <a class="text-white-50 ms-4" href=""
-              ><i class="bi bi-linkedin"></i
-            ></a>
-            <a class="text-white-50 ms-4" href=""
-              ><i class="bi bi-instagram"></i
-            ></a>
-            -->
           </div>
         </div>
       </div>
     </div>
+    -->
+
     <!-- Topbar End -->
 
 
@@ -57,7 +44,13 @@
     <div class="container-fluid">
        <div class="col-lg-12 mx-auto"> 
        <!-- Navbar Start -->
-       <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 ">
+       <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top pe-5 ">
+          <!-- Pulsante con i tre puntini -->
+          <button class="btn btn-circle me-2" (click)="openAppDrawer()">
+            <i class="bi bi-grid"></i> <!-- Icona di tre puntini di Bootstrap Icons -->
+          </button>
+          
+
          <div href="index.html" class="navbar-brand d-flex align-items-center">
                 <img class="img-fluid me-3" src="assets/img/dmsoft_logo.svg" alt="" style="width: 80px; height: 40px;" />
           </div>
@@ -66,7 +59,7 @@
          </button>
          <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav rounded pe-4 py-3 py-lg-0">
-                <li><a routerLink="/dashboard" class="nav-item nav-link active">Dashboard</a></li>
+                <li routerLinkActive="active-link"><a routerLink="/dashboard" class="nav-item nav-link">Dashboard</a></li>
                 <!--<li class="nav-item dropdown">
                     <a appDropdown style="cursor: pointer;" class="nav-link dropdown-toggle"  role="button">Flows<span class="caret"></span></a>
                     <ul class="dropdown-menu border-1 m-0" aria-labelledby="dropdownMenuButton">
@@ -75,16 +68,39 @@
                         <li routerLinkActive="active"><a routerLink="/groups" class="dropdown-item" style="cursor: pointer;">Groups</a></li>
                     </ul>
                 </li> -->
-                <li routerLinkActive="active"><a routerLink="/flows" class="nav-item nav-link" style="cursor: pointer;">Flows Masterdata</a></li>
-                <li routerLinkActive="active"><a routerLink="/models" class="nav-item nav-link" style="cursor: pointer;">Models</a></li>
-                <li routerLinkActive="active"><a routerLink="/groups" class="nav-item nav-link" style="cursor: pointer;">Groups</a></li>
-                <li routerLinkActive="active"><a routerLink="/origins" class="nav-item nav-link">Origins</a></li>
-                <li routerLinkActive="active"><a routerLink="/interfaces" class="nav-item nav-link">Interfaces</a></li>
-                <li routerLinkActive="active"><a routerLink="/logs" class="nav-item nav-link">Logs</a></li>
-                <li routerLinkActive="active"><a routerLink="/comunications" class="nav-item nav-link">Communications</a></li>
+                <li routerLinkActive="active-link"><a routerLink="/flows" class="nav-item nav-link" style="cursor: pointer;">Flows</a></li>
+                <li routerLinkActive="active-link"><a routerLink="/models" class="nav-item nav-link" style="cursor: pointer;">Models</a></li>
+                <li routerLinkActive="active-link"><a routerLink="/origins" class="nav-item nav-link" style="cursor: pointer;">Origins</a></li>
+                <li routerLinkActive="active-link"><a routerLink="/interfaces" class="nav-item nav-link" style="cursor: pointer;">Interfaces</a></li>
+                <li routerLinkActive="active-link"><a routerLink="/groups" class="nav-item nav-link" style="cursor: pointer;">Groups</a></li>
+                <li routerLinkActive="active-link"><a routerLink="/comunications" class="nav-item nav-link" style="cursor: pointer;">Communications</a></li>
+                <li routerLinkActive="active-link"><a routerLink="/logs" class="nav-item nav-link" style="cursor: pointer;">Logs</a></li>
+            </div>
+
+                    <!-- Sposta i pulsanti "Profile" e "Logout" qui -->
+            <div class="ms-auto d-flex align-items-center">
+              <button class="btn btn-lateral me-2">Profile<img src="assets/img/user.webp" class="rounded-circle ms-1" style="width: 30px;" alt="Avatar" /></button>
+              <button class="btn btn-lateral" (click)="onLogout()">Logout<i class="bi bi-box-arrow-right ms-1"></i></button>
             </div>
          </div>
      </nav>
      <!-- Navbar End -->
     </div>
  </div>
+
+ <!-- Modale laterale per le applicazioni -->
+<div class="offcanvas offcanvas-start custom-offcanvas rounded" tabindex="-1" id="appDrawer" aria-labelledby="appDrawerLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="appDrawerLabel">Applications</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <i class="bi bi-arrow-left-right me-2"></i> <!-- Icona di trasferimento file -->
+          F-Soft 
+      </li>
+      <!-- Aggiungi altre applicazioni qui -->
+    </ul>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AuditlogStruct } from '../structs/auditlogStruct';
 
 @Component({
   selector: 'dms-generic-detail',
@@ -19,9 +20,18 @@ export class GenericDetailComponent {
   @ViewChild('content') modalContent!: ElementRef;
   @ViewChild('insertForm') insertForm!: NgForm;
 
+  auditlog: AuditlogStruct = new AuditlogStruct();
+
   private modalRef: NgbModalRef | null = null; //componente per gestione modale
 
   constructor(protected  modalService: NgbModal, protected el: ElementRef) { }
+
+  setAuditlog(data: AuditlogStruct) {
+    this.auditlog.creationTs = data.creationTs;
+    this.auditlog.updateTs = data.updateTs;
+    this.auditlog.creationUser = data.creationUser;
+    this.auditlog.updateUser = data.updateUser;
+  }
 
   toggleQuickEdit(event: any) {
     this.isQuickEditEnabled = event.target.checked;

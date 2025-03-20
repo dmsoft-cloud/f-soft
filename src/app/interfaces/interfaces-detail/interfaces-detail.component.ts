@@ -144,7 +144,7 @@ export class InterfacesDetailComponent extends GenericDetailComponent implements
     this.genericDetailComponent.closeModal();
 
     this.toggleQuickEdit(false);
-    this.genericDetailComponent.toggleQuickEdit(false); 
+    //this.genericDetailComponent.toggleQuickEdit(false); 
 
   }
 

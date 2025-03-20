@@ -182,10 +182,10 @@
                     <div class=" d-inline-flex justify-content-end">
                         <div></div>
                         <button type="button" class="btn btn-light col-md-3 pe-3 me-3" *ngIf="editMode == 'E' || editMode == 'C'" >Reset {{ componentDescription }}</button>
-                        <button type="button" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'I' || editMode == ''"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Insert {{ componentDescription }}</button>
-                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'C'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)" >Copy {{ componentDescription }}</button>
-                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'D'" (click)="submitForm(manageForm)">Delete {{ componentDescription }}</button>
-                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'E'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Update {{ componentDescription }}</button>
+                        <button type="button" class="btn btn-secondary custom-secondary-btn col-md-3"  *ngIf="editMode == 'I' || editMode == ''"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Insert {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary custom-secondary-btn col-md-3"  *ngIf="editMode == 'C'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)" >Copy {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary custom-secondary-btn col-md-3"  *ngIf="editMode == 'D'" (click)="submitForm(manageForm)">Delete {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary custom-secondary-btn col-md-3"  *ngIf="editMode == 'E'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Update {{ componentDescription }}</button>
                     </div>
                 </div>
             </div>

@@ -85,12 +85,12 @@ export class GroupEditComponent extends GenericEditComponent implements OnInit, 
 * 
 ******************************************/
     setItem(formValue : any) : GroupStruct {
-      return  new GroupStruct(
-        formValue.id,
-        formValue.description,
-        formValue.status,
-        formValue.notes
-      );
+      return  new GroupStruct({
+        id: formValue.id,
+        description: formValue.description,
+        enabled: formValue.status,
+        notes: formValue.notes
+      });
     }
   
 

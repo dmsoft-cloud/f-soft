@@ -1,4 +1,4 @@
-<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)" >
+<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)" [isQuickEditEnabled]="isQuickEditEnabled" >
 
     <!--  sezione di modifiche rapide                                               -->    
     <div variable-section-1 class="container mt-3">
@@ -16,13 +16,45 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="q_description" name="description" maxlength="100" ngModel [disabled]="!quickModeAcive">
-                </div>
-                <div class="mb-3">
                     <label for="notes" class="form-label">Notes</label>
                     <textarea class="form-control" id="q_notes" name="notes" rows="5" maxlength="2000" ngModel [disabled]="!quickModeAcive"> </textarea>
                 </div>
+
+                 <!-- Campi nascosti da inviare comunque in update-->
+                <input type="hidden" id="q_description" name="description" ngModel>
+
+                    <!-- Sezione Collassabile -->
+    <div class="mb-3">
+        <a class="btn btn-light btn-log w-100 text-start d-flex justify-content-between align-items-center p-2 rounded-3" 
+           data-bs-toggle="collapse" href="#collapseLog" role="button" aria-expanded="false" aria-controls="collapseLog">
+           <span>Log section</span>
+           <i class="bi bi-chevron-down collapse-icon"></i> <!-- Icona freccia -->
+        </a>
+        <div class="collapse mt-2 border rounded-3" id="collapseLog">
+          <div class="card card-body">
+            <div class="d-flex" >
+                <div class="col-md-4  mb-3 pe-3">
+                    <label for="creationUser" class="form-label">Creation User</label>
+                    <input type="text" class="form-control" id="creationUser" name="creationUser"  disabled>
+                </div>
+                <div class="col-md-8  mb-3">
+                    <label for="creationTs" class="form-label">Creation Timestamp</label>
+                    <input type="text" class="form-control" id="creationTs" name="creationTs"  disabled>
+                </div>
+            </div>
+            <div class="d-flex" >
+                <div class="col-md-4  mb-3 pe-3">
+                    <label for="updateUser" class="form-label">Update User</label>
+                    <input type="text" class="form-control" id="updateUser" name="updateUser"  disabled>
+                </div>
+                <div class="col-md-8  mb-3">
+                    <label for="updateTs" class="form-label">Update Timestamp</label>
+                    <input type="text" class="form-control" id="updateTs" name="updateTs"  disabled>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
     
                 <hr> <!-- Riga a dividere -->
     

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
@@ -7,9 +7,11 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'dms-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
+
   collapsed = true;
   currentPage: string = '';
   @Output() isAuth =  new EventEmitter<boolean>();
@@ -35,6 +37,12 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
   }
   
+    // Metodo per aprire la modale laterale
+    openAppDrawer() {
+      const appDrawer = new (window as any).bootstrap.Offcanvas(document.getElementById('appDrawer'));
+      appDrawer.show();
+    }
+
   // Metodo per estrarre il nome della pagina dal percorso
   getPageName(url: string): string {
     const urlSegments = url.split('/');
