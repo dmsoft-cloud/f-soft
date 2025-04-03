@@ -11,15 +11,19 @@ import { ConnectionTypeEnum } from '../../utils/baseEntity';
 
 
 @Component({
-  selector: 'dms-interface-edit',
-  templateUrl: './interface-edit.component.html',
-  styleUrl: './interface-edit.component.scss'
+    selector: 'dms-interface-edit',
+    templateUrl: './interface-edit.component.html',
+    styleUrl: './interface-edit.component.scss',
+    standalone: false
 })
 export class InterfaceEditComponent extends GenericEditComponent implements OnInit {
 
   @Output() closeModal = new EventEmitter();
   @Input() componentDescription: string = "";
   @ViewChild('manageForm', { static: false }) manageForm: NgForm;
+
+  activeTab: string = 'basicData';  //serve per vedere quale tab è attivo tra quelli presenti
+
   connType: string=""; //tipo di connessione inizializzazione valore
   secureFtp: string = 'N'; // inizializzazione valore
 
@@ -93,24 +97,23 @@ export class InterfaceEditComponent extends GenericEditComponent implements OnIn
 * 
 ******************************************/
   setItem(formValue : any) : InterfaceStruct {
-    return  new InterfaceStruct(
-      formValue.id,
-      formValue.description,
-      formValue.connectionType,
-      formValue.passiveMode,
-      formValue.secureFtp,
-      formValue.host,
-      formValue.port,
-      formValue.user,
-      formValue.password,
-      formValue.sftpAlias,
-      formValue.knownhost,
-      formValue.keyFile,
-      
-      formValue.trustHost,
-      formValue.status,
-      formValue.notes,
-    );
+    return  new InterfaceStruct({
+      id: formValue.id,
+      description: formValue.description,
+      connectionType: formValue.connectionType,
+      passiveMode: formValue.passiveMode,
+      secureFtp: formValue.secureFtp,
+      host: formValue.host,
+      port: formValue.port,
+      user: formValue.user,
+      password: formValue.password,
+      sftpAlias: formValue.sftpAlias,
+      knownHost: formValue.knownhost,
+      keyFile: formValue.keyFile,
+      trustHost: formValue.trustHost,
+      enabled: formValue.status,
+      note: formValue.notes
+    });
   }
 
   addItem(formValue : any){

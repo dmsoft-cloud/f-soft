@@ -1,46 +1,47 @@
-<div class="container-fluid" style="background: rgb(33, 3, 151); margin: 20px; padding-left: 50px;"  >
-    <br>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            Outbound/Inbound flows
-          </div>
-          <div class="card-body">
-            <canvas id="lineChart"></canvas>
-          </div>
+<div class="container-fluid" style="background: rgb(33, 3, 151);  padding-left: 50px; padding-right: 50px;">
+  <br>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card h-100"> <!-- Card con altezza uniforme -->
+        <div class="card-header">
+          Outbound/Inbound flows
+        </div>
+        <div class="card-body">
+          <canvas id="lineChart" style="height: 200px;"></canvas> <!-- Riduci l'altezza del canvas -->
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            Error Outbound/inbound
-          </div>
-          <div class="card-body">
-            <canvas id="barChart"></canvas>
-          </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100"> <!-- Card con altezza uniforme -->
+        <div class="card-header">
+          Error Outbound/inbound
+        </div>
+        <div class="card-body">
+          <canvas id="barChart" style="height: 200px;"></canvas> <!-- Riduci l'altezza del canvas -->
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-header">
-            Flows by Interfaces
-          </div>
-          <div class="card-body">
-            <canvas id="pieChart"></canvas>
-          </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100"> <!-- Card con altezza uniforme -->
+        <div class="card-header">
+          Flows by Interfaces
         </div>
-      </div>
-      
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">
-            Flow logs
-          </div>
-          <div class="card-body">
-            <dms-logs-list></dms-logs-list>
-          </div>
+        <div class="card-body">
+          <canvas id="pieChart" style="height: 200px;"></canvas> <!-- Riduci l'altezza del canvas -->
         </div>
       </div>
     </div>
   </div>
+  <div class="row mt-4"> <!-- Aggiungi un margine superiore per separare la riga successiva -->
+    <div class="col-md-8 h-100">
+      <div class="card">
+        <div class="card-header">
+          Flow logs
+        </div>
+        <div class="card-body">
+          <dms-logs-list [isFilterSectionVisible]="false"  [itemsPerPage]="4"></dms-logs-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,10 +5,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-  selector: 'dms-default-detail',
-  templateUrl: './default-detail.component.html',
-  styleUrl: './default-detail.component.scss',
-  encapsulation: ViewEncapsulation.None
+    selector: 'dms-default-detail',
+    templateUrl: './default-detail.component.html',
+    styleUrl: './default-detail.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class DefaultDetailComponent {
 

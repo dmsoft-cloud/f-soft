@@ -5,11 +5,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-  selector: 'dms-logs-list',
-  templateUrl: './logs-list.component.html',
-  styleUrl: './logs-list.component.css'
+    selector: 'dms-logs-list',
+    templateUrl: './logs-list.component.html',
+    styleUrl: './logs-list.component.css',
+    standalone: false
 })
 export class LogsListComponent extends DefaultTableComponent  implements OnInit {
+
+
   constructor(private logService: LogService, private modalServiceF: NgbModal, private elF: ElementRef) {
     super(modalServiceF, elF);
   }

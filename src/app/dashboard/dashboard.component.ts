@@ -6,9 +6,10 @@ type Label = string[];
 
 
 @Component({
-  selector: 'dms-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'dms-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css',
+    standalone: false
 })
 export class DashboardComponent {
   constructor(private styleService: StyleService) {}

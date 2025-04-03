@@ -5,10 +5,11 @@ import { AuthService } from '../auth/auth.service';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'dms-header',
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
-  encapsulation: ViewEncapsulation.None
+    selector: 'dms-header',
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class HeaderComponent implements OnInit {
 

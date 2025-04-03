@@ -5,15 +5,17 @@ import { tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'dms-auth',
-  templateUrl: './auth.component.html',
-  styleUrl: './auth.component.css'
+    selector: 'dms-auth',
+    templateUrl: './auth.component.html',
+    styleUrl: './auth.component.css',
+    standalone: false
 })
 export class AuthComponent implements OnInit {
   
   isSignup = false;
   isLoading =false;
   error: string = null;
+  imageUrl = 'assets/img/shutterstock_1361271551.jpg?version=' + new Date().getTime();
 
   constructor(private authService : AuthService, private router : Router){}
 

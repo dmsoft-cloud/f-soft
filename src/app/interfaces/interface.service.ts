@@ -48,26 +48,11 @@ export class InterfaceService extends MainService {
           console.error("La risposta non è un array:", responseData);
           return [];
         }
-        this.interfaces = responseData.map(item => new InterfaceStruct(
-                  item.id,
-                  item.description || "",
-                  item.connectionType || "",
-                  item.passiveMode || "",
-                  item.secureFtp || "",
-                  item.host || "",
-                  item.port || 0,
-                  item.user || "",
-                  item.password || "",
-                  item.sftpAlias || "",
-                  item.knownHost || "",
-                  item.keyFile || "",
-                  item.trustHost || "",
-                  item.enabled || "",
-                  item.note || "",
-                ));
-                //console.log("dati ricevuti dal servizio: " + JSON.stringify(this.interfaces));
-                this.interfaceChanged.next([...this.interfaces]);
-                return this.interfaces.slice();
+        this.interfaces = responseData.map(item => new InterfaceStruct(item));
+                  
+        //console.log("dati ricevuti dal servizio: " + JSON.stringify(this.interfaces));
+        this.interfaceChanged.next([...this.interfaces]);
+        return this.interfaces.slice();
       }),
       //error
       catchError(

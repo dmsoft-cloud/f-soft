@@ -1,62 +1,15 @@
-
-/* Tabella responsive */
-.table-responsive {
+/* Contenitore principale */
+.table-container {
+  position: relative;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   width: 100%;
-
-}
-
-
-/* Tabella principale */
-.custom-table {
-  width: auto;
-  min-width: 100%;
-  margin-bottom: 0;
-  
-  /* Intestazioni e celle scrollabili */
-  .scrollable-column {
-    white-space: nowrap;
-  }
-  
-  /* Colonna fissa dei bottoni */
-  .fixed-buttons-header,
-  .fixed-buttons-column {
-    position: sticky;
-    right: 0;
-    background-color: white;
-    z-index: 10;
-  }
-  
-  .fixed-buttons-header {
-    border-left: 0px solid var(--bs-border-color);
-  }
-  
-  .fixed-buttons-column {
-    border-left: 0px solid var(--bs-border-color);
-    
-    /* Previene la propagazione del click alla riga */
-    pointer-events: auto;
-    
-    /* Stili esistenti bottoni */
-    .btn {
-      height: 25px;
-      width: 50px;
-      padding: 5px 10px;
-    }
-    
-    button span i {
-      height: 10px;
-      font-size: 12px;
-      color: rgba(13, 13, 13);
-    }
-  }
 }
 
 
 
 
-//css precedente
+
+
 .custom-table tbody tr.empty-row {
     height: 43.5px; /* Altezza della riga vuota */
   }
@@ -100,14 +53,19 @@
   position: relative;
 }
 
-/*
+.fixed-buttons-column .btn {
+  height: 25px; /* Riduci l'altezza del bottone */
+  width: 50px;
+  padding: 5px 10px; /* Aggiorna il padding per mantenere il testo centrato verticalmente */
+}
+
 .fixed-buttons-column button span i{
   height: 10px;
  font-size: 12px;
  color: rgba(13, 13, 13);
  vertical-align: 5em;
 }
-*/
+
 .resize-handle {
   position: absolute;
   top: 0;
@@ -133,23 +91,6 @@
     border-color: var(--bs-border-color);
   }
 
-  /* Stile scrollbar */
-.table-responsive::-webkit-scrollbar {
-  height: 8px;
-}
-
-.table-responsive::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.table-responsive::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-  
-  &:hover {
-    background: #555;
-  }
-}
 
 
   /*navigazione tra pagine*/

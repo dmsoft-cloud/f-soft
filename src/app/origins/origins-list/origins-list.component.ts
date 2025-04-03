@@ -6,9 +6,10 @@ import { Subscription, tap } from 'rxjs';
 import { OriginStruct } from '../../utils/structs/originStruct';
 
 @Component({
-  selector: 'dms-origins-list',
-  templateUrl: './origins-list.component.html',
-  styleUrl: './origins-list.component.css'
+    selector: 'dms-origins-list',
+    templateUrl: './origins-list.component.html',
+    styleUrl: './origins-list.component.css',
+    standalone: false
 })
 export class OriginsListComponent extends DefaultTableComponent  implements OnInit, OnDestroy {
 

@@ -17,9 +17,10 @@ import { OriginService } from '../../origins/origin.service';
 import { InterfaceService } from '../../interfaces/interface.service';
 
 @Component({
-  selector: 'dms-flow-edit',
-  templateUrl: './flow-edit.component.html',
-  styleUrl: './flow-edit.component.css'
+    selector: 'dms-flow-edit',
+    templateUrl: './flow-edit.component.html',
+    styleUrl: './flow-edit.component.css',
+    standalone: false
 })
 export class FlowEditComponent extends GenericEditComponent implements OnInit, OnDestroy {
 
@@ -116,26 +117,26 @@ export class FlowEditComponent extends GenericEditComponent implements OnInit, O
 ******************************************/
 
 setItem(formValue : any) : FlowStruct {
-  return  new FlowStruct(
-    formValue.id,
-    formValue.description,
-    formValue.groupId,
-    formValue.note,
-    formValue.enabled,
-    formValue.model,
-    formValue.origin,
-    formValue.interfaceId,
-    formValue.notificationFlow,
-    formValue.notificationOk,
-    formValue.notificationKo,
-    formValue.integrityFileName,
-    formValue.dbTable,
-    formValue.folder,
-    formValue.file,
-    formValue.remoteFolder,
-    formValue.remoteFile,
-    formValue.lengthFixed
-  );
+  return  new FlowStruct({
+    id: formValue.id,
+    description: formValue.description,
+    groupId: formValue.groupId,
+    note: formValue.note,
+    enabled: formValue.enabled,
+    model: formValue.model,
+    origin: formValue.origin,
+    interfaceId: formValue.interfaceId,
+    notificationFlow: formValue.notificationFlow,
+    notificationOk: formValue.notificationOk,
+    notificationKo: formValue.notificationKo,
+    integrityFileName: formValue.integrityFileName,
+    dbTable: formValue.dbTable,
+    folder: formValue.folder,
+    file: formValue.file,
+    remoteFolder: formValue.remoteFolder,
+    remoteFile: formValue.remoteFile,
+    lengthFixed: formValue.lengthFixed
+  });
 }
 
 addItem(formValue : any){

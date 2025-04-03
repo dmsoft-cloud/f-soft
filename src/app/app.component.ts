@@ -6,9 +6,10 @@ import { ConfigService } from './utils/config.service';
 import { StyleService } from './utils/style.service';
 
 @Component({
-  selector: 'dms-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'dms-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css',
+    standalone: false
 })
 export class AppComponent implements OnInit{
   title = 'f-Soft-app';

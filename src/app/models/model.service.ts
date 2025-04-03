@@ -52,37 +52,7 @@ export class ModelService extends MainService  {
             return [];
           }
   
-          this.models = responseData.map(item => new ModelStruct(
-            item.id,
-            item.description || "",
-            item.note || "",
-            item.enabled || "",
-            item.type || "",
-            item.direction || "",
-            item.decompression || "",
-            item.compression || "",
-            item.sendMail || "",
-            item.retry || "",
-            item.retryInterval || 0,
-            item.retention || 0,
-            item.internationalization || "",
-            item.deleteFile || "",
-            item.uniqueHash || "",
-            item.fetchSize || 0,
-            item.database || "",
-            item.schema || "",
-            item.sourceCharset || 0,
-            item.destCharset || 0,
-            item.fileFormat || "",
-            item.header || "",
-            item.recordDelimiter || "",
-            item.fieldDelimiter || "",
-            item.stringDelimiter || "",
-            item.removingSpaces || "",
-            item.numericFilling || "",
-            item.integrityCheck || "",
-            item.createFile || ""
-          ));
+          this.models = responseData.map(item => new ModelStruct(item));
           //console.log("dati ricevuti dal servizio: " + JSON.stringify(this.models));
           this.modelChanged.next(this.models.slice());
           return this.models.slice();

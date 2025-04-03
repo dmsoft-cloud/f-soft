@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'dms-default-table-filter',
-  templateUrl: './default-table-filter.component.html',
-  styleUrl: './default-table-filter.component.css'
+    selector: 'dms-default-table-filter',
+    templateUrl: './default-table-filter.component.html',
+    styleUrl: './default-table-filter.component.css',
+    standalone: false
 })
 export class DefaultTableFilterComponent {
 

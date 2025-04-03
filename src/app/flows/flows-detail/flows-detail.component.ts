@@ -10,9 +10,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SelectOption } from '../../utils/select-custom/select-option.model';
 
 @Component({
-  selector: 'dms-flows-detail',
-  templateUrl: './flows-detail.component.html',
-  styleUrl: './flows-detail.component.css'
+    selector: 'dms-flows-detail',
+    templateUrl: './flows-detail.component.html',
+    styleUrl: './flows-detail.component.css',
+    standalone: false
 })
 export class FlowsDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
   //componenti specifiche di flows
@@ -55,6 +56,7 @@ export class FlowsDetailComponent extends GenericDetailComponent implements OnIn
 
           // Imposta l'ID nella variabile q_id
           this.q_id = selectedItem.id;
+          this.setAuditlog(selectedItem);
           this.quickEditForm.setValue({
             id: selectedItem.id,
             description: selectedItem.description,
@@ -137,26 +139,26 @@ export class FlowsDetailComponent extends GenericDetailComponent implements OnIn
 
   onCreatePost(formValue : any){
 
-    const newFlow = new FlowStruct(
-      this.q_id,
-      formValue.description,
-      formValue.groupId,
-      formValue.note,
-      formValue.enabled,
-      formValue.model,
-      formValue.origin,
-      formValue.interfaceId,
-      formValue.notificationFlow,
-      formValue.notificationOk,
-      formValue.notificationKo,
-      formValue.integrityFileName,
-      formValue.dbTable,
-      formValue.folder,
-      formValue.file,
-      formValue.remoteFolder,
-      formValue.remoteFile,
-      formValue.lengthFixed
-    );
+    const newFlow = new FlowStruct({
+      id: this.q_id,
+      description: formValue.description,
+      groupId: formValue.groupId,
+      note: formValue.note,
+      enabled: formValue.enabled,
+      model: formValue.model,
+      origin: formValue.origin,
+      interfaceId: formValue.interfaceId,
+      notificationFlow: formValue.notificationFlow,
+      notificationOk: formValue.notificationOk,
+      notificationKo: formValue.notificationKo,
+      integrityFileName: formValue.integrityFileName,
+      dbTable: formValue.dbTable,
+      folder: formValue.folder,
+      file: formValue.file,
+      remoteFolder: formValue.remoteFolder,
+      remoteFile: formValue.remoteFile,
+      lengthFixed: formValue.lengthFixed
+    });
 
     this.flowService.updateItem(newFlow);  //da sostituire con la chiamata al servizio da invocare
     this.genericDetailComponent.closeModal();

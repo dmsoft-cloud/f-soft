@@ -52,26 +52,7 @@ export class FlowService extends MainService  {
               return [];
             }
     
-            this.flows = responseData.map(item => new FlowStruct(
-              item.id,
-              item.description || "",
-              item.groupId || "",
-              item.note || "",
-              item.enabled || "",
-              item.model || "",
-              item.origin || "",
-              item.interfaceId || "",
-              item.notificationFlow || "",
-              item.notificationOk || "",
-              item.notificationKo || "",
-              item.integrityFileName || "",
-              item.dbTable || "",
-              item.folder || "",
-              item.file || "",
-              item.remoteFolder || "",
-              item.remoteFile || "",
-              item.lengthFixed || 0             
-            ));
+            this.flows = responseData.map(item => new FlowStruct(item));
             //console.log("dati ricevuti dal servizio: " + JSON.stringify(this.flows));
             this.flowChanged.next(this.flows.slice());
             return this.flows.slice();

@@ -1,0 +1,14 @@
+.card {
+  height: 100%; /* Assicura che tutte le card abbiano la stessa altezza */
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra il contenuto verticalmente */
+}
+
+
+canvas {
+  max-height: 200px; /* Imposta un'altezza massima per i canvas */
+}

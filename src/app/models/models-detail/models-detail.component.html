@@ -16,22 +16,13 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="q_description" name="description" maxlength="100" ngModel [disabled]="!quickModeAcive">
-                </div>
-                <div class="d-flex" >
-                    <div class="col-md-6  mb-3 pe-3">
-                        <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" lableComponent="Send Mail" defaultValue="S" ngModel id="q_sendMail" name="sendMail" [disabled]="!quickModeAcive"></dms-toogle-switch>
-                    </div>
-                    <div class="col-md-6  mb-3 pe-3">
-                        <dms-toogle-switch lableOn="Enable" lableOff="Disable" valueOn="S" valueOff="N" lableComponent="Delete File" defaultValue="S" ngModel id="q_deleteFile" name="deleteFile" [disabled]="!quickModeAcive"></dms-toogle-switch>
-                    </div>
-                </div>
-                <div class="mb-3">
                     <label for="note" class="form-label">Notes</label>
                     <textarea class="form-control" id="q_note" name="note" rows="5" maxlength="500" ngModel [disabled]="!quickModeAcive"> </textarea>
                 </div>
                 <!-- Campi nascosti da inviare comunque in update-->
+                <input type="hidden" id="q_deleteFile" name="deleteFile" ngModel>
+                <input type="hidden" id="q_sendMail" name="sendMail" ngModel>
+                <input type="hidden" id="q_description" name="description" ngModel>
                 <input type="hidden" id="q_type" name="type" ngModel>
                 <input type="hidden" id="q_direction" name="direction" ngModel>
                 <input type="hidden" id="q_decompression" name="decompression" ngModel>
@@ -60,6 +51,38 @@
                 <input type="hidden" id="q_integrityCheck" name="integrityCheck" ngModel>
                 <input type="hidden" id="q_createFile" name="createFile" ngModel>
 
+                            <!-- Sezione Collassabile -->
+                <div class="mb-3">
+                    <a class="btn btn-light btn-log w-100 text-start d-flex justify-content-between align-items-center p-2 rounded-3" 
+                    data-bs-toggle="collapse" href="#collapseLog" role="button" aria-expanded="false" aria-controls="collapseLog">
+                    <span>Log section</span>
+                    <i class="bi bi-chevron-down collapse-icon"></i> <!-- Icona freccia -->
+                    </a>
+                    <div class="collapse mt-2 border rounded-3" id="collapseLog">
+                    <div class="card card-body">
+                        <div class="d-flex" >
+                            <div class="col-md-4  mb-3 pe-3">
+                                <label for="creationUser" class="form-label">Creation User</label>
+                                <input type="text" class="form-control" id="creationUser" name="creationUser"  [value]="auditlog.creationUser ?? ''"  disabled>
+                            </div>
+                            <div class="col-md-8  mb-3">
+                                <label for="creationTs" class="form-label">Creation Timestamp</label>
+                                <input type="text" class="form-control" id="creationTs" name="creationTs"   [value]="auditlog.creationTs ?? ''" disabled>
+                            </div>
+                        </div>
+                        <div class="d-flex" >
+                            <div class="col-md-4  mb-3 pe-3">
+                                <label for="updateUser" class="form-label">Update User</label>
+                                <input type="text" class="form-control" id="updateUser" name="updateUser"   [value]="auditlog.updateUser ?? ''" disabled>
+                            </div>
+                            <div class="col-md-8  mb-3">
+                                <label for="updateTs" class="form-label">Update Timestamp</label>
+                                <input type="text" class="form-control" id="updateTs" name="updateTs"  [value]="auditlog.updateTs ?? ''" disabled> 
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
     
                 <hr> <!-- Riga a dividere -->
     

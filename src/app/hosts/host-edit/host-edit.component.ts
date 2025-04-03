@@ -7,9 +7,10 @@ import { HostStruct } from '../../utils/structs/hostStruct';
 import { GenericEditComponent } from '../../utils/generic-edit/generic-edit.component';
 
 @Component({
-  selector: 'dms-host-edit',
-  templateUrl: './host-edit.component.html',
-  styleUrl: './host-edit.component.css'
+    selector: 'dms-host-edit',
+    templateUrl: './host-edit.component.html',
+    styleUrl: './host-edit.component.css',
+    standalone: false
 })
 export class HostEditComponent extends GenericEditComponent implements OnInit, OnDestroy {
 

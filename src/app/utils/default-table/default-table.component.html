@@ -14,7 +14,7 @@
     <!-- Tabella generica -->
     <div class="row mt-1 bg-white p-6 rounded">
       <div class="col px-0">
-        <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="d-flex justify-content-between align-items-center mb-2" *ngIf="isFilterSectionVisible">
           <div class="col-md-2"></div> <!-- Spazio vuoto per centrare la numerazione di pagine -->
           <div>
 
@@ -43,100 +43,112 @@
 
 
 
-        <!-- Tabella -->
-        <table class="table custom-table" [ngClass]="{'table-hover': tableHoverFlag}" >
-          <thead>
-            <tr>
-              <!-- Intestazioni delle colonne dinamiche -->
-              <th *ngFor="let column of columns" resizable  scope="col" class="position-relative" [style.width.px]="column.width || 'auto'" (click)="sort(column.field)">
-                <ng-container *ngIf="column.type === 'enabled'; else defaultHeader">
-                  <div class="d-flex justify-content-center">
-                    {{ column.header }}
-                  </div>
-                </ng-container>
-                <ng-template #defaultHeader>{{ column.header }}</ng-template>
-                <i class="bi" [ngClass]="{ 'bi-sort-down': sortColumn === column.field && sortOrder === 'asc', 'bi-sort-up': sortColumn === column.field && sortOrder === 'desc', 'bi-sort': sortColumn !== column.field }"></i>
-                <div class="resize-handle" resizableHandle (mousedown)="onResizeStart($event, column.field)"></div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Righe della tabella -->
-            <tr   *ngFor="let item of paginatedItems; let i = index"
-                [index]="i"
-                (mouseenter)="highlightRow(i)"
-                (mouseleave)="unhighlightRow(i)"
-                (click)="selectItem(item,'')"
-                >
-              <!--  <td *ngFor="let column of columns">{{ item[column.field] }}</td>  -->
-              <td *ngFor="let column of columns" [style.width.px]="column.width || 'auto'">
-                <ng-container *ngIf="column.type === 'enabled'; else defaultCell">
-                  <div class="d-flex justify-content-center">
-                    <i *ngIf="EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-check-lg text-success"></i>
-                    <i *ngIf="!EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-x-lg text-danger"></i>
-                  </div>
-                </ng-container>
-                <ng-template #defaultCell>{{ item[column.field] }}</ng-template>
-              </td>
-                <!-- Sezione fissa in fondo a sinistra -->
-              <td class="fixed-buttons-column" [style.width.px]="getActiveButtonsCount() * 40">
-                <div class="d-inline-flex" > 
-                <!--<div class="d-inline-flex" [hidden]="!highlightedRows[i]" role="group"> --> 
-                  <div class="col-auto" *ngIf="buttonConfig.show"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Show" (click)="manageItem(item,'S', $event)"><i class="bi-eye bg-white"></i></button></div>
-                  <div class="col-auto" *ngIf="buttonConfig.edit"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Edit" (click)="manageItem(item,'E', $event)"><i class=" align-top bi-pencil bg-white"></i></button></div>
-                  <div class="col-auto" *ngIf="buttonConfig.delete"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Delete" (click)="manageItem(item,'D', $event)"><i class="bi-trash bg-white"></i></button></div>
-                  <div class="col-auto" *ngIf="buttonConfig.copy"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Copy" (click)="manageItem(item,'C', $event)"><i class="bi-copy bg-white"></i></button></div>
-                </div>
-              </td>
-            </tr>
-            <!-- Righe vuote -->
-            <ng-container *ngIf="totalPages===currentPage">
-              <ng-container *ngFor="let _ of getEmptyRows()">
-                <tr class="empty-row">
-                  <td [attr.colspan]="columns.length + 1"></td>
-                </tr>
-              </ng-container> 
-            </ng-container>
-          </tbody>
+        <!-- Tabella  con scroll-->
+        <div class="table-responsive">
+          <table class="table custom-table" [ngClass]="{'table-hover': tableHoverFlag}" >
+            <thead>
+              <tr>
+                <!-- Intestazioni delle colonne dinamiche -->
+                <th *ngFor="let column of columns" resizable  scope="col" class="position-relative" 
+                      [style.minWidth.px]="column.minWidth || 'auto'"
+                      [style.width.px]="column.width || 'auto'" (click)="sort(column.field)">
+                  <ng-container *ngIf="column.type === 'enabled'; else defaultHeader">
+                    <div class="d-flex justify-content-center">
+                      {{ column.header }}
+                    </div>
+                  </ng-container>
+                  <ng-template #defaultHeader>{{ column.header }}</ng-template>
+                  <i class="bi" [ngClass]="{ 'bi-sort-down': sortColumn === column.field && sortOrder === 'asc', 'bi-sort-up': sortColumn === column.field && sortOrder === 'desc', 'bi-sort': sortColumn !== column.field }"></i>
+                  <div class="resize-handle" resizableHandle (mousedown)="onResizeStart($event, column.field)"></div>
+                </th>
 
-          <tfoot class="border-top">
-            <tr>
-              <td [attr.colspan]="columns.length + 1" class="text-center">
-                <div class="d-flex justify-content-between mt-2">
-                  <div class="col-md-4 text-start pb-2">
-                    <span>{{ items.length }} results</span>
+                            <!-- Colonna fissa per i bottoni -->
+                <th class="fixed-buttons-header" [style.width.px]="getActiveButtonsCount() * 40" *ngIf="getActiveButtonsCount() > 0">
+                  Actions
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Righe della tabella -->
+              <tr   *ngFor="let item of paginatedItems; let i = index"
+                  [index]="i"
+                  (mouseenter)="highlightRow(i)"
+                  (mouseleave)="unhighlightRow(i)"
+                  (click)="selectItem(item,'')"
+                  >
+                <!--  <td *ngFor="let column of columns">{{ item[column.field] }}</td>  -->
+                <td *ngFor="let column of columns" [style.minWidth.px]="column.minWidth || 'auto'" [style.width.px]="column.width || 'auto'" class="scrollable-column">
+                  <ng-container *ngIf="column.type === 'enabled'; else defaultCell">
+                    <div class="d-flex justify-content-center">
+                      <i *ngIf="EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-check-lg text-success"></i>
+                      <i *ngIf="!EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-x-lg text-danger"></i>
+                    </div>
+                  </ng-container>
+                  <ng-template #defaultCell>{{ item[column.field] }}</ng-template>
+                </td>
+                  <!-- Sezione fissa in fondo a sinistra -->
+                <td class="fixed-buttons-column" [style.width.px]="getActiveButtonsCount() * 40" (click)="$event.stopPropagation()">
+                  <div class="d-inline-flex" > 
+                  <!--<div class="d-inline-flex" [hidden]="!highlightedRows[i]" role="group"> --> 
+                    <div class="col-auto" *ngIf="buttonConfig.show"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Show" (click)="manageItem(item,'S', $event)"><i class="bi-eye bg-white"></i></button></div>
+                    <div class="col-auto" *ngIf="buttonConfig.edit"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Edit" (click)="manageItem(item,'E', $event)"><i class=" align-top bi-pencil bg-white"></i></button></div>
+                    <div class="col-auto" *ngIf="buttonConfig.delete"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Delete" (click)="manageItem(item,'D', $event)"><i class="bi-trash bg-white"></i></button></div>
+                    <div class="col-auto" *ngIf="buttonConfig.copy"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Copy" (click)="manageItem(item,'C', $event)"><i class="bi-copy bg-white"></i></button></div>
                   </div>
-                  <div class="col-md-4 d-flex justify-content-center pb-2">
-                    <nav aria-label="Table pagination" *ngIf="totalPages > 1">
-                      <ul class="pagination justify-content-center mb-0">
-                        <li class="page-item" [ngClass]="{ 'disabled': currentPage === 1 }">
-                          <a class="page-link" (click)="goToPage(currentPage - 1)">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only" hidden>Previous</span>
-                          </a>
-                        </li>
-                        <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [ngClass]="{ 'active': currentPage === i + 1 }">
-                          <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
-                        </li>
-                        <li class="page-item" [ngClass]="{ 'disabled': currentPage === totalPages }">
-                          <a class="page-link" (click)="goToPage(currentPage + 1)">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only" hidden>Next</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
+                </td>
+              </tr>
+              <!-- Righe vuote -->
+              <ng-container *ngIf="totalPages===currentPage">
+                <ng-container *ngFor="let _ of getEmptyRows()">
+                  <tr class="empty-row">
+                    <td [attr.colspan]="columns.length + 1"></td>
+                  </tr>
+                </ng-container> 
+              </ng-container>
+            </tbody>
+
+            <tfoot class="border-top">
+              <tr>
+                <td [attr.colspan]="columns.length + 1" class="text-center">
+                  <div class="d-flex justify-content-between mt-2">
+                    <div class="col-md-4 text-start pb-2">
+                      <span>{{ items.length }} results</span>
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-center pb-2">
+                      <nav aria-label="Table pagination" *ngIf="totalPages > 1">
+                        <ul class="pagination justify-content-center mb-0">
+                          <li class="page-item" [ngClass]="{ 'disabled': currentPage === 1 }">
+                            <a class="page-link" (click)="goToPage(currentPage - 1)">
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only" hidden>Previous</span>
+                            </a>
+                          </li>
+                          <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [ngClass]="{ 'active': currentPage === i + 1 }">
+                            <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+                          </li>
+                          <li class="page-item" [ngClass]="{ 'disabled': currentPage === totalPages }">
+                            <a class="page-link" (click)="goToPage(currentPage + 1)">
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only" hidden>Next</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                    <div class="col-md-4 pb-3 ms-3"></div>
                   </div>
-                  <div class="col-md-4 pb-3 ms-3"></div>
-                </div>
-              </td>
-            </tr>
-          </tfoot>
-          
-        </table>
+                </td>
+              </tr>
+            </tfoot>
+            
+          </table>
+        </div>
+
+
       </div>
     </div>
-  </div>
+</div>
 
 
 

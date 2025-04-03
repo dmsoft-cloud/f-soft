@@ -10,9 +10,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
-  selector: 'dms-groups-detail',
-  templateUrl: './groups-detail.component.html',
-  styleUrl: './groups-detail.component.css'
+    selector: 'dms-groups-detail',
+    templateUrl: './groups-detail.component.html',
+    styleUrl: './groups-detail.component.css',
+    standalone: false
 })
 export class GroupsDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription; 

@@ -9,9 +9,10 @@ import { OriginService } from '../../origins/origin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'dms-origins-detail',
-  templateUrl: './origins-detail.component.html',
-  styleUrl: './origins-detail.component.css'
+    selector: 'dms-origins-detail',
+    templateUrl: './origins-detail.component.html',
+    styleUrl: './origins-detail.component.css',
+    standalone: false
 })
 export class OriginsDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription; 
@@ -46,6 +47,7 @@ export class OriginsDetailComponent extends GenericDetailComponent implements On
 
           // Imposta l'ID nella variabile q_id
           this.q_id = selectedItem.id;
+          this.setAuditlog(selectedItem);
           this.quickEditForm.setValue({
             id: selectedItem.id,
             dbType: selectedItem.dbType,
@@ -115,19 +117,19 @@ export class OriginsDetailComponent extends GenericDetailComponent implements On
 
   onCreatePost(formValue : any){
 
-    const newOrigin = new OriginStruct(
-      this.q_id,
-      formValue.dbType,
-      formValue.description,
-      formValue.status,
-      formValue.host,
-      formValue.jdbc_custom_string,
-      formValue.notes,
-      formValue.password,
-      formValue.port,
-      formValue.secure,
-      formValue.user
-    );
+    const newOrigin = new OriginStruct({
+      id: this.q_id,
+      dbType: formValue.dbType,
+      description: formValue.description,
+      enabled: formValue.status,
+      ip: formValue.host,
+      jdbcCustomString: formValue.jdbc_custom_string,
+      note: formValue.notes,
+      password: formValue.password,
+      port: formValue.port,
+      secure: formValue.secure,
+      user: formValue.user
+    });
 
     this.originService.updateItem(newOrigin);  //da sostituire con la chiamata al servizio da invocare
     this.genericDetailComponent.closeModal();

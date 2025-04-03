@@ -9,9 +9,10 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { HostStruct } from '../../utils/structs/hostStruct';
 
 @Component({
-  selector: 'dms-hosts-detail',
-  templateUrl: './hosts-detail.component.html',
-  styleUrl: './hosts-detail.component.css'
+    selector: 'dms-hosts-detail',
+    templateUrl: './hosts-detail.component.html',
+    styleUrl: './hosts-detail.component.css',
+    standalone: false
 })
 export class HostsDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
 

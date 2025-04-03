@@ -51,19 +51,7 @@ export class OriginService extends MainService {
           return [];
         }
 
-        this.origins = responseData.map(item => new OriginStruct(
-          item.id,
-          item.dbType || "",
-          item.description || "",
-          item.enabled || "",
-          item.ip || "",
-          item.jdbcCustomString || "",
-          item.note || "",
-          item.password || "",
-          item.port || 0,
-          item.secure || "",
-          item.user || ""
-        ));
+        this.origins = responseData.map(item => new OriginStruct(item ));
         //console.log("dati ricevuti dal servizio: " + JSON.stringify(this.origins));
         this.originChanged.next(this.origins.slice());
         return this.origins.slice();

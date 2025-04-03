@@ -7,7 +7,8 @@ import { EntityUtils, YesNo} from '../../common/baseEntity'
  *  - per abilitare i pulsanti settare l'elemento buttonConfig
  *      dichiararlo nel compoennte esterno ed impostare a false i valori da disabilitare
  *      ad esempio [buttonConfig]="{ show: true, edit: false, delete: false, copy: false }"
- * 
+ *  - per disabilitare i pulsanti di ricerca e download impostare isFilterSectionVisible
+ *      nel componente che lo importa [isFilterSectionVisible]="isFilterSectionVisible"
  **********************************************************************************************/
 
 
@@ -17,13 +18,15 @@ interface TableColumn {
   header: string;
   field: string;
   type?: string;
-  width?: number; 
+  width?: number;
+  minWidth?: number; 
 }
 
 @Component({
-  selector: 'dms-default-table',
-  templateUrl: './default-table.component.html',
-  styleUrl: './default-table.component.scss'
+    selector: 'dms-default-table',
+    templateUrl: './default-table.component.html',
+    styleUrl: './default-table.component.scss',
+    standalone: false
 })
 export class DefaultTableComponent implements OnInit {
 
@@ -34,11 +37,13 @@ export class DefaultTableComponent implements OnInit {
   @Input() items: any[] = [];
   @Input() filteredItems: any[] = [];
 
-  itemsPerPage: number = 13; // Numero predefinito di elementi per pagina
+  @Input() itemsPerPage: number = 13; // Numero predefinito di elementi per pagina
+  
   public EntityUtils = EntityUtils;  //espongo le proprietà di entityUtils
   @Input() totalPages: number = 1;   // numero totale delle pagine
   @Input() currentPage: number = 1;  //pagina corrente della tabella
-
+  
+  @Input() isFilterSectionVisible: boolean = true;
   @Input() isAddEmpyRows: boolean= false;
 
   @Input() buttonConfig? = { show: true, edit: true, delete: true, copy: true }; // Configurazione pulsanti

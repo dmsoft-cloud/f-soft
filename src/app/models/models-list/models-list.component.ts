@@ -7,9 +7,10 @@ import { ModelStruct } from '../../utils/structs/modelStruct';
 import { ModelService } from '../../models/model.service';
 
 @Component({
-  selector: 'dms-models-list',
-  templateUrl: './models-list.component.html',
-  styleUrl: './models-list.component.css'
+    selector: 'dms-models-list',
+    templateUrl: './models-list.component.html',
+    styleUrl: './models-list.component.css',
+    standalone: false
 })
 export class ModelsListComponent extends DefaultTableComponent  implements OnInit, OnDestroy {
 

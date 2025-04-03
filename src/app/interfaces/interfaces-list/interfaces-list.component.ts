@@ -6,9 +6,10 @@ import { InterfaceStruct } from '../../utils/structs/interfaceStruct';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'dms-interfaces-list',
-  templateUrl: './interfaces-list.component.html',
-  styleUrl: './interfaces-list.component.css'
+    selector: 'dms-interfaces-list',
+    templateUrl: './interfaces-list.component.html',
+    styleUrl: './interfaces-list.component.css',
+    standalone: false
 })
 export class InterfacesListComponent extends DefaultTableComponent  implements OnInit, OnDestroy{
   @Input() componentDescription: string;

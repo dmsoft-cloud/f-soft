@@ -4,12 +4,14 @@ import { DefaultTableComponent } from '../../utils/default-table/default-table.c
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, tap } from 'rxjs';
 import { GroupStruct } from '../../utils/structs/groupStruct';
+import { DefaultTableNewComponent } from '../../utils/default-table-new/default-table-new.component';
 
 
 @Component({
-  selector: 'dms-groups-list',
-  templateUrl: './groups-list.component.html',
-  styleUrl: './groups-list.component.css'
+    selector: 'dms-groups-list',
+    templateUrl: './groups-list.component.html',
+    styleUrl: './groups-list.component.css',
+    standalone: false
 })
 export class GroupsListComponent extends DefaultTableComponent  implements OnInit, OnDestroy {
   //usato per popolare i bottoni e le etichette generiche
@@ -37,7 +39,7 @@ export class GroupsListComponent extends DefaultTableComponent  implements OnIni
   loadTableData(){
     this.columns = [
       { header: 'ID', field: 'id', type: '', width: 250 },
-      { header: 'Description', field: 'description', type: '', width: 400 },
+      { header: 'Description', field: 'description', type: '', width: 400, minWidth: 400 },
       { header: 'Enabled', field: 'enabled', type: 'enabled' }
     ];
     this.subscription = this.groupService.groupChanged.subscribe(

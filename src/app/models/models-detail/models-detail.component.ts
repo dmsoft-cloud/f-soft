@@ -9,9 +9,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModelService } from '../model.service';
 
 @Component({
-  selector: 'dms-models-detail',
-  templateUrl: './models-detail.component.html',
-  styleUrl: './models-detail.component.css'
+    selector: 'dms-models-detail',
+    templateUrl: './models-detail.component.html',
+    styleUrl: './models-detail.component.css',
+    standalone: false
 })
 export class ModelsDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
 
@@ -47,6 +48,7 @@ export class ModelsDetailComponent extends GenericDetailComponent implements OnI
 
           // Imposta l'ID nella variabile q_id
           this.q_id = selectedItem.id;
+          this.setAuditlog(selectedItem);
           this.quickEditForm.setValue({
                     id: selectedItem.id,
                     description: selectedItem.description,
@@ -152,37 +154,37 @@ export class ModelsDetailComponent extends GenericDetailComponent implements OnI
 
   onCreatePost(formValue : any){
 
-    const newModel = new ModelStruct(
-      this.q_id,
-      formValue.description,
-      formValue.note,
-      formValue.enabled,
-      formValue.type,
-      formValue.direction,
-      formValue.decompression,
-      formValue.compression,
-      formValue.sendMail,
-      formValue.retry,
-      formValue.retryInterval,
-      formValue.retention,
-      formValue.internationalization,
-      formValue.deleteFile,
-      formValue.uniqueHash,
-      formValue.fetchSize,
-      formValue.database,
-      formValue.schema,
-      formValue.sourceCharset,
-      formValue.destCharset,
-      formValue.fileFormat,
-      formValue.header,
-      formValue.recordDelimiter,
-      formValue.fieldDelimiter,
-      formValue.stringDelimiter,
-      formValue.removingSpaces,
-      formValue.numericFilling,
-      formValue.integrityCheck,
-      formValue.createFile
-    );
+    const newModel = new ModelStruct({
+      id: this.q_id,
+      description: formValue.description,
+      note: formValue.note,
+      enabled: formValue.enabled,
+      type: formValue.type,
+      direction: formValue.direction,
+      decompression: formValue.decompression,
+      compression: formValue.compression,
+      sendMail: formValue.sendMail,
+      retry: formValue.retry,
+      retryInterval: formValue.retryInterval,
+      retention: formValue.retention,
+      internationalization: formValue.internationalization,
+      deleteFile: formValue.deleteFile,
+      uniqueHash: formValue.uniqueHash,
+      fetchSize: formValue.fetchSize,
+      database: formValue.database,
+      schema: formValue.schema,
+      sourceCharset: formValue.sourceCharset,
+      destCharset: formValue.destCharset,
+      fileFormat: formValue.fileFormat,
+      header: formValue.header,
+      recordDelimiter: formValue.recordDelimiter,
+      fieldDelimiter: formValue.fieldDelimiter,
+      stringDelimiter: formValue.stringDelimiter,
+      removingSpaces: formValue.removingSpaces,
+      numericFilling: formValue.numericFilling,
+      integrityCheck: formValue.integrityCheck,
+      createFile: formValue.createFile
+    });
 
     this.modelService.updateItem(newModel);  //da sostituire con la chiamata al servizio da invocare
     this.genericDetailComponent.closeModal();

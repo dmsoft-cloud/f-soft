@@ -7,9 +7,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { GenericEditComponent } from '../../utils/generic-edit/generic-edit.component';
 
 @Component({
-  selector: 'dms-origin-edit',
-  templateUrl: './origin-edit.component.html',
-  styleUrl: './origin-edit.component.css'
+    selector: 'dms-origin-edit',
+    templateUrl: './origin-edit.component.html',
+    styleUrl: './origin-edit.component.css',
+    standalone: false
 })
 export class OriginEditComponent extends GenericEditComponent implements OnInit, OnDestroy  {
 
@@ -84,19 +85,19 @@ export class OriginEditComponent extends GenericEditComponent implements OnInit,
 * 
 ******************************************/
   setItem(formValue : any) : OriginStruct {
-    return  new OriginStruct(
-      formValue.id,
-      formValue.dbType,
-      formValue.description,
-      formValue.status,
-      formValue.host,
-      formValue.jdbc_custom_string,
-      formValue.notes,
-      formValue.password,
-      formValue.port,
-      formValue.secure,
-      formValue.user
-    );
+    return  new OriginStruct({
+      id: formValue.id,
+      dbType: formValue.dbType,
+      description: formValue.description,
+      enabled: formValue.status,
+      ip: formValue.host,
+      jdbcCustomString: formValue.jdbc_custom_string,
+      note: formValue.notes,
+      password: formValue.password,
+      port: formValue.port,
+      secure: formValue.secure,
+      user: formValue.user
+    });
   }
 
   addItem(formValue : any){

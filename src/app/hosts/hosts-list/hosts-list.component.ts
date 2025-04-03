@@ -6,9 +6,10 @@ import { Subscription, tap } from 'rxjs';
 import { HostStruct } from '../../utils/structs/hostStruct';
 
 @Component({
-  selector: 'dms-hosts-list',
-  templateUrl: './hosts-list.component.html',
-  styleUrl: './hosts-list.component.css'
+    selector: 'dms-hosts-list',
+    templateUrl: './hosts-list.component.html',
+    styleUrl: './hosts-list.component.css',
+    standalone: false
 })
 export class HostsListComponent extends DefaultTableComponent  implements OnInit  {
 

@@ -5,16 +5,17 @@ import { Observable } from 'rxjs';
 
 
 @Component({
-  selector: 'dms-select-custom',
-  templateUrl: './select-custom.component.html',
-  styleUrl: './select-custom.component.css',
-  providers: [
-      {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => SelectCustomComponent), 
-        multi: true
-      }
-    ]
+    selector: 'dms-select-custom',
+    templateUrl: './select-custom.component.html',
+    styleUrl: './select-custom.component.css',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SelectCustomComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class SelectCustomComponent implements OnInit, ControlValueAccessor {
 

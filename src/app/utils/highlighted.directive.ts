@@ -1,7 +1,8 @@
 import { Directive, HostListener, HostBinding, ElementRef, Renderer2  } from '@angular/core';
 
 @Directive({
-  selector: '[appHighlighted]'
+    selector: '[appHighlighted]',
+    standalone: false
 })
 export class HighlightedDirective {
  @HostBinding('style.backgroundColor') backgroundColor : string = 'transparent';

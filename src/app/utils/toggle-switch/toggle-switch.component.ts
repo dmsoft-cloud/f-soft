@@ -3,17 +3,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
 @Component({
-  selector: 'dms-toogle-switch',
-  templateUrl: './toggle-switch.component.html',
-  styleUrl: './toggle-switch.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ToggleSwitchComponent),  // replace name as appropriate
-      multi: true
-    }
-  ]
-
+    selector: 'dms-toogle-switch',
+    templateUrl: './toggle-switch.component.html',
+    styleUrl: './toggle-switch.component.scss',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ToggleSwitchComponent), // replace name as appropriate
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class ToggleSwitchComponent implements OnInit, ControlValueAccessor  {
   @Output() isOnSelected: boolean = true;

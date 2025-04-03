@@ -8,9 +8,10 @@ import { GenericEditComponent } from '../../utils/generic-edit/generic-edit.comp
 
 
 @Component({
-  selector: 'dms-group-edit',
-  templateUrl: './group-edit.component.html',
-  styleUrl: './group-edit.component.css'
+    selector: 'dms-group-edit',
+    templateUrl: './group-edit.component.html',
+    styleUrl: './group-edit.component.css',
+    standalone: false
 })
 export class GroupEditComponent extends GenericEditComponent implements OnInit, OnDestroy {
 

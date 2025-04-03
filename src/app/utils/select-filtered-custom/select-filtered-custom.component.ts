@@ -6,16 +6,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
 @Component({
-  selector: 'dms-select-filtered-custom',
-  templateUrl: 'select-filtered-custom.component.html',
-  styleUrl: 'select-filtered-custom.component.css',
-  providers: [
-      {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => SelectFilteredCustomComponent), 
-        multi: true
-      }
-    ]
+    selector: 'dms-select-filtered-custom',
+    templateUrl: 'select-filtered-custom.component.html',
+    styleUrl: 'select-filtered-custom.component.css',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SelectFilteredCustomComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class SelectFilteredCustomComponent implements OnInit, ControlValueAccessor {
 

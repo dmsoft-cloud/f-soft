@@ -12,9 +12,10 @@ import { DirectionEnum, FileFormatEnum, LocaleEnum, TypeEnum } from '../../utils
 
 
 @Component({
-  selector: 'dms-models-edit',
-  templateUrl: './models-edit.component.html',
-  styleUrl: './models-edit.component.css'
+    selector: 'dms-models-edit',
+    templateUrl: './models-edit.component.html',
+    styleUrl: './models-edit.component.css',
+    standalone: false
 })
 export class ModelsEditComponent extends GenericEditComponent implements OnInit, OnDestroy  {
 
@@ -112,37 +113,37 @@ export class ModelsEditComponent extends GenericEditComponent implements OnInit,
 * 
 ******************************************/
   setItem(formValue : any) : ModelStruct {
-    return  new ModelStruct(
-      formValue.id,
-      formValue.description,
-      formValue.note,
-      formValue.enabled,
-      formValue.type,
-      formValue.direction,
-      formValue.decompression,
-      formValue.compression,
-      formValue.sendMail,
-      formValue.retry,
-      formValue.retryInterval,
-      formValue.retention,
-      formValue.internationalization,
-      formValue.deleteFile,
-      formValue.uniqueHash,
-      formValue.fetchSize,
-      formValue.database,
-      formValue.schema,
-      formValue.sourceCharset,
-      formValue.destCharset,
-      formValue.fileFormat,
-      formValue.header,
-      formValue.recordDelimiter,
-      formValue.fieldDelimiter,
-      formValue.stringDelimiter,
-      formValue.removingSpaces,
-      formValue.numericFilling,
-      formValue.integrityCheck,
-      formValue.createFile
-    );
+    return  new ModelStruct({
+      id: formValue.id,
+      description: formValue.description,
+      note: formValue.note,
+      enabled: formValue.enabled,
+      type: formValue.type,
+      direction: formValue.direction,
+      decompression: formValue.decompression,
+      compression: formValue.compression,
+      sendMail: formValue.sendMail,
+      retry: formValue.retry,
+      retryInterval: formValue.retryInterval,
+      retention: formValue.retention,
+      internationalization: formValue.internationalization,
+      deleteFile: formValue.deleteFile,
+      uniqueHash: formValue.uniqueHash,
+      fetchSize: formValue.fetchSize,
+      database: formValue.database,
+      schema: formValue.schema,
+      sourceCharset: formValue.sourceCharset,
+      destCharset: formValue.destCharset,
+      fileFormat: formValue.fileFormat,
+      header: formValue.header,
+      recordDelimiter: formValue.recordDelimiter,
+      fieldDelimiter: formValue.fieldDelimiter,
+      stringDelimiter: formValue.stringDelimiter,
+      removingSpaces: formValue.removingSpaces,
+      numericFilling: formValue.numericFilling,
+      integrityCheck: formValue.integrityCheck,
+      createFile: formValue.createFile
+    });
   }
 
   addItem(formValue : any){

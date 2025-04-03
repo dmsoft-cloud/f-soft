@@ -1,14 +1,14 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
-import { NgChartsModule } from 'ng2-charts';
-import { BaseChartDirective } from 'ng2-charts';  // Importa BaseChartDirective
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 
@@ -65,6 +65,7 @@ import { EmailsComponent } from './emails/emails.component';
 import { EmailsListComponent } from './emails/emails-list/emails-list.component';
 import { EmailsDetailComponent } from './emails/emails-detail/emails-detail.component';
 import { EmailEditComponent } from './emails/email-edit/email-edit.component';
+import { DefaultTableNewComponent } from "./utils/default-table-new/default-table-new.component";
 
 
 
@@ -119,14 +120,14 @@ import { EmailEditComponent } from './emails/email-edit/email-edit.component';
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,
-        BrowserAnimationsModule,
-        NgChartsModule,  
-        AppRoutingModule,
-        FormsModule,
-        CommonModule,
-        NgbModule,
-        
-        ReactiveFormsModule], 
+    BrowserAnimationsModule,
+    TableModule, // Modulo per p-table
+    InputTextModule,
+    AppRoutingModule,
+    FormsModule,
+    CommonModule,
+    NgbModule,
+    ReactiveFormsModule, DefaultTableNewComponent], 
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
         ConfigService,
         {

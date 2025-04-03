@@ -10,9 +10,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmailStruct } from '../../utils/structs/emailStruct';
 
 @Component({
-  selector: 'dms-emails-detail',
-  templateUrl: './emails-detail.component.html',
-  styleUrl: './emails-detail.component.css'
+    selector: 'dms-emails-detail',
+    templateUrl: './emails-detail.component.html',
+    styleUrl: './emails-detail.component.css',
+    standalone: false
 })
 export class EmailsDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
 

@@ -35,21 +35,21 @@
             <div class="d-flex" >
                 <div class="col-md-4  mb-3 pe-3">
                     <label for="creationUser" class="form-label">Creation User</label>
-                    <input type="text" class="form-control" id="creationUser" name="creationUser"  disabled>
+                    <input type="text" class="form-control" id="creationUser" name="creationUser"  [value]="auditlog.creationUser ?? ''"  disabled>
                 </div>
                 <div class="col-md-8  mb-3">
                     <label for="creationTs" class="form-label">Creation Timestamp</label>
-                    <input type="text" class="form-control" id="creationTs" name="creationTs"  disabled>
+                    <input type="text" class="form-control" id="creationTs" name="creationTs"   [value]="auditlog.creationTs ?? ''" disabled>
                 </div>
             </div>
             <div class="d-flex" >
                 <div class="col-md-4  mb-3 pe-3">
                     <label for="updateUser" class="form-label">Update User</label>
-                    <input type="text" class="form-control" id="updateUser" name="updateUser"  disabled>
+                    <input type="text" class="form-control" id="updateUser" name="updateUser"   [value]="auditlog.updateUser ?? ''" disabled>
                 </div>
                 <div class="col-md-8  mb-3">
                     <label for="updateTs" class="form-label">Update Timestamp</label>
-                    <input type="text" class="form-control" id="updateTs" name="updateTs"  disabled>
+                    <input type="text" class="form-control" id="updateTs" name="updateTs"  [value]="auditlog.updateTs ?? ''" disabled> 
                 </div>
             </div>
           </div>

@@ -6,9 +6,10 @@ import { FlowStruct } from '../../utils/structs/flowStruct';
 import { FlowService } from '../flow.service';
 
 @Component({
-  selector: 'dms-flows-list',
-  templateUrl: './flows-list.component.html',
-  styleUrl: './flows-list.component.css'
+    selector: 'dms-flows-list',
+    templateUrl: './flows-list.component.html',
+    styleUrl: './flows-list.component.css',
+    standalone: false
 })
 export class FlowsListComponent extends DefaultTableComponent  implements OnInit, OnDestroy {
 
@@ -37,10 +38,10 @@ export class FlowsListComponent extends DefaultTableComponent  implements OnInit
  loadTableData(){
    this.columns = [
      { header: 'Id', field: 'id', type: '' },
-     { header: 'Status', field: 'enabled', type: '' },
      { header: 'Group', field: 'groupId', type: '' },
      { header: 'table', field: 'dbTable', type: '' },
-     { header: 'FileName', field: 'file', type: '' }
+     { header: 'FileName', field: 'file', type: '' },
+     { header: 'Enabled', field: 'enabled',  type: 'enabled' },
    ];
    this.subscription = this.flowService.flowChanged.subscribe(
      (flows: FlowStruct[]) => {

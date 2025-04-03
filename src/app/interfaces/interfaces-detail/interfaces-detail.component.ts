@@ -9,9 +9,10 @@ import { InterfaceService } from '../interface.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'dms-interfaces-detail',
-  templateUrl: './interfaces-detail.component.html',
-  styleUrl: './interfaces-detail.component.css'
+    selector: 'dms-interfaces-detail',
+    templateUrl: './interfaces-detail.component.html',
+    styleUrl: './interfaces-detail.component.css',
+    standalone: false
 })
 export class InterfacesDetailComponent extends GenericDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription; 
@@ -43,6 +44,7 @@ export class InterfacesDetailComponent extends GenericDetailComponent implements
           //console.log("valore item arrivato nel quickForm: " + JSON.stringify(event.item));
           // Imposta l'ID nella variabile q_id
           this.q_id = selectedItem.id;
+          this.setAuditlog(selectedItem);
           this.quickEditForm.setValue({
             id: selectedItem.id,
             description: selectedItem.description,
@@ -122,23 +124,23 @@ export class InterfacesDetailComponent extends GenericDetailComponent implements
 
   onCreatePost(formValue : any){
 
-    const newInterface = new InterfaceStruct(
-      formValue.id,
-      formValue.description,
-      formValue.connectionType,
-      formValue.passiveMode,
-      formValue.secureFTP,
-      formValue.host,
-      formValue.port,
-      formValue.user,
-      formValue.password,
-      formValue.sftpAlias,
-      formValue.knownhost,
-      formValue.keyFile,
-      formValue.trustHost,
-      formValue.status,
-      formValue.notes
-    );
+    const newInterface = new InterfaceStruct({
+      id: this.q_id,
+      description: formValue.description,
+      connectionType: formValue.connectionType,
+      passiveMode: formValue.passiveMode,
+      secureFtp: formValue.secureFTP,
+      host: formValue.host,
+      port: formValue.port,
+      user: formValue.user,
+      password: formValue.password,
+      sftpAlias: formValue.sftpAlias,
+      knownHost: formValue.knownhost,
+      keyFile: formValue.keyFile,
+      trustHost: formValue.trustHost,
+      enabled: formValue.status,
+      note: formValue.notes
+    });
 
     this.interfaceService.updateItem(newInterface);  //da sostituire con la chiamata al servizio da invocare
     this.genericDetailComponent.closeModal();

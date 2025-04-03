@@ -3,7 +3,11 @@
 import { Component, Input, OnInit, EventEmitter, Output, ModuleWithComponentFactories, ViewChild, ElementRef, TemplateRef} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EntityUtils, YesNo} from '../../common/baseEntity'
-import { LazyLoadEvent } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+
 
 
 /**********************************************************************************************
@@ -26,9 +30,11 @@ interface TableColumn {
 @Component({
   selector: 'dms-default-table-new',
   templateUrl: './default-table-new.component.html',
-  styleUrl: './default-table-new.component.scss'
+  styleUrl: './default-table-new.component.scss', 
+  imports: [CommonModule, TableModule, InputTextModule] 
 })
 export class DefaultTableNewComponent implements OnInit {
+
 
   /************************************************************************/
   /*                   variabili generali per impaginare                  */
@@ -69,6 +75,8 @@ export class DefaultTableNewComponent implements OnInit {
   private modalRef: NgbModalRef | null = null; //componente per gestione modale
   //modo con cui apriamo la modale
   @Input() modalMode: string = '';
+
+  @ViewChild('dt') dt: Table;  //tabella primifaces
 
 
   filterText: string = '';
@@ -121,10 +129,7 @@ export class DefaultTableNewComponent implements OnInit {
     }
   }
 
-  onPageChange(event: LazyLoadEvent) {
-    this.currentPage = (event.first / this.itemsPerPage) + 1;
-    this.updatePagination();
-  }
+  
 
 
 
@@ -316,7 +321,13 @@ export class DefaultTableNewComponent implements OnInit {
     return count;
   }
 
-  
+    // funzione per gestire il ridimensionamento colonne
+    onColResize(event: any) {
+      const column = this.columns.find(col => col.field === event.element.id);
+      if (column) {
+        column.width = event.width;
+      }
+    }
 
 
 }

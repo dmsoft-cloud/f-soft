@@ -11,9 +11,10 @@ import { EmailService } from '../email.service';
 import { EmailStruct } from '../../utils/structs/emailStruct';
 
 @Component({
-  selector: 'dms-email-edit',
-  templateUrl: './email-edit.component.html',
-  styleUrl: './email-edit.component.css'
+    selector: 'dms-email-edit',
+    templateUrl: './email-edit.component.html',
+    styleUrl: './email-edit.component.css',
+    standalone: false
 })
 export class EmailEditComponent extends GenericEditComponent implements OnInit, OnDestroy {
   @Output() closeModal = new EventEmitter();

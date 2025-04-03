@@ -6,9 +6,10 @@ import { EmailService } from '../email.service';
 import { EmailStruct } from '../../utils/structs/emailStruct';
 
 @Component({
-  selector: 'dms-emails-list',
-  templateUrl: './emails-list.component.html',
-  styleUrl: './emails-list.component.css'
+    selector: 'dms-emails-list',
+    templateUrl: './emails-list.component.html',
+    styleUrl: './emails-list.component.css',
+    standalone: false
 })
 export class EmailsListComponent extends DefaultTableComponent  implements OnInit, OnDestroy {
 

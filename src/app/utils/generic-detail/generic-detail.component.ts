@@ -4,10 +4,11 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AuditlogStruct } from '../structs/auditlogStruct';
 
 @Component({
-  selector: 'dms-generic-detail',
-  templateUrl: './generic-detail.component.html',
-  styleUrl: './generic-detail.component.scss',
-  encapsulation: ViewEncapsulation.None
+    selector: 'dms-generic-detail',
+    templateUrl: './generic-detail.component.html',
+    styleUrl: './generic-detail.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class GenericDetailComponent {
 
