@@ -1,0 +1,145 @@
+
+  <!-- Sezione sottostante -->
+<div class="mt-4">
+
+    <!-- Form inserimento e gestione -->
+    <div>
+      
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="basic-tab" [ngClass]="{'active': activeTab === 'basicData'}" (click)="activeTab = 'basicData'" >Basic Data</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="i&oData-tab" [ngClass]="{'active': activeTab === 'i&oData'}" (click)="activeTab = 'i&oData'" >I/O Data</button>
+                </li>
+        </ul>
+        <br>
+
+        <form [formGroup]="form" (ngSubmit)="submitItem(editMode)" >
+
+                    <!-- summary errori -->
+                    <div *ngIf="errorSummary.length" class="alert alert-danger mt-2">
+                        <ul>
+                        <li *ngFor="let e of errorSummary">{{ e }}</li>
+                        </ul>
+                    </div>
+
+            <div class="tab-content" id="myTabContent">
+                        <div [hidden]="activeTab !== 'basicData'">
+                            <div class="d-flex" >
+                                <div class="col-md-6  mb-3 pe-3">
+                                    <label for="id" class="form-label">{{componentDescription}} Id</label>
+                                    <input type="text" class="form-control" id="id" formControlName="id" maxlength="20" >
+                                </div>
+
+                                <div class="col-md-6  mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="description"  formControlName="description" maxlength="100" >
+                                </div>
+                            </div>
+                            <div class="d-flex" >
+                                <div class=" col-md-4  mb-3 pe-3 ">
+                                    <label for="dbTable" class="form-label">Table</label>
+                                    <input type="text" class="form-control" id="dbTable"  formControlName="dbTable" maxlength="50" >
+                                </div>
+                                <div class=" col-md-4  mb-3 pe-3 ">
+                                    <label for="folder" class="form-label">Folder</label>
+                                    <input type="text" class="form-control" id="folder"  formControlName="folder" maxlength="100" >
+                                </div>
+                                <div class=" col-md-4  mb-3 ">
+                                    <label for="file" class="form-label">File</label>
+                                    <input type="text" class="form-control" id="file"  formControlName="file" maxlength="100" >
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex" >
+                                <div class=" col-md-4  mb-3 pe-3 ">
+                                    <label for="remoteFolder" class="form-label">Remote Folder</label>
+                                    <input type="text" class="form-control" id="remoteFolder"  formControlName="remoteFolder" maxlength="100" >
+                                </div>
+                                <div class=" col-md-4  mb-3 pe-3 ">
+                                    <label for="remoteFile" class="form-label">Remote File</label>
+                                    <input type="text" class="form-control" id="remoteFile"  formControlName="remoteFile" maxlength="100">
+                                </div>
+                                <div class=" col-md-4  mb-3 ">
+                                    <label for="lengthFixed" class="form-label">Length of Fixed Export</label>
+                                    <input type="text" class="form-control" id="lengthFixed"  formControlName="lengthFixed" maxlength="100" >
+                                </div>
+                                
+                            </div>
+                            <input type="hidden" id="note" name="note" formControlName="note">
+                            <input type="hidden" id="enabled" name="enabled" formControlName="enabled">
+                            <input type="hidden" id="model" name="model" formControlName="model">
+                            <input type="hidden" id="origin" name="origin" formControlName="origin">
+                            <input type="hidden" id="interfaceId" name="interfaceId" formControlName="interfaceId">
+                            <input type="hidden" id="groupId" name="groupId" formControlName="groupId">
+                        </div>
+                    </div>
+                    
+                    <!--               sezione 2                 -->
+                    <div class="tab-content" id="myTabContent">
+                        <div [hidden]="activeTab !== 'i&oData'"> 
+                            <div class="d-flex" >
+                                <div class=" col-md-4  mb-3 pe-3">
+                                    <dms-select-custom 
+                                        label="Notification Code" 
+                                        id="notificationFlow"
+                                        formControlName="notificationFlow"
+                                        [(ngModel)]="notificationFlow"
+                                        [optionsObservable]="communicationOptions$"
+                                        [showEmptyOption]="true"
+                                        emptyOptionLabel=""
+                                        emptyOptionValue=""
+                                        [displayMode]="'code-description'">
+                                    </dms-select-custom> 
+                                </div>                           
+                                <div class=" col-md-4  mb-3 pe-3">
+                                    <dms-select-custom 
+                                        label="Notification Ok" 
+                                        id="notificationOk"
+                                        formControlName="notificationOk"
+                                        [(ngModel)]="notificationOk"
+                                        [optionsObservable]="communicationOptions$"
+                                        [showEmptyOption]="true"
+                                        emptyOptionLabel=""
+                                        emptyOptionValue=""
+                                        [displayMode]="'code-description'">
+                                    </dms-select-custom>                   
+                                </div>
+                                <div class=" col-md-4  mb-3 ">
+                                    <dms-select-custom 
+                                        label="Notification Ko" 
+                                        id="notificationKo"
+                                        formControlName="notificationKo"
+                                        [(ngModel)]="notificationKo"
+                                        [optionsObservable]="communicationOptions$"
+                                        [showEmptyOption]="true"
+                                        emptyOptionLabel=""
+                                        emptyOptionValue=""
+                                        [displayMode]="'code-description'">
+                                    </dms-select-custom>
+                                </div>
+                            </div>
+
+                            <div class=" col-md-12 ">
+                                <label for="integrityFileName" class="form-label">Integrity File Name</label>
+                                <input type="text" class="form-control" id="integrityFileName" formControlName="integrityFileName" maxlength="100" >                       
+                            </div>
+                            <div class="d-flex" >
+                               
+                            </div>
+
+                            <div class="d-flex" >
+                                
+                            </div>
+                        </div>
+            </div>
+
+
+                    
+        </form>
+
+    </div>
+</div>
+
+

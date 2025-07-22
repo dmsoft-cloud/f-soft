@@ -25,7 +25,9 @@ export enum YesNoEnum {
   
   export enum DbTypeEnum {
     DB2_ISERIES = "DB2",
-    MSSQLSERVER = "MSSQL"
+    MSSQLSERVER = "MSSQL",
+    MYSQL = "MYSQL",
+    POSTGRES = "POSTGRES"
   }
   
   export enum ConnectionTypeEnum {
@@ -34,5 +36,16 @@ export enum YesNoEnum {
     SCP = "C",
     SMTP = "M",
     IMAP = "I"
+  }
+
+  export enum RecordDelimiterTypeEnum {
+    CRLF = "*CRLF",
+    LF = "*LF",
+    CR = "*CR"
+  }
+  
+  export enum StringDelimiterTypeEnum {
+    NONE = "*NONE",
+    DOUBLEQUOTE = "*DBLQUOTE"
   }
   

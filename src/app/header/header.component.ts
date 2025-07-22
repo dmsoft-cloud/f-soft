@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   collapsed = true;
   currentPage: string = '';
   @Output() isAuth =  new EventEmitter<boolean>();
+  @Output() openOptions = new EventEmitter<void>();  //evento per aprire offcanvas delle opzioni
 
   constructor(private router: Router, private authService : AuthService) { }
 
@@ -37,12 +38,16 @@ export class HeaderComponent implements OnInit {
   onLogout(){
     this.authService.logout();
   }
-  
-    // Metodo per aprire la modale laterale
-    openAppDrawer() {
+
+  // Metodo per aprire l'offcanvas delle opzioni 
+  onOptionsClick() {
+    this.openOptions.emit();
+  }
+  // Metodo per aprire la modale laterale
+  openAppDrawer() {
       const appDrawer = new (window as any).bootstrap.Offcanvas(document.getElementById('appDrawer'));
       appDrawer.show();
-    }
+  }
 
   // Metodo per estrarre il nome della pagina dal percorso
   getPageName(url: string): string {

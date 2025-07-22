@@ -20,6 +20,7 @@ export class FlowStruct extends AuditlogStruct  {
   public remoteFolder: string;
   public remoteFile: string;
   public lengthFixed: number;
+  public direction?: string;
 
 
   constructor(data: Partial<FlowStruct> = {} ) {
@@ -42,6 +43,7 @@ export class FlowStruct extends AuditlogStruct  {
     this.remoteFolder = data.remoteFolder || "";
     this.remoteFile = data.remoteFile || "";
     this.lengthFixed = data.lengthFixed || 0;
+    this.direction = data.direction || "";
    }
 
 

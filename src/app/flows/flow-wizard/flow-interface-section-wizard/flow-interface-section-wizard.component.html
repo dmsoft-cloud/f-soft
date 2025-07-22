@@ -1,0 +1,158 @@
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <dms-select-filtered-custom-new
+        label="Interface Id"
+        id="interfaceId"
+        name="interfaceId"
+        [(ngModel)]="interfaceId"
+        (ngModelChange)="onInterfaceChange($event)"
+        [optionsObservable]="interfaceOptions$"
+        [showEmptyOption]="true"
+        emptyOptionLabel=""
+        emptyOptionValue=""
+        [displayMode]="'code-description'">
+      </dms-select-filtered-custom-new>
+    </div>
+    <div class="col-md-6" >
+      <label for=""></label>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <button class="btn btn-primary" (click)="onNewInterface()">New Interface</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+  <!-- Sezione sottostante -->
+  <div class="mt-4">
+
+    <!-- Form inserimento e gestione -->
+    <div *ngIf="isNewMode || isCopyMode || isViewMode ">
+      <div class="d-flex align-items-center">
+        <h5 class="mb-0">
+          {{ isNewMode ? 'New Interface' : isCopyMode ? 'Modify Interface ' : 'Interface Details  ' }}
+        </h5>
+        <button *ngIf="!isNewMode && !isCopyMode && selectedInterface"
+              class="btn-icon ms-2"
+              (click)="enableEdit()"
+              data-bs-toggle="tooltip"
+              title="Copy element">
+          <i class="bi bi-pencil" aria-hidden="true"></i>
+        </button>
+      </div>
+      <br>
+      
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="basic-tab" [ngClass]="{'active': activeTab === 'basicData'}" (click)="activeTab = 'basicData'" >Basic Data</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="flagData-tab" [ngClass]="{'active': activeTab === 'connectionData'}" (click)="activeTab = 'connectionData'" >Additional Connection Data</button>
+                </li>
+        </ul>
+
+
+      <form [formGroup]="form" (ngSubmit)="submitItem(editMode)" >
+
+                    <!-- summary errori -->
+                    <div *ngIf="errorSummary.length" class="alert alert-danger mt-2">
+                        <ul>
+                        <li *ngFor="let e of errorSummary">{{ e }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="baseContent">
+                        <div [hidden]="activeTab !== 'basicData'">
+                            <div class="d-flex" >
+                                <div class="col-md-6  mb-3 pe-3">
+                                    <label for="id" class="form-label">{{componentDescription}} Id</label>
+                                    <input type="text" class="form-control" id="id" name="id" formControlName="id" maxlength="20">
+                                </div>
+
+                                <div class="col-md-6  mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="descriptionn" name="description" formControlName="description" maxlength="100">
+                                </div>
+                            </div>
+                            <div class="d-flex" >
+                                <div class="col-md-6 pe-3 mb-3">
+                                    <dms-select-custom label="Connection Type" 
+                                        id="connectionType"
+                                        name="connectionType"
+                                        formControlName="connectionType"
+                                        [(ngModel)]="connType"
+                                        [options]="connectionTypes"
+                                        [isDisabled]="!isEditEnabled"
+                                        [showEmptyOption]="true"
+                                        emptyOptionLabel=""
+                                        emptyOptionValue=""
+                                        [displayMode]="'code-description'">
+                                    </dms-select-custom>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="user" class="form-label">User</label>
+                                    <input type="text" class="form-control" id="user" name="user" formControlName="user" maxlength="100">
+                                </div>
+                            </div>
+                            <div class="d-flex" >
+                                <div class="col-md-6 mb-3 pe-3">
+                                    <label for="host" class="form-label">Host</label>
+                                    <input type="text" class="form-control" id="host" name="host" formControlName="host" maxlength="100">
+                                </div>
+                                <div class="col-md-3 mb-3 pe-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" formControlName="password" maxlength="20">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="port" class="form-label">Port</label>
+                                    <input type="number" class="form-control" id="port" name="port" formControlName="port" maxlength="5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="connectionContent">
+                        <div [hidden]="activeTab !== 'connectionData'">
+                            <div class="d-flex" >
+                                <div class="col-md-3 pe-3 mb-3">
+                                    <dms-toogle-switch lableOn="Yes" lableOff="No" valueOn="S" lableComponent="Passive Mode" defaultValue="N" valueOff="N" ngModel id="passiveMode" name="passiveMode" formControlName="passiveMode"></dms-toogle-switch>
+                                </div>
+                                <div class="col-md-3 mb-3 pe-3 ">
+                                    <dms-toogle-switch lableOn="On" lableOff="Off" lableComponent="Secure FTP" defaultValue="N" valueOn="S" valueOff="N" ngModel id="secureFtp" name="secureFtp" formControlName="secureFtp"></dms-toogle-switch>
+                                </div>
+                                <div class="col-md-3 mb-3 pe-3 ">
+                                    <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Trust Host" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="trustHost" name="trustHost" formControlName="trustHost"></dms-toogle-switch>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="sftpAlias" class="form-label">Sftp Alias</label>
+                                    <input type="text" class="form-control" id="sftpAlias" name="sftpAlias" maxlength="20" formControlName="sftpAlias">
+                                </div>
+                            </div>
+                            <div class="d-flex" >
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="knownhost" class="form-label">Known Host</label>
+                                <input type="text" class="form-control" id="knownhost" name="knownhost" formControlName="knownhost" maxlength="100">
+                            </div>
+                            <div class="mb-3">
+                                <label for="keyFile" class="form-label">Key File</label>
+                                <input type="text" class="form-control" id="keyFile" name="keyFile" formControlName="keyFile" maxlength="100">
+                            </div>
+                        </div>
+                    </div>       
+        
+ 
+        <input type="hidden" id="note" name="note" formControlName="note">
+        <input type="hidden" id="enabled" name="enabled" formControlName="enabled">
+      </form>
+       <div class="row">
+                    <div class=" d-inline-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary custom-secondary-btn col-md-3"  *ngIf="editMode == 'I' || editMode == 'C'"  [disabled]="form.invalid" (click)="submitForm()">{{ isNewMode || isCopyMode ? 'Save Item' : 'Add Item' }}</button>
+                   </div>
+        </div>
+    </div>
+  </div>
+</div>
+

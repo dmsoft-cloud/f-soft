@@ -40,9 +40,9 @@ export class ModelsListComponent extends DefaultTableComponent  implements OnIni
       this.columns = [
         { header: 'Id', field: 'id', type: '' },
         { header: 'Description', field: 'description', type: '' },
-        { header: 'Direction', field: 'direction', type: '' },
-        { header: 'Type', field: 'type', type: '' },
-        { header: 'Enabled', field: 'enabled', type: 'enabled' }
+        { header: 'Direction', field: 'direction', type: 'direction', width: 100, minWidth: 100  },
+        { header: 'Type', field: 'type', type: 'typeFlow', width: 100, minWidth: 100  },
+        { header: 'Enabled', field: 'enabled', type: 'enabled', width: 100, minWidth: 100  }
       ];
       if (this.subscription) this.subscription.unsubscribe();
       this.subscription = this.modelService.modelChanged.subscribe(

@@ -1,3 +1,4 @@
+import { DEFAULT_TABLE_TYPES, TableTypeConfig } from "../utils/table-types";
 
 export enum YesNo {
     YES = "YES",
@@ -8,16 +9,30 @@ export enum YesNo {
   }
 
 
-export enum TypeFlow {
-    ORIGIN = 'D',
-    FILESYSTEM = 'I'
-  }
 
 export class EntityUtils {
 
   public static getBooleanValueYesNo(value: string): boolean {
-    return value === YesNo.YES || value === YesNo.S || value === YesNo.Y;
+      return value === YesNo.YES || value === YesNo.S || value === YesNo.Y;
+  } 
+
+  static resolveTableIcon(type: string, value: any, customTypes: TableTypeConfig = {}): { icon: string, class?: string, title?: string } {
+    // Combina i tipi predefiniti con quelli custom (i custom hanno precedenza)
+    const allTypes = { ...DEFAULT_TABLE_TYPES, ...customTypes };
+    const resolver = allTypes[type];
+    
+    if (resolver) {
+      return resolver(value);
+    }
+    
+    // Default fallback
+    return { 
+      icon: 'bi-question-circle',
+      class: 'text-secondary',
+      title: value?.toString() || ''
+    };
   }
+
 
 
 }

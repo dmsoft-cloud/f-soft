@@ -11,9 +11,15 @@
         (reloadTableEvent)="refreshTable()"  
         (rowSelected)="onSelectItem($event)"
         (rowManaged)="onManageItem($event)"
+        (closeModalEvent)="onCloseModal()"
         >
-                <div data-section>
-                        <dms-email-edit [componentDescription]="componentDescription"  (closeModal)="onCloseModal()" ></dms-email-edit>
+                <div data-section *ngIf="showEditComponent">
+                        <dms-email-edit
+                                [componentDescription]="componentDescription"
+                                [editMode]="modalMode"
+                                [item]="selectedItem"
+                                (closeModal)="onCloseModal()">
+                        </dms-email-edit>
                 </div>
 
 </dms-default-table>

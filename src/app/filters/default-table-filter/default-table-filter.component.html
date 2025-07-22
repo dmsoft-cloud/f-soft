@@ -1,0 +1,9 @@
+<div class="filter-section  p-3 mb-3 px-4">
+  <div class="card card-body">
+    <ng-content select="[filter-data]"></ng-content>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-secondary btn-filter-reset col-md-3 mb-3 me-2 mt-3" (click)="onReset()">Reset</button>
+      <button class="btn btn-primary btn-filter-apply col-md-3 mb-3 mt-3" (click)="onApply()">Apply</button>
+    </div>
+  </div>
+</div>

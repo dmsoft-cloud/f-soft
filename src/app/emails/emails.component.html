@@ -1,8 +1,8 @@
-<div class="row main-canvas mx-auto mx-3 px-5">
-    <div class="col-md-8">
+<div class="row main-canvas mx-auto mx-3 px-5 pt-2 main-canvas-costum-pt">
+    <div class="col-md-8 main-table-custom mr-xl-custom  custom-col-left ">
             <dms-emails-list [componentDescription]="buttonDescriptionD" ></dms-emails-list>
     </div>
-    <div class="col-md-4">
-        <dms-emails-detail   ></dms-emails-detail>
+    <div class="col-md-4 right-custom-section ml-xl-custom custom-offset-right">
+        <dms-emails-detail  [buttonDescriptionD]="buttonDescriptionD"  ></dms-emails-detail>
     </div>
 </div>

@@ -1,0 +1,62 @@
+<div class="wizard-wrapper container-fluid p-4">
+  <!-- Close -->
+  <button type="button"
+          class="btn-close position-absolute top-0 end-0 m-3"
+          aria-label="Close"
+          (click)="close()"></button>
+
+  <!-- Top Graphic Card -->
+  <div class="intro-card p-4 rounded mb-4 d-flex align-items-center justify-content-between dms-wizard-graphic-card shadow-sm">
+    <div>
+      <h4 class="mb-2">{{ currentCardTitle }}</h4>
+      <p class="mb-0">{{ currentCardText  }}</p>
+    </div>
+    <img *ngIf="currentCardImage"
+         [src]="currentCardImage"
+         alt="Illustration"
+         style="height: 250px;">
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="steps d-flex justify-content-between mb-4">
+    <div *ngFor="let step of steps; let i = index"
+         class="step text-center flex-fill"
+         [class.active]="currentStep === i "
+         [class.disabled]="i  > maxStepReached"
+         (click)="goTo(i)">
+      <div class="circle mx-auto">{{ i + 1 }}</div>
+      <div class="step-label mt-1">{{ step.label }}</div>
+    </div>
+  </div>
+  <!-- Step Content -->
+  <div class="step-card p-4 dms-wizard-body rounded shadow-sm">
+    <!--<h5 class="mb-4 d-flex">{{ steps[currentStep]?.label }}</h5> -->
+
+    <ng-container
+      *ngTemplateOutlet="steps[currentStep]?.templateRef">
+    </ng-container>
+
+  </div>
+  <!-- Navigation Buttons -->
+  <div class="d-flex justify-content-between mt-4">
+    <button class="btn btn-outline-secondary"
+            (click)="prevStep()"
+            [disabled]="currentStep === 0">
+      Back
+    </button>
+
+    <button class="btn btn-primary"
+            *ngIf="currentStep < steps.length - 1"
+            (click)="nextStep()"
+            [disabled]="!canProceed()">
+      Next
+    </button>
+
+    <button class="btn btn-success"
+            *ngIf="currentStep === steps.length - 1"
+            (click)="finish()"
+            [disabled]="!canProceed()">
+      Finish
+    </button>
+  </div>
+</div>

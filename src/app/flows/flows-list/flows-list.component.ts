@@ -16,6 +16,7 @@ export class FlowsListComponent extends DefaultTableComponent  implements OnInit
  //usato per popolare i bottoni e le etichette generiche
  @Input() componentDescription: string;
  @ViewChild(DefaultTableComponent) defaultTableComponent!: DefaultTableComponent;
+ public filters: any = {};
 
  isLoading =false;
  isError: string = null;
@@ -38,10 +39,12 @@ export class FlowsListComponent extends DefaultTableComponent  implements OnInit
  loadTableData(){
    this.columns = [
      { header: 'Id', field: 'id', type: '' },
-     { header: 'Group', field: 'groupId', type: '' },
-     { header: 'table', field: 'dbTable', type: '' },
-     { header: 'FileName', field: 'file', type: '' },
+     { header: 'Description', field: 'description', type: '', width: 220, minWidth: 220 },
+     { header: 'Direction', field: 'direction', type: 'direction' },
+     { header: 'Group', field: 'groupId', type: '', width: 200, minWidth: 200  },
      { header: 'Enabled', field: 'enabled',  type: 'enabled' },
+     { header: 'Table', field: 'dbTable', type: '', width: 100, minWidth: 100  },
+     { header: 'Filename', field: 'file', type: '', width: 100, minWidth: 100  },
    ];
    this.subscription = this.flowService.flowChanged.subscribe(
      (flows: FlowStruct[]) => {
@@ -51,7 +54,7 @@ export class FlowsListComponent extends DefaultTableComponent  implements OnInit
    );
 
    //this.items = this.flowService.getFlows();
-   this.flowService.getFlows().pipe(tap({
+   this.flowService.getFlows(this.filters).pipe(tap({
        next: resData => {
          console.log('Dati ricevuti:', resData);
          this.isLoading=false;
@@ -92,5 +95,24 @@ export class FlowsListComponent extends DefaultTableComponent  implements OnInit
    this.isError=null;
    this.isLoading=false;
  }
+
+ applySpecificFilters(newFilters: any) {
+  this.filters = newFilters;
+  this.flowService.getFlows(this.filters).pipe(tap({
+    next: resData => {
+      console.log('Dati ricevuti:', resData);
+      this.isLoading=false;
+      this.isError=null;
+      flows => {this.items = flows}
+  },
+
+    error: err => {
+      console.log('Errore: ', err);
+      this.isError = 'Error on service!  '
+      this.isLoading= false;
+    }
+  })
+  ).subscribe();
+  }
 
 }

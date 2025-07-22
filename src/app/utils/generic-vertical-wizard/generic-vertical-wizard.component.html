@@ -1,0 +1,82 @@
+<div class="wizard-wrapper container p-4">
+    <!-- ✕ Close button -->
+     <button
+      type="button"
+      class="btn-close position-absolute top-0 end-0 m-3"
+      aria-label="Close"
+      (click)="close()">
+    </button>
+
+    <!-- Top Graphic Card (Intro) -->
+    <div class="intro-card p-4 rounded mb-4 d-flex align-items-center justify-content-between bg-light shadow-sm">
+      <div>
+        <h4 class="mb-2">Flow wizard</h4>
+        <p class="mb-0">Select an existing group or create a new one !</p>
+        <a href="#" class="mt-2 d-inline-block">Learn more</a>
+      </div>
+      <img src="../../../assets/img/flow_dark.png" alt="Illustration" style="height: 200px;">
+    </div>
+
+    
+  
+    <div class="wizard-lateral d-flex">
+      <!-- Sidebar Navigation -->
+      <nav class="wizard-sidebar">
+        <ul>
+          <li *ngFor="let step of steps; let i = index"
+              [class.active]="currentStep === i + 1"
+              [class.disabled]="i + 1 > maxStepReached"
+              (click)="onNavClick(i + 1)">
+            <span class="step-num">{{ i + 1 }}</span>
+            <span class="step-label">{{ step }}</span>
+          </li>
+        </ul>
+      </nav>
+  
+      <!-- Content Area -->
+      <div class="wizard-content flex-fill">
+        <ng-container [ngSwitch]="currentStep">
+  
+          <!-- Step 1: Group Selection -->
+          <div *ngSwitchCase="1">
+            <app-group-step
+              [group]="selectedGroup"
+              (selection)="onGroupSelect($event)">
+            </app-group-step>
+          </div>
+  
+          <!-- Step 2: Interface Selection -->
+          <div *ngSwitchCase="2">
+            <app-interface-step
+              [interface]="selectedInterface"
+              (selection)="onInterfaceSelect($event)">
+            </app-interface-step>
+          </div>
+  
+          <!-- Step 3: Source Selection -->
+          <div *ngSwitchCase="3">
+            <app-source-step
+              [source]="selectedSource"
+              (selection)="onSourceSelect($event)">
+            </app-source-step>
+          </div>
+  
+          <!-- Step 4: Model Selection -->
+          <div *ngSwitchCase="4">
+            <app-model-step
+              [model]="selectedModel"
+              (selection)="onModelSelect($event)">
+            </app-model-step>
+          </div>
+        </ng-container>
+  
+        <!-- Navigation Buttons -->
+        <div class="wizard-buttons d-flex justify-content-between mt-4">
+          <button class="btn btn-outline-secondary" (click)="prevStep()" [disabled]="currentStep === 1">Back</button>
+          <button class="btn btn-primary" (click)="nextStep()" [disabled]="!canProceed()">Next</button>
+          <button class="btn btn-success" *ngIf="currentStep === steps.length" (click)="finish()" [disabled]="!canProceed()">Finish</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

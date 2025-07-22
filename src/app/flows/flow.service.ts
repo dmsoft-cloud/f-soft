@@ -5,13 +5,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MainService } from '../utils/main.service';
 import { FlowStruct } from '../utils/structs/flowStruct';
 import { ConfigService } from '../utils/config.service';
+import { ErrorHandlerService } from '../utils/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FlowService extends MainService  {
 
-    flowChanged = new Subject<FlowStruct[]>();
+      flowChanged = new Subject<FlowStruct[]>();
       itemReload = new Subject<FlowStruct[]>();
       startedEditing = new Subject<{item: any, mode: string}>();
       manageItem = new Subject<{item: any, mode: string}>();
@@ -21,12 +22,13 @@ export class FlowService extends MainService  {
       // Observable che verrà sottoscritto dai componenti che devono ascoltare l'evento
       clearAfetrDeleteObservable$ = this.clearAfetrDeleteSubject.asObservable();
       resetAfetrUpdateObservable$ = this.resetAfetrUpdateSubject.asObservable();
+      
     
       private flows: FlowStruct[] = [
       ];
       
       
-      constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+      constructor(protected http: HttpClient,  protected override configService: ConfigService, private errorHandler: ErrorHandlerService ) {
         super(http, configService );
       }
       
@@ -43,9 +45,10 @@ export class FlowService extends MainService  {
       
       
       // Metodo per recuperare i dati 
-      public getFlows():  Observable<FlowStruct[]> {
+      public getFlows(filters : any):  Observable<FlowStruct[]> {
         const apiBaseUrl = this.getApiBaseUrl();
-        return this.http.get(`${apiBaseUrl}/flows`).pipe(
+        console.log(JSON.stringify(filters));
+        return this.http.post(`${apiBaseUrl}/flows/with-direction`, filters).pipe(
           map( responseData => {
             if (!Array.isArray(responseData)) {
               console.error("La risposta non è un array:", responseData);
@@ -61,6 +64,7 @@ export class FlowService extends MainService  {
           //error
           catchError(
             errorRes => {
+              this.errorHandler.handleError(errorRes, 'Failed to load flows');
               console.error("Error retrieving flows:", errorRes);
               return throwError(() => new Error(errorRes.error.error.message));
             }
@@ -74,6 +78,7 @@ export class FlowService extends MainService  {
           const url = `${apiBaseUrl}/flows/flow/${id}`;
           return this.http.get<FlowStruct>(url).pipe(
             catchError((errorRes) => {
+              this.errorHandler.handleError(errorRes, 'Failed to get item');
               console.error("Error retrieving flow:", errorRes);
               return throwError(() => new Error(errorRes.error.error.message));
             })
@@ -92,9 +97,10 @@ export class FlowService extends MainService  {
           // Utilizza l'operatore `switchMap` per passare alla chiamata `getFlows` dopo che l'aggiornamento è completato
           switchMap(response => {
             console.log(response)
-            return this.getFlows();
+            return this.getFlows(this.filters);
           }),
           catchError(error => {
+            this.errorHandler.handleError(error, 'Failed to add item');
             console.error('Errore nell\'aggiornare il flow:', error);
             return throwError(() => new Error(error));
           })
@@ -113,9 +119,10 @@ export class FlowService extends MainService  {
               this.flowChanged.next([...this.flows]);
               
               // Ritorna l'observable di `getFlows` per eseguire la chiamata successiva
-              return this.getFlows();
+              return this.getFlows(this.filters);
             }),
             catchError(error => {
+              this.errorHandler.handleError(error, 'Failed to update item');
               console.error('Errore nell\'aggiornare l\'flow:', error);
               return throwError(() => new Error(error));
             })
@@ -128,9 +135,10 @@ export class FlowService extends MainService  {
         this.http.delete(url).pipe(
           // Utilizza l'operatore `switchMap` per passare alla chiamata `getFlows` dopo che l'aggiornamento è completato
           switchMap(response => {
-            return this.getFlows();
+            return this.getFlows(this.filters);
           }),
           catchError(error => {
+            this.errorHandler.handleError(error, 'Failed to delete item');
             console.error('Errore nella cancellazione del flow:', error);
             return throwError(() => new Error(error));
           })
@@ -143,6 +151,7 @@ export class FlowService extends MainService  {
         const url = `${apiBaseUrl}/flows/flow/${id}`; 
         return this.http.get<FlowStruct>(url).pipe(
           catchError((errorRes) => {
+            this.errorHandler.handleError(errorRes, 'Failed to get item');
             console.error('Errore nel recuperare il flow:', errorRes);
             // Restituisce un errore generico se il messaggio specifico non è disponibile
             return throwError(() => new Error(errorRes.error?.message || 'Errore sconosciuto'));

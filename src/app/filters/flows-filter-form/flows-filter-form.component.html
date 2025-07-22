@@ -1,0 +1,57 @@
+<dms-default-table-filter  (resetClicked)="resetForm()"  (applyClicked)="emitFilters(filterForm.value)">
+
+    <div filter-data>
+        <form #filterForm="ngForm" (ngSubmit)="emitFilters(filterForm.value)">
+            <div class="row">
+            <div class="col-md-4 mb-2">
+                <label>Flow Code</label>
+                <input class="form-control mt-2 " [(ngModel)]="filters.id" name="id" />
+            </div>
+            <div class="col-md-4 mb-2">         
+                <dms-select-custom label="Model" 
+                    id="model"
+                    name="model"
+                    [(ngModel)]="model"
+                    [optionsObservable]="modelOptions$"
+                    [showEmptyOption]="true"
+                    emptyOptionLabel=""
+                    emptyOptionValue=""
+                    [displayMode]="'code-description'">
+                </dms-select-custom> 
+            </div>
+            <div class="col-md-4 mb-2">
+                <dms-select-custom label="Origin" 
+                    id="origin"
+                    name="origin"
+                    [(ngModel)]="origin"
+                    [optionsObservable]="originOptions$"
+                    [showEmptyOption]="true"
+                    emptyOptionLabel=""
+                    emptyOptionValue=""
+                    [displayMode]="'code-description'">
+                </dms-select-custom>
+
+            </div>
+            <!-- altri campi -->
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                        <label>Direction</label>
+                        <select class="form-select" [(ngModel)]="filters.direction" name="direction">
+                        <option value=""></option>
+                        <option *ngFor="let direction of ['I', 'O']" [value]="direction">{{ direction }}</option>
+                        </select>            
+                </div>
+                <div class="col-md-4 mb-2">
+                    
+                    <label>Enabled</label>
+                    <select class="form-select" [(ngModel)]="filters.enabled" name="enabled">
+                    <option value=""></option>
+                    <option *ngFor="let enabled of ['S', 'N']" [value]="enabled">{{ enabled }}</option>
+                    </select>
+                
+                </div>
+            </div>
+        </form>
+    </div>
+</dms-default-table-filter>

@@ -1,0 +1,47 @@
+<div class="dms-select-wrapper mb-3">
+  <label [for]="id" class="dms-select-label">{{ label }}</label>
+  <div 
+    class= "form-select mt-1" 
+    [class.disabled]="isDisabled" 
+    (click)="toggleDropdown($event)"
+    tabindex="0"
+  >
+        {{ 
+      value 
+       
+    }}
+    
+    
+  </div>
+
+  <div class="dms-dropdown" *ngIf="isOpen">
+    <input
+      type="text"
+      class="dms-filter-input"
+      placeholder="Filtra…"
+      [(ngModel)]="filterText"
+      (input)="onFilterChange(filterText)"
+      [disabled]="isDisabled"
+    />
+
+    <div class="dms-options-list">
+      <div 
+        class="dms-option empty"
+        *ngIf="showEmptyOption"
+        (click)="selectOption(null)"
+      >
+        {{ emptyOptionLabel }}
+      </div>
+      <div 
+        class="dms-option"
+        *ngFor="let opt of filteredOptions"
+        (click)="selectOption(opt)"
+      >
+        {{ getOptionLabel(opt) }}
+      </div>
+      <div class="dms-no-results" *ngIf="filteredOptions.length === 0">
+        Nessun risultato
+      </div>
+    </div>
+  </div>
+</div>

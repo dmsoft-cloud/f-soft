@@ -47,6 +47,8 @@ button:disabled, button.disabled {
 
 /*************************************/
 
+
+
 .dms-toggle {
 
     background-color: var(--dms-toggle-switch-background);
@@ -72,6 +74,7 @@ button:disabled, button.disabled {
     }
   }
 
+
   .toggle-switch{
     height: 100%;
     border: var(--dms-toggle-switch-border); 
@@ -83,14 +86,40 @@ button:disabled, button.disabled {
         font-weight: var(--dms-toggle-switch-font-weight);
         border-radius: var(--bs-border-radius);
         cursor: pointer;
+      
+        &.disabled {
+          background-color: var(--dms-toggle-switch-background-disabled); // colore per lo stato disabilitato
+          pointer-events: none; // evita click
+          opacity: 0.6;
+        }
+      
 
-        .lab{
-            height: 100%;
-             color: #0d0d0dff;
-             cursor: pointer;
-         }
+    }
 
+    .rg-right{
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 0.375rem;
+      border-bottom-right-radius: 0.375rem;
+      border-width: 1px;
+      border-left-width: 0px;
+      border-color: var(--dms-toggle-switch-border);
+      border-style: solid;
+    }
+
+    .rg-left{
+      border-top-left-radius: 0.375rem;
+      border-bottom-left-radius: 0.375rem;
+      border-top-right-radius: 0rem;
+      border-bottom-right-radius: 0rem;
+      border-width: 1px;
+      border-right-width: 0px;
+      border-color: var(--dms-toggle-switch-border);
+      border-style: solid;
     }
   }
 
 }
+
+
+

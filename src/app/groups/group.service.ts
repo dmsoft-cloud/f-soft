@@ -4,6 +4,7 @@ import { catchError, map, Observable, Subject, switchMap, throwError } from 'rxj
 import { GroupStruct } from '../utils/structs/groupStruct';
 import { MainService } from '../utils/main.service';
 import { ConfigService } from '../utils/config.service';
+import { ErrorHandlerService } from '../utils/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class GroupService extends MainService {
   ];
 
 
-  constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+  constructor(protected http: HttpClient,  protected override configService: ConfigService, private errorHandler: ErrorHandlerService ) {
           super(http, configService );
         }
 
@@ -62,6 +63,7 @@ export class GroupService extends MainService {
       //error
       catchError(
         errorRes => {
+          this.errorHandler.handleError(errorRes, 'Failed to load groups');
           console.error("Error retrieving groups:", errorRes);
           return throwError(() => new Error(errorRes.error.error.message));
         }
@@ -76,6 +78,7 @@ export class GroupService extends MainService {
     const url = `${apiBaseUrl}/groups/group/${id}`;
           return this.http.get<GroupStruct>(url).pipe(
             catchError((errorRes) => {
+              this.errorHandler.handleError(errorRes, 'Failed to get item');
               console.error("Error retrieving group:", errorRes);
               return throwError(() => new Error(errorRes.error.error.message));
             })
@@ -93,6 +96,7 @@ export class GroupService extends MainService {
         return this.getGroups();
       }),
       catchError(error => {
+        this.errorHandler.handleError(error, 'Failed to add item');
         console.error('Errore nell\'aggiornare l\'origin:', error);
         return throwError(() => new Error(error));
       })
@@ -111,6 +115,7 @@ export class GroupService extends MainService {
           return this.getGroups();
         }),
         catchError(error => {
+          this.errorHandler.handleError(error, 'Failed to update item');
           console.error('Errore nell\'aggiornare il gruppo:', error);
           return throwError(() => new Error(error));
         })
@@ -126,6 +131,7 @@ export class GroupService extends MainService {
         return this.getGroups();
       }),
       catchError(error => {
+        this.errorHandler.handleError(error, 'Failed to delete item');
         console.error('Errore nella cancellazione del gruppo:', error);
         return throwError(() => new Error(error));
       })
@@ -139,6 +145,7 @@ export class GroupService extends MainService {
     const url = `${apiBaseUrl}/groups/group/${id}`;
     return this.http.get<GroupStruct>(url).pipe(
       catchError((errorRes) => {
+        this.errorHandler.handleError(errorRes, 'Failed to get item');
         console.error('Errore nel recuperare il gruppo:', errorRes);
         // Restituisce un errore generico se il messaggio specifico non è disponibile
         return throwError(() => new Error(errorRes.error?.message || 'Errore sconosciuto'));

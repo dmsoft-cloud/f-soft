@@ -39,7 +39,7 @@ export class OriginsListComponent extends DefaultTableComponent  implements OnIn
     this.columns = [
       { header: 'Id', field: 'id', type: '' },
       { header: 'Description', field: 'description', type: '' },
-      { header: 'DB type', field: 'dbType', type: '' },
+      { header: 'DB Type', field: 'dbType', type: '' },
       { header: 'Host', field: 'ip', type: '' },
       { header: 'Enabled', field: 'enabled', type: 'enabled' }
     ];

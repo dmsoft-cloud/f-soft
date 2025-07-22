@@ -6,14 +6,14 @@
   }
 
  .navbar .active-link .nav-link {
-    color: rgb(13, 110, 253)!important;
+    color: var(--dms-navlink-actvelink-color)!important;
     //font-weight: bold; /* Rende il testo in grassetto */
-    border-bottom: 2px solid rgb(13, 110, 253); /* Aggiunge una linea sotto il link */
+    border-bottom: 2px solid var(--dms-navlink-actvelink-color); /* Aggiunge una linea sotto il link */
   }
 
   .navbar-nav .nav-item:hover {
-    background-color: #0d0d0d1a; /* Cambia il colore di sfondo al passaggio del mouse */
-    color: #0d0d0db3; /* Cambia il colore del testo al passaggio del mouse */
+    background-color: var(--dms-navitem-bg-color-over); /* Cambia il colore di sfondo al passaggio del mouse */
+    color: var(--dms-navitem-color-over); /* Cambia il colore del testo al passaggio del mouse */
 }
 
 
@@ -22,13 +22,13 @@
 
 /* Effetto al passaggio del mouse */
 .btn-lateral:hover {
-  background-color: #0d0d0d1a;
-  color: #0d0d0db3;
+  background-color: var(--dms-navitem-bg-color-over);
+  color: var(--dms-navitem-color-over);
 }
 
 /* Effetto al passaggio del mouse */
 .btn-circle:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--dms-header-btn-circle-bg-color-over);
 
 }
 
@@ -40,8 +40,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid var(--dms-btn-circle-border-color);
+  background-color: var(--dms-btn-circle-bg-color);
   transition: background-color 0.3s ease;
 }
 

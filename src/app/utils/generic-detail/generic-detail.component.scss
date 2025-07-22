@@ -20,7 +20,7 @@ ngb-modal-windows.modal{
 }
 
 h4.modal-title{
-  color: rgb(33, 3, 151);
+  color: var(--dms-modal-title);
   font-family: sans-serif;
   font-size: 18px;
   font-weight: 700;
@@ -32,4 +32,33 @@ h4.modal-title{
   }
 }
 
+
+/**************************/
+/*   bottoni wizard e new */
+/**************************/
+
+@media (min-width: 1200px) {
+  .new-button-offset-left {
+    margin-left: 1.5%;
+  }
+
+  .new-button-offset-right {
+    margin-right: 1.5%;
+  }
+
+  .col-md-6-new-button{
+    flex: 0 0 calc(50.000% - 1.5%);
+    max-width: calc(50.000% - 1.5%);
+  }
+
+  .col-md-8-new-button{
+    flex: 0 0 calc(50.000% - 1.5%);
+    max-width: calc(50.000% - 1.5%);
+    
+  }
+
+}
+
+
+/*   versione dark  */
 

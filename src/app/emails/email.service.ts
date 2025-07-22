@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../utils/config.service';
 import { catchError, map, Observable, Subject, switchMap, throwError } from 'rxjs';
 import { EmailStruct } from '../utils/structs/emailStruct';
+import { ErrorHandlerService } from '../utils/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class EmailService extends MainService {
   private emails: EmailStruct[] = [
   ];
 
-  constructor(protected http: HttpClient,  protected override configService: ConfigService ) { super(http, configService );}
+  constructor(protected http: HttpClient,  protected override configService: ConfigService, private errorHandler: ErrorHandlerService ) { super(http, configService );}
 
         //metodo per ripulire il form semplificato dopo una cancellazione
         public emitClearAfetrDelete(){
@@ -68,6 +69,7 @@ export class EmailService extends MainService {
             //error
             catchError(
               errorRes => {
+                this.errorHandler.handleError(errorRes, 'Failed to load emails');
                 console.error("Error retrieving emails:", errorRes);
                 return throwError(() => new Error(errorRes.error.error.message));
               }
@@ -81,6 +83,7 @@ export class EmailService extends MainService {
             const url = `${apiBaseUrl}/emails/email/${id}`;
             return this.http.get<EmailStruct>(url).pipe(
               catchError((errorRes) => {
+                this.errorHandler.handleError(errorRes, 'Failed to get item');
                 console.error("Error retrieving email:", errorRes);
                 return throwError(() => new Error(errorRes.error.error.message));
               })
@@ -102,6 +105,7 @@ export class EmailService extends MainService {
               return this.getEmails();
             }),
             catchError(error => {
+              this.errorHandler.handleError(error, 'Failed to add item');
               console.error('Errore nell\'aggiornare il email:', error);
               return throwError(() => new Error(error));
             })
@@ -123,6 +127,7 @@ export class EmailService extends MainService {
                 return this.getEmails();
               }),
               catchError(error => {
+                this.errorHandler.handleError(error, 'Failed to update item');
                 console.error('Errore nell\'aggiornare l\'email:', error);
                 return throwError(() => new Error(error));
               })
@@ -138,6 +143,7 @@ export class EmailService extends MainService {
               return this.getEmails();
             }),
             catchError(error => {
+              this.errorHandler.handleError(error, 'Failed to delete item');
               console.error('Errore nella cancellazione del email:', error);
               return throwError(() => new Error(error));
             })
@@ -150,6 +156,7 @@ export class EmailService extends MainService {
           const url = `${apiBaseUrl}/emails/email/${id}`; 
           return this.http.get<EmailStruct>(url).pipe(
             catchError((errorRes) => {
+              this.errorHandler.handleError(errorRes, 'Failed to get item');
               console.error('Errore nel recuperare il email:', errorRes);
               // Restituisce un errore generico se il messaggio specifico non è disponibile
               return throwError(() => new Error(errorRes.error?.message || 'Errore sconosciuto'));

@@ -8,6 +8,7 @@ import { FlowService } from '../flow.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SelectOption } from '../../utils/select-custom/select-option.model';
+import { FlowWizardComponent } from '../flow-wizard/flow-wizard.component';
 
 @Component({
     selector: 'dms-flows-detail',
@@ -168,6 +169,14 @@ export class FlowsDetailComponent extends GenericDetailComponent implements OnIn
   
   onManageItem(event : {item: any, mode: string}): void {
     this.flowService.manageItem.next(event);
+  }
+
+  openFlowWizard() {
+    this.modalService.open(FlowWizardComponent, {
+      size: 'xl',
+      backdrop: 'static',
+      keyboard: false
+    });
   }
 
 }

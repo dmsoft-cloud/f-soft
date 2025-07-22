@@ -1,4 +1,4 @@
-<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)"  [isQuickEditEnabled]="isQuickEditEnabled" >
+<dms-generic-detail [buttonDescription]="buttonDescriptionD"  (quickEdit)="toggleQuickEdit($event)" (itemInsert)="onManageItem($event)"  [isQuickEditEnabled]="isQuickEditEnabled" (closeModalEvent)="onCloseModal()" >
 
     <!--  sezione di modifiche rapide                                               -->    
     <div variable-section-1 class="container mt-3">
@@ -36,8 +36,8 @@
         </div>
     </div>
 
-    <div data-section>
-        <dms-email-edit [componentDescription]="buttonDescriptionD"  (closeModal)="onCloseModal()" ></dms-email-edit>
+    <div data-section *ngIf="showEmailEdit">
+        <dms-email-edit [componentDescription]="buttonDescriptionD" [editMode]="'I'" (closeModal)="onCloseModal()" ></dms-email-edit>
     </div>
 
 

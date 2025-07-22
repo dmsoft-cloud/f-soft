@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { InterfaceStruct } from '../utils/structs/interfaceStruct';
 import { MainService } from '../utils/main.service';
 import { ConfigService } from '../utils/config.service';
+import { ErrorHandlerService } from '../utils/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class InterfaceService extends MainService {
   private interfaces: InterfaceStruct[] = [
   ];
 
-  constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+  constructor(protected http: HttpClient,  protected override configService: ConfigService, private errorHandler: ErrorHandlerService ) {
           super(http, configService );
   }
 
@@ -57,6 +58,7 @@ export class InterfaceService extends MainService {
       //error
       catchError(
         errorRes => {
+          this.errorHandler.handleError(errorRes, 'Failed to load interfaces');
           console.error("Error retrieving interfaces:", errorRes);
           return throwError(() => new Error(errorRes.error.error.message));
         }
@@ -69,6 +71,7 @@ export class InterfaceService extends MainService {
     const url = `${apiBaseUrl}/interfaces/interface/${id}`;
     return this.http.get<InterfaceStruct>(url).pipe(
       catchError((errorRes) => {
+        this.errorHandler.handleError(errorRes, 'Failed to get item');
         console.error("Error retrieving interface:", errorRes);
         return throwError(() => new Error(errorRes.error.error.message));
       })
@@ -85,6 +88,7 @@ export class InterfaceService extends MainService {
           return this.getInterfaces();
         }),
         catchError(error => {
+          this.errorHandler.handleError(error, 'Failed to add item');
           console.error('Errore nell\'aggiornare l\'interfaccia:', error);
           return throwError(() => new Error(error));
         })
@@ -107,6 +111,7 @@ export class InterfaceService extends MainService {
           return this.getInterfaces();
         }),
         catchError(error => {
+          this.errorHandler.handleError(error, 'Failed to update item');
           console.error('Errore nell\'aggiornare l\'interfaccia:', error);
           return throwError(() => new Error(error));
         })
@@ -122,6 +127,7 @@ export class InterfaceService extends MainService {
           return this.getInterfaces();
         }),
         catchError(error => {
+          this.errorHandler.handleError(error, 'Failed to delete item');
           console.error('Errore nella cancellazione dell\'interfaccia:', error);
           return throwError(() => new Error(error));
         })
@@ -134,6 +140,7 @@ export class InterfaceService extends MainService {
      const url = `${apiBaseUrl}/interfaces/interface/${id}`;
      return this.http.get<InterfaceStruct>(url).pipe(
        catchError((errorRes) => {
+        this.errorHandler.handleError(errorRes, 'Failed to get item');
          console.error('Errore nel recuperare l\'interfaccia:', errorRes);
          return throwError(() => new Error(errorRes.error?.message || 'Errore sconosciuto'));
        })

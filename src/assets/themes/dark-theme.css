@@ -1,0 +1,207 @@
+:root {
+  /* SFONDO generale */
+  --dms-principal-bg-colour: #212830;
+
+  /* navbar */
+  --dms-navbar-bg-color: #161b22;
+  --dms-navbar-active-text: #58a6ff;
+  --dms-navlink-color: rgba(255, 255, 255, 0.75);
+  --dms-navlink-actvelink-color: #58a6ff;
+  --dms-navitem-color-over: #f0f6fc;
+  --dms-navitem-bg-color-over: rgba(255, 255, 255, 0.08);
+  --dms-btn-circle-bg-color: #fff;
+  --dms-btn-circle-border-color:#ddd;
+
+
+  /* COLORI BASE */
+  --dms-btn-execute-hover: #238636; /* greenish like GitHub */
+  --dms-btn-reset-hover: #21262d;
+  --dms-modal-bg: #161b22;
+
+  --dms-label-font-size: 13px;
+  --dms-label-font-weight: 500;
+
+  --dms-error-toast-bg: #3d1e1e;
+  --dms-error-toast-text: #ff7b72;
+  --dms-error-toast-border: 1px solid #8c2f2f;
+  --dms-error-toast-border-radius: 10px;
+
+  --dms-btn-border-grey: #30363d;
+
+  --dms-toggle-switch-background: rgb(33, 37, 41);
+  --dms-toggle-switch-background-disabled: rgb(52, 58, 64);
+  --dms-toggle-switch-border: rgb(73, 80, 87);
+  --dms-toggle-switch-border-radius: 6px;
+
+  --dms-modal-title: #fff;
+
+  /*wizard*/
+  --dms-bg-wizard-graphic-card: rgb(33, 37, 41);
+  --dms-bg-wizard-steps: rgb(33, 37, 41);
+  --dms-bg-wizard-body: rgb(33, 37, 41);
+
+  /* componente select filtered new */
+  --dms-bg-select-filtered: rgb(33, 37, 41);
+  --dms-color-select-filtered: #fff;
+
+
+}
+
+
+/* toogle swicth    */
+.toggle-switch .radiogroup .lab{
+  height: 100%;
+   color: #fff;
+   cursor: pointer;
+}
+
+
+.right-custom-section {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  padding: 16px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.main-table-custom {
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  padding: 16px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+/* Responsive margins remain unchanged */
+@media (min-width: 1200px), (min-width: 768px) {
+  .mr-xl-custom {
+    margin-right: 0px;
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+
+  .ml-xl-custom {
+    margin-left: 0px;
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+
+  .custom-col-left {
+    flex: 0 0 63%;
+    max-width: 63%;
+  }
+
+  .custom-offset-right {
+    margin-left: 3%;
+  }
+
+  .main-canvas-costum-pt {
+    margin-top: 20px;
+  }
+}
+
+
+
+
+/***************************************************************************/
+/* regole NAVBAR */
+/***************************************************************************/
+/* Header principale */
+.header-custom{
+  background-color: var(--dms-navbar-bg-color) !important;
+  border-bottom: 1px solid #30363d !important;
+  box-shadow: 0 1px 0 rgba(22, 27, 34, 0.8) !important;
+}
+
+.navbar {
+  background-color: #161b22 !important;
+}
+
+/* Link della navbar */
+.navbar .nav-link {
+  color: #c9d1d9 !important;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* Link attivo */
+.navbar .active-link .nav-link {
+  color: #58a6ff !important;
+  border-bottom: 2px solid #58a6ff !important;
+  background-color: transparent !important;
+}
+
+/* Hover sui link */
+.navbar .nav-item:hover .nav-link {
+  background-color: rgba(177, 186, 196, 0.12) !important;
+  color: #f0f6fc !important;
+}
+
+/* Pulsanti circolari (icone) */
+.btn-circle {
+  border-color: #30363d !important;
+  background-color: #21262d !important;
+  color: #c9d1d9 !important;
+}
+
+.btn-circle:hover {
+  background-color: #30363d !important;
+  border-color: #8b949e !important;
+}
+
+/* Logo e brand */
+.navbar-brand img {
+  filter: brightness(0) invert(1);
+}
+
+/* Offcanvas laterale */
+.custom-offcanvas {
+  background-color: #161b22 !important;
+  border-color: #30363d !important;
+}
+
+.custom-offcanvas .list-group-item {
+  background-color: transparent;
+  color: #c9d1d9;
+}
+
+.custom-offcanvas .list-group-item:hover {
+  background-color: rgba(177, 186, 196, 0.12) !important;
+}
+
+/* Bordi e separatori */
+.custom-offcanvas .offcanvas-header {
+  border-bottom-color: #30363d !important;
+}
+
+/* Icone */
+.bi {
+  color: #c9d1d9;
+}
+
+/* Contenitore principale dell'header */
+.container-fluid:has(> nav.navbar) {
+  background-color: #161b22 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+
+/***************************************************************************/
+/* regole componente general-detail*/
+/***************************************************************************/
+
+.bg-custom-detail{
+  /*in alternativa #212830*/
+  background-color: rgb(33, 37, 41);
+  
+}
+
+
+  

@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, EventEmitter, Output, ModuleWithComponentFactories, ViewChild, ElementRef, TemplateRef} from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output, ModuleWithComponentFactories, ViewChild, ElementRef, TemplateRef, ContentChild} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EntityUtils, YesNo} from '../../common/baseEntity'
+import { TableTypeConfig, DEFAULT_TABLE_TYPES, IconResolver } from '../table-types';
 
 
 /**********************************************************************************************
@@ -20,6 +21,7 @@ interface TableColumn {
   type?: string;
   width?: number;
   minWidth?: number; 
+  iconResolver?: IconResolver; // Permette di sovrascrivere il resolver per questa colonna
 }
 
 @Component({
@@ -33,6 +35,7 @@ export class DefaultTableComponent implements OnInit {
   /************************************************************************/
   /*                   variabili generali per impaginare                  */
   /************************************************************************/
+  @Input() customTableTypes: TableTypeConfig = {}; //proprietà per i tipi custom
   @Input() columns: TableColumn[] = [];
   @Input() items: any[] = [];
   @Input() filteredItems: any[] = [];
@@ -49,11 +52,23 @@ export class DefaultTableComponent implements OnInit {
   @Input() buttonConfig? = { show: true, edit: true, delete: true, copy: true }; // Configurazione pulsanti
   @Input() customButtonsTemplate?: TemplateRef<any>; // Template per pulsanti personalizzati
 
+  
+  /************************************************************************/
+  /*                   filtri flag                                        */
+  /************************************************************************/
+
+  isFilterOpen: boolean = false;
+  activeFilters: { [key: string]: any } = {};
+  appliedFilterCount: number = 0;
+  currentModule: string = 'flows'; // o 'origin', 'interface', ecc.
+
 
   /************************************************************************/
   /*                   eventi gestiti                                     */
   /************************************************************************/
   @Output() reloadTableEvent = new EventEmitter<void>(); //Definizione evento per ricaricare la tabella dati
+  @Output() closeModalEvent = new EventEmitter<void>(); //evento chiusura modale
+  
   //@Output() rowSelected = new EventEmitter<{index: number, mode: string}>(); // Definizione dell'evento personalizzato per indicare l'elemento selezionato al padre che lo importa
   @Output() rowSelected = new EventEmitter<{item: any, mode: string}>();
   @Output() rowManaged = new EventEmitter<{item: any, mode: string}>();
@@ -69,6 +84,9 @@ export class DefaultTableComponent implements OnInit {
   /************************************************************************/
   @ViewChild('content') modalContent!: ElementRef;
   private modalRef: NgbModalRef | null = null; //componente per gestione modale
+
+
+
   //modo con cui apriamo la modale
   @Input() modalMode: string = '';
 
@@ -76,10 +94,6 @@ export class DefaultTableComponent implements OnInit {
   filterText: string = '';
 
   @Input() componentDescription: string = "Default Description";
-
-
-  //serve ad aprire il filtro
-  isFilterOpen: boolean = false;
 
   //indica di evidenziare la riga
   highlightedRows: boolean[] = [];
@@ -302,6 +316,13 @@ export class DefaultTableComponent implements OnInit {
     }
   }
 
+  simpleCloseModal(modal: any): void{
+    modal.dismiss('Cross click');
+    this.closeModalEvent.emit();
+  }
+
+
+
   //usato per determinare il numero di bottoni attivi e dimansionarne lo spazio
   getActiveButtonsCount(): number {
     let count = 0;
@@ -315,7 +336,55 @@ export class DefaultTableComponent implements OnInit {
     return count;
   }
 
+  //usato per ottenere le icone delle colonne
+  getIconConfig(column: TableColumn, value: any) {
+    // Se la colonna ha un resolver specifico, usalo
+    if (column.iconResolver) {
+      return column.iconResolver(value);
+    }
+    
+    // Altrimenti usa il resolver dal config
+    return EntityUtils.resolveTableIcon(column.type, value, this.customTableTypes);
+  }
+
+
+    /************************************************************************/
+    /*                   filtri metodi                                      */
+    /************************************************************************/
+
+  toggleFilter() {
+    this.isFilterOpen = !this.isFilterOpen;
+  }
   
+  onApplyFilters(filters: any) {
+    this.activeFilters = filters || {};
+    this.appliedFilterCount = Object.values(this.activeFilters).filter(v => v !== null && v !== '').length;
+    this.isFilterOpen = false;
+    this.applyFilters();
+  }
+  
+  onResetFilters() {
+    this.activeFilters = {};
+    this.appliedFilterCount = 0;
+    this.applyFilters();
+  }
+  
+  applyFilters() {
+    this.filteredItems = this.items.filter(item => {
+      return Object.keys(this.activeFilters).every(key => {
+        const value = this.activeFilters[key];
+        return !value || item[key]?.toString().toLowerCase().includes(value.toLowerCase());
+      });
+    });
+  }
+
+    /************************************************************************/
+    /*                   filtri per pilotare css                            */
+    /************************************************************************/
+
+  isDarkTheme(): boolean {
+    return document.documentElement.getAttribute('data-bs-theme') === 'dark';
+  }
 
 
 }

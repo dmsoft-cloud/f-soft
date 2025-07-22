@@ -24,7 +24,7 @@ export class GroupEditComponent extends GenericEditComponent implements OnInit, 
   private navigationSubscription: Subscription;  //per la navigazione e forzare la init
 
 
-  constructor( private groupService: GroupService, private router: Router) {super()}
+  constructor( protected  groupService: GroupService, protected  router: Router) {super()}
 
   get isEditEnabled(): boolean {
     return (this.editMode === 'E' || this.editMode === 'C' || this.editMode === 'I');
@@ -108,7 +108,7 @@ export class GroupEditComponent extends GenericEditComponent implements OnInit, 
     }
 
   submitForm(form: NgForm) {
-    if (this.editMode === 'E') {
+    if (this.editMode === 'E' || this.editMode === 'D') {
       form.value.id = this.idItem;  // Assegna il valore manualmente
     }
 

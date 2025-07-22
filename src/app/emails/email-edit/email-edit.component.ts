@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,  OnChanges, SimpleChanges } from '@angular/core';
 import { filter, map, Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { EditorComponent } from '@tinymce/tinymce-angular';
 
 
 import { NavigationEnd, Router } from '@angular/router';
@@ -20,10 +21,12 @@ export class EmailEditComponent extends GenericEditComponent implements OnInit, 
   @Output() closeModal = new EventEmitter();
   @Input() componentDescription: string = "";
   @ViewChild('manageForm', { static: false }) manageForm: NgForm;
-
+  @ViewChild(EditorComponent) tinyMceEditor?: EditorComponent;
+  
   activeTab: string = 'basicData';  //serve per vedere quale tab è attivo tra quelli presenti
-
-  editMode : string = "";
+  
+  @Input() item: any ={};
+  @Input() editMode : string = "";
   idItem : string = "";
   subscriptionManage: Subscription; 
   private navigationSubscription: Subscription;  //per la navigazione e forzare la init
@@ -32,6 +35,8 @@ export class EmailEditComponent extends GenericEditComponent implements OnInit, 
   ccRecipients: { emailId: string; emailAddress: string; type: string }[] = [];
   toInput: string = "";
   ccInput: string = "";
+  public bodyHtml: string = '';
+  tinyMceEnabled: boolean = false; 
 
   constructor( private emailService: EmailService, private router: Router, private cd: ChangeDetectorRef, 
     private fb: FormBuilder ) {super()}
@@ -196,6 +201,7 @@ submitForm(form: NgForm) {
 
       );
 
+      this.emailService.manageItem.next({item: this.item, mode: this.editMode});
     }
 
 
@@ -234,6 +240,27 @@ submitForm(form: NgForm) {
 
     removeCcRecipient(recipient: { emailId: string; emailAddress: string; type: string }) {
       this.ccRecipients = this.ccRecipients.filter(r => r.emailAddress !== recipient.emailAddress);
+    }
+
+
+
+
+/****************************************
+* Metodi di gestione editor
+*  
+******************************************/
+    getEditorConfig() {
+      const isReadOnly = this.editMode === 'S';
+    
+      return {
+        readonly: isReadOnly,
+        menubar: isReadOnly ? false : 'file edit view insert format tools table help',
+        toolbar: isReadOnly ? false : 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+        branding: false,  // Nasconde "Powered by TinyMCE"
+        statusbar: false, // Nasconde il word count e altri elementi in basso
+        height: 400
+      };
     }
 
 }

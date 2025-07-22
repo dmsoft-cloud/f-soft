@@ -9,6 +9,7 @@ import { ConfigService } from './config.service';
 })
 export class MainService {
 
+  filters: any;
   
   constructor(protected http: HttpClient, protected configService: ConfigService) {}
 
@@ -34,6 +35,10 @@ export class MainService {
   // Metodo di esempio per ottenere la configurazione di Google API
   getGoogleApiConfig(): { baseUrl: string, apiKey: string } | undefined {
     return this.configService.getGoogleApiConfig();
+  }
+
+  setFilters(filters : any){
+    this.filters = filters;
   }
 
 }

@@ -1,11 +1,15 @@
 <div>
-    <div class="row justify-content-end pt-2">
-        <div class="col-md-6 d-flex align-items-end justify-content-end pe-0">
-            <button type="button" class="btn btn-secondary custom-secondary-btn mb-3 w-100" (click)="insertItem()" > New {{ buttonDescription }} </button>
+    <div class="row justify-content-end pt-2 pt-sm-3">
+        <div class="col-md-6-new-button col-xs-6 new-button-offset-right  d-flex pe-0 ps-sm-0" *ngIf="wizardActive">
+            <button type="button" class="btn btn-secondary custom-neutral-btn mb-3 w-100" (click)="openWizardModal()" > Quick Wizard </button>
         </div>
+        
+        <div class="col-md-6-new-button col-xs-6 new-button-offset-left d-flex align-items-end justify-content-end pe-0 ps-sm-0">
+            <button type="button" class="btn btn-secondary custom-neutral-btn  mb-3 w-100" (click)="insertItem()" > New {{ buttonDescription }} </button>
+        </div>        
     </div>
 
-    <div class="row mt-1 ms-3 bg-white p-6 rounded"> 
+    <div class="row mt-1 bg-custom-detail p-6 rounded"> 
         <div class="row mt-3">
             <div class="col text-center">
                 <h5>{{ buttonDescription }} Detail</h5>
@@ -24,7 +28,7 @@
         <hr> <!-- Riga a dividere -->
 
 
-        <ng-content select="[variable-section-1]"  ></ng-content> <!-- Qui verrà inserito il contenuto del componente figlio -->
+        <ng-content  select="[variable-section-1]"  ></ng-content> <!-- Qui verrà inserito il contenuto del componente figlio -->
         <!-- <ng-content *ngIf="!isQuickEditEnabled" select="[non-quick-edit]"></ng-content>  -->
 
     </div>
@@ -42,7 +46,7 @@
                            <div class="row">
                                <div class=" d-inline-flex justify-content-end">
                                    <div></div> <!-- Questo div vuoto serve per spingere il pulsante di chiusura a destra -->
-                                   <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                                   <button type="button" class="btn-close" aria-label="Close" (click)="simpleCloseModal(modal)"></button>
                                </div>
                            </div>
                        </div>

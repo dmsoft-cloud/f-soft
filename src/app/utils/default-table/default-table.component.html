@@ -1,10 +1,10 @@
 <div>
     <!-- Ricerca -->
-    <div class="row justify-content-end pt-2">
-      <div class="col-md-4 d-flex align-items-end justify-content-end pe-0">
+    <div class="row justify-content-end pt-3">
+      <div class="col-md-4 d-flex align-items-end justify-content-end pe-0 ps-0 ">
         <div class="input-group d-flex justify-content-end mb-3 ">
-          <span class="input-group-text bg-white">
-            <i class="bi bi-search bg-white"></i>
+          <span class="input-group-text bg-search-theme">
+            <i class="bi bi-search bg-search-theme"></i>
           </span>
           <input type="text" class="basic-filter form-control" placeholder="Search..." aria-label="Cerca" aria-describedby="button-addon2" [ngModel]="filterText" (input)="filterText = $event.target.value; applyFilter()">
         </div>
@@ -12,9 +12,9 @@
     </div>
   
     <!-- Tabella generica -->
-    <div class="row mt-1 bg-white p-6 rounded">
+    <div class="row mt-1 bg-table-custom p-6 rounded">
       <div class="col px-0">
-        <div class="d-flex justify-content-between align-items-center mb-2" *ngIf="isFilterSectionVisible">
+        <div class="d-flex justify-content-between align-items-center mb-2 mt-2" *ngIf="isFilterSectionVisible">
           <div class="col-md-2"></div> <!-- Spazio vuoto per centrare la numerazione di pagine -->
           <div>
 
@@ -23,23 +23,33 @@
           </div> <!-- Spazio vuoto per centrare i bottoni -->
           <div class="d-inline-flex">
             <!-- Botoni di azione -->
-            <button class="btn btn-outline-light text-custom px-1 py-2" (click)="openFilterModal()">
-              <span> <i class="bi bi-funnel bg-white"></i></span>
-              Filter
+            <button class="btn px-2 py-2 position-relative" 
+              [ngClass]="{
+                'btn-outline-primary': appliedFilterCount > 0,
+                'btn-outline-theme-dark': isDarkTheme() && appliedFilterCount === 0,
+                'btn-outline-light text-custom': !isDarkTheme() && appliedFilterCount === 0
+              }"
+              (click)="toggleFilter()">
+              <i class="bi bi-funnel bg-table-button"></i> Filter
+              <span *ngIf="appliedFilterCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ appliedFilterCount }}
+              </span>
             </button>
-            <button class="btn btn-outline-light text-custom px-1 py-2" (click)="refreshTable()">
-              <span> <i class="bi bi-arrow-clockwise bg-white"></i></span>
+            <button class="btn px-1 py-2"  [ngClass]="isDarkTheme() ? 'btn-outline-theme-dark' : 'btn-outline-light text-custom'"  (click)="refreshTable()">
+              <span> <i class="bi bi-arrow-clockwise bg-table-button"></i></span>
               Refresh
             </button>
-            <button class="btn btn-outline-light text-custom ps-1 pe-3 py-2" (click)="downloadCSV()">
-              <span> <i class="bi bi-download bg-white"></i></span>
+            <button class="btn ps-1 pe-3 py-2"   [ngClass]="isDarkTheme() ? 'btn-outline-theme-dark' : 'btn-outline-light text-custom'"  (click)="downloadCSV()">
+              <span> <i class="bi bi-download bg-table-button"></i></span>
               Download
             </button>
           </div>
         </div>
 
 
-        <app-default-table-filter *ngIf="isFilterOpen"></app-default-table-filter>
+        <div [class.collapse]="true" [class.show]="isFilterOpen">
+          <ng-content select="[filter-section]"></ng-content>
+        </div>
 
 
 
@@ -52,7 +62,7 @@
                 <th *ngFor="let column of columns" resizable  scope="col" class="position-relative" 
                       [style.minWidth.px]="column.minWidth || 'auto'"
                       [style.width.px]="column.width || 'auto'" (click)="sort(column.field)">
-                  <ng-container *ngIf="column.type === 'enabled'; else defaultHeader">
+                  <ng-container *ngIf="column.type; else defaultHeader">
                     <div class="d-flex justify-content-center">
                       {{ column.header }}
                     </div>
@@ -63,9 +73,11 @@
                 </th>
 
                             <!-- Colonna fissa per i bottoni -->
+                              
                 <th class="fixed-buttons-header" [style.width.px]="getActiveButtonsCount() * 40" *ngIf="getActiveButtonsCount() > 0">
-                  Actions
+                  
                 </th>
+              
 
               </tr>
             </thead>
@@ -79,22 +91,41 @@
                   >
                 <!--  <td *ngFor="let column of columns">{{ item[column.field] }}</td>  -->
                 <td *ngFor="let column of columns" [style.minWidth.px]="column.minWidth || 'auto'" [style.width.px]="column.width || 'auto'" class="scrollable-column">
-                  <ng-container *ngIf="column.type === 'enabled'; else defaultCell">
+                  <ng-container *ngIf="column.type; else defaultCell">
                     <div class="d-flex justify-content-center">
+                      <i [class]="['bi', getIconConfig(column, item[column.field]).icon, getIconConfig(column, item[column.field]).class]" 
+                       [title]="getIconConfig(column, item[column.field]).title"
+                       [style]="getIconConfig(column, item[column.field]).style"></i>
+                  
+                      <!--
                       <i *ngIf="EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-check-lg text-success"></i>
                       <i *ngIf="!EntityUtils.getBooleanValueYesNo(item[column.field])" class="bi bi-x-lg text-danger"></i>
+                      -->
                     </div>
                   </ng-container>
                   <ng-template #defaultCell>{{ item[column.field] }}</ng-template>
                 </td>
                   <!-- Sezione fissa in fondo a sinistra -->
                 <td class="fixed-buttons-column" [style.width.px]="getActiveButtonsCount() * 40" (click)="$event.stopPropagation()">
-                  <div class="d-inline-flex" > 
+                  <div class="d-inline-flex d-none d-md-flex d-xl-flex" > 
                   <!--<div class="d-inline-flex" [hidden]="!highlightedRows[i]" role="group"> --> 
-                    <div class="col-auto" *ngIf="buttonConfig.show"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Show" (click)="manageItem(item,'S', $event)"><i class="bi-eye bg-white"></i></button></div>
-                    <div class="col-auto" *ngIf="buttonConfig.edit"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Edit" (click)="manageItem(item,'E', $event)"><i class=" align-top bi-pencil bg-white"></i></button></div>
-                    <div class="col-auto" *ngIf="buttonConfig.delete"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Delete" (click)="manageItem(item,'D', $event)"><i class="bi-trash bg-white"></i></button></div>
-                    <div class="col-auto" *ngIf="buttonConfig.copy"><button type="button" class="btn btn-sm bg-white px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Copy" (click)="manageItem(item,'C', $event)"><i class="bi-copy bg-white"></i></button></div>
+                    <div class="col-auto" *ngIf="buttonConfig.show"><button type="button" class="btn btn-sm bg-table-button px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Show" (click)="manageItem(item,'S', $event)"><i class="bi-eye bg-table-button "></i></button></div>
+                    <div class="col-auto" *ngIf="buttonConfig.edit"><button type="button" class="btn btn-sm bg-table-button px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Edit" (click)="manageItem(item,'E', $event)"><i class=" align-top bi-pencil bg-table-button"></i></button></div>
+                    <div class="col-auto" *ngIf="buttonConfig.delete"><button type="button" class="btn btn-sm bg-table-button px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Delete" (click)="manageItem(item,'D', $event)"><i class="bi-trash bg-table-button"></i></button></div>
+                    <div class="col-auto" *ngIf="buttonConfig.copy"><button type="button" class="btn btn-sm bg-table-button px-1 mx-1 btn-custom-option d-flex align-items-center justify-content-center" tabindex="-1" data-toggle="tooltip" data-placement="top" title="Copy" (click)="manageItem(item,'C', $event)"><i class="bi-copy bg-table-button"></i></button></div>
+                  </div>
+                  <!-- Versione mobile - mostra menu a discesa -->
+                  <div class="dropdown d-md-none d-xl-none">
+                    <button class="btn btn-sm bg-white px-1 btn-custom-option dropdown-toggle" type="button" 
+                            id="rowActionsDropdown{{i}}" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="rowActionsDropdown{{i}}">
+                      <li *ngIf="buttonConfig.show"><a class="dropdown-item" (click)="manageItem(item,'S', $event)"><i class="bi-eye me-2"></i>Show</a></li>
+                      <li *ngIf="buttonConfig.edit"><a class="dropdown-item" (click)="manageItem(item,'E', $event)"><i class="bi-pencil me-2"></i>Edit</a></li>
+                      <li *ngIf="buttonConfig.delete"><a class="dropdown-item" (click)="manageItem(item,'D', $event)"><i class="bi-trash me-2"></i>Delete</a></li>
+                      <li *ngIf="buttonConfig.copy"><a class="dropdown-item" (click)="manageItem(item,'C', $event)"><i class="bi-copy me-2"></i>Copy</a></li>
+                    </ul>
                   </div>
                 </td>
               </tr>
@@ -164,7 +195,7 @@
                         <div class="row">
                             <div class=" d-inline-flex justify-content-end">
                                 <div></div> <!-- Questo div vuoto serve per spingere il pulsante di chiusura a destra -->
-                                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                                <button type="button" class="btn-close" aria-label="Close" (click)="simpleCloseModal(modal)"></button>
                             </div>
                         </div>
                     </div>

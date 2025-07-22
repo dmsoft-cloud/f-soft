@@ -1,0 +1,253 @@
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <dms-select-filtered-custom-new
+        label="Model Id"
+        id="modelId"
+        name="modelId"
+        [(ngModel)]="modelId"
+        (ngModelChange)="onModelChange($event)"
+        [optionsObservable]="modelOptions$"
+        [showEmptyOption]="true"
+        emptyOptionLabel=""
+        emptyOptionValue=""
+        [displayMode]="'code-description'">
+      </dms-select-filtered-custom-new>
+    </div>
+    <div class="col-md-6" >
+      <label for=""></label>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <button class="btn btn-primary" (click)="onNewModel()">New Model</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+  <!-- Sezione sottostante -->
+  <div class="mt-4">
+
+    <!-- Form inserimento e gestione -->
+    <div *ngIf="isNewMode || isCopyMode || isViewMode ">
+      <div class="d-flex align-items-center">
+        <h5 class="mb-0">
+          {{ isNewMode ? 'New Model' : isCopyMode ? 'Modify Model ' : 'Model Details  ' }}
+        </h5>
+        <button *ngIf="!isNewMode && !isCopyMode && selectedModel"
+              class="btn-icon ms-2"
+              (click)="enableEdit()"
+              data-bs-toggle="tooltip"
+              title="Copy element">
+          <i class="bi bi-pencil" aria-hidden="true"></i>
+        </button>
+      </div>
+      <br>
+      
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+               <li class="nav-item" role="presentation">
+                 <button class="nav-link" id="basic-tab" [ngClass]="{'active': activeTab === 'basicData'}" (click)="activeTab = 'basicData'" >Basic Data</button>
+               </li>
+               <li class="nav-item" role="presentation">
+                 <button class="nav-link" id="flagData-tab" [ngClass]="{'active': activeTab === 'flagData'}" (click)="activeTab = 'flagData'" >Flags & Retention Data</button>
+               </li>
+               <li class="nav-item" role="presentation">
+                   <button class="nav-link" id="exportData-tab" [ngClass]="{'active': activeTab === 'exportData'}" (click)="activeTab = 'exportData'" >Export/Import DBMS Data</button>
+               </li>
+      </ul>
+
+
+      <form #manageForm="ngForm" (ngSubmit)="onManageRequest(manageForm.value, editMode)" >
+        
+        
+        <div class="tab-content" id="myTabContent">
+          <div [hidden]="activeTab !== 'basicData'">
+                                <div class="d-flex pt-3" >
+                                  <div class="col-md-6  mb-3 pe-3">
+                                    <label for="id" class="form-label">{{componentDescription}} Id</label>
+                                    <input type="text" class="form-control" id="id" name="id" maxlength="20" ngModel [disabled]="!isEditEnabled" required>
+                                  </div>
+                                  <div class="col-md-6  mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="description" name="description" maxlength="50" ngModel [disabled]="!isEditEnabled">
+                                  </div>
+                                </div>
+                                <div class="d-flex" >
+                                  <div class=" col-md-3  mb-3 pe-3">
+                                    <dms-select-custom label="Type" 
+                                      id="type"
+                                      name="type"
+                                      [(ngModel)]="type"
+                                      [options]="types"
+                                      [disabled]="!isEditEnabled"
+                                      [showEmptyOption]="true"
+                                      emptyOptionLabel=""
+                                      emptyOptionValue=""
+                                      [displayMode]="'code-description'">
+                                    </dms-select-custom>
+                                  </div>
+                                  <div class="col-md-3  mb-3 pe-3">
+                                    <dms-select-custom label="Direction" 
+                                      id="direction"
+                                      name="direction"
+                                      [(ngModel)]="direction"
+                                      [options]="directions"
+                                      [disabled]="!isEditEnabled"
+                                      [showEmptyOption]="true"
+                                      emptyOptionLabel=""
+                                      emptyOptionValue=""
+                                      [displayMode]="'code-description'">
+                                    </dms-select-custom>
+                                  </div>
+                                  <div class="col-md-3  mb-3 pe-3">
+                                        <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Decompression" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="decompression" name="decompression" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                  </div>
+                                  <div class="col-md-3  mb-3">
+                                        <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Compression" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="compression" name="compression" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                  </div>
+                                </div>
+                                <div class="d-flex" >
+                                      <div class="col-md-3  mb-3 pe-3">
+                                          <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Send Mail" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="sendMail" name="sendMail" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                      </div>    
+                                      <div class="col-md-3  mb-3 pe-3">
+                                        <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Integrity Check" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="integrityCheck" name="integrityCheck" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                      </div>
+                                      <div class="col-md-3  mb-3 pe-3">
+                                        <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Create File" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="createFile" name="createFile" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                      </div>                                 
+                                </div>
+                            </div>                             
+        </div>
+
+                                <!--               sezione 2                 -->
+        <div class="tab-content" id="myTabContent2">
+                            <div [hidden]="activeTab !== 'flagData'"> 
+                                <div class="d-flex pt-3" >
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="retry" class="form-label">Retry</label>
+                                        <input type="number" class="form-control" id="retry" name="retry" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="retryInterval" class="form-label">Retry Interval</label>
+                                        <input type="number" class="form-control" id="retryInterval" name="retryInterval" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class=" col-md-4  mb-3">
+                                        <label for="retention" class="form-label">Retention</label>
+                                        <input type="number" class="form-control" id="retention" name="retention" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="d-flex" >
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <dms-select-custom label="Internationalization" id="internationalization" name="internationalization" [(ngModel)]="locale" [options]="localeList"
+                                            [disabled]="!isEditEnabled" [showEmptyOption]="true" emptyOptionLabel="" emptyOptionValue="" [displayMode]="'code'"> 
+                                        </dms-select-custom>
+                                    </div>
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Delete File" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="deleteFile" name="deleteFile" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                    </div>
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Unique Hash" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="uniqueHash" name="uniqueHash" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex" >
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="fetchSize" class="form-label">Fetch Size</label>
+                                        <input type="numeric" class="form-control" id="fetchSize" name="fetchSize" maxlength="12" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="database" class="form-label">Database</label>
+                                        <input type="text" class="form-control" id="database" name="database" maxlength="50" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="schema" class="form-label">Schema</label>
+                                        <input type="text" class="form-control" id="schema" name="schema" maxlength="50" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+        </div>
+
+                            <!--               sezione 3                 -->
+                    <div class="tab-content" id="myTabContent3">
+                            <div  [hidden]="activeTab !== 'exportData'"> 
+                                
+                                <div class="d-flex pt-3" >
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="sourceCharset" class="form-label">Source Charset</label>
+                                        <input type="tet" class="form-control" id="sourceCharset" name="sourceCharset" maxlength="20" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="destCharset" class="form-label">Destination Charset</label>
+                                        <input type="text" class="form-control" id="destCharset" name="destCharset" maxlength="20" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-4  mb-3 ">
+                                        <dms-select-custom label="File Format" 
+                                            id="fileFormat"
+                                            name="fileFormat"
+                                            [(ngModel)]="fileFormat"
+                                            [options]="fileFormats"
+                                            [disabled]="!isEditEnabled"
+                                            [showEmptyOption]="true"
+                                            emptyOptionLabel=""
+                                            emptyOptionValue=""
+                                            [displayMode]="'description'">
+                                        </dms-select-custom>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex" >
+                                    <div class="col-md-3  mb-3 pe-3">
+                                        <label for="recordDelimiter" class="form-label">Record Delimiter</label>
+                                        <input type="tet" class="form-control" id="recordDelimiter" name="recordDelimiter" maxlength="5" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-3  mb-3 pe-3">
+                                        <label for="fieldDelimiter" class="form-label">Field Delimiter</label>
+                                        <input type="text" class="form-control" id="fieldDelimiter" name="fieldDelimiter" maxlength="5" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-3  mb-3 pe-3">
+                                        <label for="stringDelimiter" class="form-label">String Delimiter</label>
+                                        <input type="text" class="form-control" id="stringDelimiter" name="stringDelimiter" maxlength="5" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-3  mb-3">
+                                        <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Header" defaultValue="N"  valueOn="S" valueOff="N" ngModel id="header" name="header" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex" >
+                                    <div class="col-md-3  mb-3 pe-3">
+                                        <label for="removingSpaces" class="form-label">Removing Spaces</label>
+                                        <input type="tet" class="form-control" id="removingSpaces" name="removingSpaces" maxlength="10" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-3  mb-3 pe-3">
+                                        <label for="numericFilling" class="form-label">Numeric Filling</label>
+                                        <input type="text" class="form-control" id="numericFilling" name="numericFilling" maxlength="10" ngModel [disabled]="!isEditEnabled">
+                                    </div>
+                                </div>
+
+
+                            </div>    
+                    </div>
+
+
+
+
+
+
+        <input type="hidden" id="note" name="note" ngModel>
+        <input type="hidden" id="enabled" name="enabled" [(ngModel)]="enabled">
+      </form>
+       <div class="row">
+                    <div class=" d-inline-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary custom-secondary-btn col-md-3"  *ngIf="editMode == 'I' || editMode == 'C'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">{{ isNewMode || isCopyMode ? 'Save Item' : 'Add Item' }}</button>
+                   </div>
+        </div>
+    </div>
+  </div>
+</div>

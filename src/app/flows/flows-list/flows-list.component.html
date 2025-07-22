@@ -12,9 +12,11 @@
         (rowSelected)="onSelectItem($event)"
         (rowManaged)="onManageItem($event)"
         >
+                <dms-flows-filter-form filter-section  (filtersChanged)="applySpecificFilters($event)"></dms-flows-filter-form>
                 <div data-section>
                         <dms-flow-edit [componentDescription]="componentDescription"  (closeModal)="onCloseModal()" ></dms-flow-edit>
                 </div>
+
 
 </dms-default-table>
 <div *ngIf="isLoading && !isError">

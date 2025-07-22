@@ -1,0 +1,16 @@
+.btn-icon {
+  border: none;
+  background: transparent;
+  padding: 0.25rem;
+  color: #6c757d;
+}
+.btn-icon:hover {
+  color: #495057;
+}
+.btn-icon .bi {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease-in-out;
+}
+.btn-icon:hover .bi {
+  transform: scale(1.1);
+}

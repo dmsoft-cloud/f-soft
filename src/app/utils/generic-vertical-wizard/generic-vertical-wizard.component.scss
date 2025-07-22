@@ -1,0 +1,43 @@
+.wizard-lateral {
+    display: flex;
+  
+    .wizard-sidebar {
+      width: 200px;
+      ul {
+        list-style: none;
+        padding: 0;
+        li {
+          padding: 12px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          &.active {
+            background: #e9f5ff;
+            font-weight: 600;
+          }
+          &.disabled {
+            cursor: not-allowed;
+            color: #ccc;
+          }
+          .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  
+    .wizard-content {
+      flex: 1;
+      padding-left: 24px;
+    }
+  }
+
+
+

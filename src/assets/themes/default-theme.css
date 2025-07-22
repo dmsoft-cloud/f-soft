@@ -1,0 +1,119 @@
+:root {
+
+    /* SFONDO generale */
+    /*--dms-principal-bg-colour: rgb(33, 3, 151); */
+    --dms-principal-bg-colour: rgb(32, 32, 32);
+
+    /*  navbar   */
+    --dms-navbar-active-text: #007bff;
+    --dms-navlink-color: rgba(0, 0, 0, 0.65);
+    --dms-navlink-actvelink-color:rgb(13, 110, 253);
+    --dms-navitem-color-over: #0d0d0db3;
+    --dms-navitem-bg-color-over: #0d0d0d1a;
+    --dms-btn-circle-bg-color: #fff;
+    --dms-btn-circle-border-color:#ddd;
+
+    /* header bottoni */
+    --dms-header-btn-circle-color-over: #0d0d0db3;
+    --dms-header-btn-circle-bg-color-over: #0d0d0d1a;
+
+
+
+    --dms-btn-execute-hover: #bb2d3b;
+    --dms-btn-reset-hover: #e6e6e6;
+    --dms-modal-bg: #ffffff;
+
+
+    --dms-label-font-size: 12px;
+    --dms-label-font-weight: 600;
+    --dms-error-toast-bg: #dc3545;
+    --dms-error-toast-text: #ffffff;
+    --dms-error-toast-border: none;
+    --dms-error-toast-border-radius: 8px;
+    --dms-btn-border-grey: #cfcfcf;
+    --dms-toggle-switch-background: rgb(235, 235, 235);
+    --dms-toggle-switch-border: transparent;
+    --dms-toggle-switch-border-radius: 4px;
+}
+
+/* toogle swicth    */
+.toggle-switch .radiogroup .lab{
+  height: 100%;
+   color: #0d0d0dff;
+   cursor: pointer;
+}
+
+
+/*  outcanvass di selezione applicazioni            */
+
+.custom-offcanvas {
+  left: 10px !important; /* Spostamento leggermente a destra */
+  height: calc(100% - 56px); /* Altezza massima meno l'altezza della toolbar */
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Ombreggiatura per un effetto di profondità */
+  border: 1px solid #ddd; /* Bordo leggero */
+}
+
+/* Stile per l'header dell'offcanvas */
+.custom-offcanvas .offcanvas-header {
+  border-bottom: 1px solid #ddd; /* Linea di separazione */
+  padding: 10px;
+}
+
+/* Stile per il corpo dell'offcanvas */
+.custom-offcanvas .offcanvas-body {
+  padding: 10px;
+}
+
+/* Stile per gli elementi della lista */
+.custom-offcanvas .list-group-item {
+  border: none; /* Rimuovi il bordo predefinito */
+  /*padding: 8px 12px; /* Spaziatura interna */
+  /*font-size: 0.9rem; /* Dimensione del testo */
+}
+
+.offcanvas.offcanvas-start{
+  top:76px;
+  height: calc(70% - 76px);
+}
+
+/* Effetto hover sugli elementi della lista */
+.custom-offcanvas .list-group-item:hover {
+  background-color: #f8f9fa; /* Colore di sfondo al passaggio del mouse */
+}
+
+
+
+
+
+@media (min-width: 1200px) {
+
+
+  .custom-col-left {
+    flex: 0 0 63%;
+    max-width: 63%;
+  }
+
+  .custom-offset-right {
+    margin-left: 2.5%;
+  }
+
+  .main-canvas-costum-pt{
+    margin-top: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+
+  .custom-col-left {
+    flex: 0 0 63%;
+    max-width: 63%;
+  }
+
+  .custom-offset-right {
+    margin-left: 3.66%;
+  }
+
+  .main-canvas-costum-pt{
+    margin-top: 20px;
+  }
+}

@@ -6,7 +6,7 @@
                 <form #manageForm="ngForm" (ngSubmit)="onManageRequest(manageForm.value, editMode)">
                     <div class="d-flex" >
                         <div class="col-md-6  mb-3 pe-3">
-                            <label for="id" class="form-label">{{componentDescription}} Code</label>
+                            <label for="id" class="form-label">{{componentDescription}} Id</label>
                             <input type="text" class="form-control" id="id" name="id" maxlength="20" ngModel [disabled]="!isEditEnabled" required>
                         </div>
                     </div>

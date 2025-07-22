@@ -1,0 +1,49 @@
+<div class="offcanvas offcanvas-end show" tabindex="-1" style="visibility: visible;" [class.show]="visible" [ngClass]="{'show': visible}" [ngStyle]="{ display: visible ? 'block' : 'none' }">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">User Settings</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+    <div class="offcanvas-body">
+  
+      <!-- Form principale: lingua e tema -->
+      <form>
+        <div class="mb-3">
+          <label for="languageSelect" class="form-label">Language</label>
+          <select id="languageSelect" class="form-select" [(ngModel)]="selectedLanguage" name="language">
+            <option value="it">Italiano</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+  
+        <div class="mb-3">
+          <label for="themeSelect" class="form-label">Theme</label>
+          <select id="themeSelect" class="form-select" [(ngModel)]="selectedTheme" name="theme">
+            <option *ngFor="let theme of themes" [value]="theme.name">
+              {{ theme.name.replace('.css', '') }} ({{ theme.type === 'default' ? 'Default' : 'Custom' }})
+            </option>
+          </select>
+        </div>
+  
+        <button class="btn btn-primary" type="button" (click)="applySettings()">Apply</button>
+      </form>
+  
+      <!-- Sezione separata per gli upload -->
+      <hr class="my-4">
+      <div>
+  
+        <!-- Upload tema -->
+        <div class="mb-3 d-flex align-items-end">
+          <div class="flex-grow-1 me-2">
+            <label class="form-label">Upload New Theme (.css)</label>
+            <input type="file" accept=".css" class="form-control" (change)="onFileSelected($event)" />
+          </div>
+          <div>
+            <button class="btn btn-secondary" type="button" (click)="confirmThemeUpload()">Upload</button>
+          </div>
+        </div>
+  
+        <!-- In futuro potresti aggiungere altri upload simili qui (es. lingue) -->
+  
+      </div>
+    </div>
+  </div>

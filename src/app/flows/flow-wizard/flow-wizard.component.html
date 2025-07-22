@@ -1,0 +1,75 @@
+<dms-generic-wizard #wiz
+  [stepValidity]="stepValidity"
+  (finished)="onWizardFinished()">
+ <!-- (prevSetpEvent)="prevStep()"
+  (goToEvent)="goTo($event)" > -->
+
+  <ng-template dmsWizardStep="Group"
+             [cardTitle]="groupCardTitle"
+             [cardText]="groupCardText"
+             [cardImage]="groupCardImage">
+    <dms-flow-goup-section-wizard #groupStep
+      [initialGroupId]="selectedGroupId"
+      (selection)="storeSelectedItem($event)"
+      (groupCreated)="handleItemCreated($event)" 
+      (validityChange)="setStepValidity($event)"
+      (stepCompleted)="onStepCompleted()">
+    </dms-flow-goup-section-wizard>
+  </ng-template>
+
+  <ng-template dmsWizardStep="Model"
+             [cardTitle]="modelCardTitle"
+             [cardText]="modelCardText"
+             [cardImage]="modelCardImage">
+    <dms-flow-model-section-wizard #modelStep
+      [initialModelId]="selectedModelId"
+      (selection)="storeSelectedItem($event)"
+      (modelCreated)="handleItemCreated($event)" 
+      (validityChange)="setStepValidity($event)"
+      (stepCompleted)="onStepCompleted()">
+    </dms-flow-model-section-wizard>
+  </ng-template>
+
+  <ng-template dmsWizardStep="Origin"
+             [cardTitle]="originCardTitle"
+             [cardText]="originCardText"
+             [cardImage]="originCardImage">
+    <dms-flow-origin-section-wizard
+      [initialOriginId]="selectedOriginId"
+      (selection)="storeSelectedItem($event)"
+      (originCreated)="handleItemCreated($event)" 
+      (validityChange)="setStepValidity($event)"
+      (stepCompleted)="onStepCompleted()">
+    </dms-flow-origin-section-wizard>
+  </ng-template>
+
+  <ng-template dmsWizardStep="Interface"
+               [cardTitle]="interfaceCardTitle"
+               [cardText]="interfaceCardText"
+               [cardImage]="interfaceCardImage">
+    <dms-flow-interface-section-wizard
+      [initialInterfaceId]="selectedInterfaceId"
+      (selection)="storeSelectedItem($event)"
+      (interfaceCreated)="handleItemCreated($event)" 
+      (validityChange)="setStepValidity($event)"
+      (stepCompleted)="onStepCompleted()">
+    </dms-flow-interface-section-wizard>
+  </ng-template>
+
+  <ng-template dmsWizardStep="Finalize Flow"
+                [cardTitle]="flowCardTitle"
+               [cardText]="flowCardText"
+               [cardImage]="flowCardImage">
+    <dms-flow-last-section-wizard
+      [initialGroupId]="selectedGroupId"
+      [initialModelId]="selectedModelId"
+      [initialOriginId]="selectedOriginId"
+      [initialInterfaceId]="selectedInterfaceId"
+      (activeCompleteWizard)="activeCompleteWizard($event)"
+      (stepCompleted)="onStepCompleted()">
+    </dms-flow-last-section-wizard>
+  </ng-template>
+
+ 
+
+</dms-generic-wizard>

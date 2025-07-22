@@ -34,6 +34,9 @@ export class EmailsDetailComponent extends GenericDetailComponent implements OnI
   // Definisci la variabile per memorizzare l'ID che vuoi inviare nel form
   q_id: string = "";
 
+  /**************************per inizializzazione componente******************************************************/ 
+  showEmailEdit: boolean = false;
+
   constructor( modalServiceF: NgbModal, elF: ElementRef, private  http: HttpClient, private emailService: EmailService,
                 private router: Router, private route: ActivatedRoute){
 
@@ -85,7 +88,9 @@ export class EmailsDetailComponent extends GenericDetailComponent implements OnI
   
   onCloseModal(){
     this.genericDetailComponent.closeModal();
+    this.showEmailEdit = false;
   }
+
 
   resetForm() {
     // Reset dei campi del form
@@ -123,7 +128,11 @@ export class EmailsDetailComponent extends GenericDetailComponent implements OnI
   }
   
   onManageItem(event : {item: any, mode: string}): void {
-    this.emailService.manageItem.next(event);
+    setTimeout(() => {
+      this.emailService.manageItem.next(event);
+      this.showEmailEdit = true;
+    });
+
   }
 
 

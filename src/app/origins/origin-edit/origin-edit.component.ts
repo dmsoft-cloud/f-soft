@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { filter, Subscription } from 'rxjs';
-import { NgForm } from '@angular/forms';
+import { AbstractControl, FormBuilder, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { OriginService } from '../origin.service';
 import { OriginStruct } from '../../utils/structs/originStruct';
 import { NavigationEnd, Router } from '@angular/router';
 import { GenericEditComponent } from '../../utils/generic-edit/generic-edit.component';
+import { BaseEditComponent } from '../../utils/base-edit/base-edit.component';
+import { enumToSelectOptions, SelectOption } from '../../utils/select-custom/select-option.model';
+import { DbTypeEnum } from '../../utils/baseEntity';
 
 @Component({
     selector: 'dms-origin-edit',
@@ -12,7 +15,13 @@ import { GenericEditComponent } from '../../utils/generic-edit/generic-edit.comp
     styleUrl: './origin-edit.component.css',
     standalone: false
 })
-export class OriginEditComponent extends GenericEditComponent implements OnInit, OnDestroy  {
+export class OriginEditComponent extends BaseEditComponent implements OnInit, OnDestroy  {
+
+  @Input() record: OriginStruct | null = null; 
+  @Output() invalidFields = new EventEmitter<string[]>();
+  showExportSection: boolean = false;
+  manualErrors: string[] = [];
+
 
   @Output() closeModal = new EventEmitter();
   @Input() componentDescription: string = "";
@@ -22,22 +31,28 @@ export class OriginEditComponent extends GenericEditComponent implements OnInit,
   subscriptionManage: Subscription; 
   private navigationSubscription: Subscription;  //per la navigazione e forzare la init
 
+  //capi per select fields
+  dbType: string=""; 
+  dbTypes: SelectOption[] = []; 
 
-  constructor( private originService: OriginService, private router: Router) {super()}
+
+  constructor( protected originService: OriginService, protected router: Router, protected fb: FormBuilder) {super(fb)}
 
   get isEditEnabled(): boolean {
     return (this.editMode === 'E' || this.editMode === 'C' || this.editMode === 'I');
   }
 
   ngOnInit(): void {
+    super.ngOnInit();
 
     this.setupNavigationListener();
+    this.dbTypes = enumToSelectOptions(DbTypeEnum);
     // Logica di inizializzazione del componente figlio
     this.initializeComponent();
-
   }
 
   ngOnDestroy(): void {
+    super.ngOnDestroy();
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
@@ -57,8 +72,13 @@ export class OriginEditComponent extends GenericEditComponent implements OnInit,
   }
 
   onManageRequest(formValue : any, mode :  string){    
-    //console.log("valore Form:  ");
-    //console.log(formValue);
+
+    if (formValue.invalid) {
+      // forza la visualizzazione degli errori su tutti i campi
+      formValue.control.markAllAsTouched();
+      return;
+    }
+
     switch (mode) {
       case 'I':
         this.addItem(formValue);
@@ -80,6 +100,54 @@ export class OriginEditComponent extends GenericEditComponent implements OnInit,
     this.closeModal.emit();
   }
 
+    submitItem(mode: string){
+        this.manualErrors.length = 0;
+        const id = this.form.get('id')?.value;
+  
+        if (mode === 'I' || mode === 'C' ) {
+          this.originService.getOrigin(id).subscribe({
+            next: (existingItem) => {
+              if (existingItem) {
+                this.manualErrors.push('Id already exist !!');
+                this.form.markAllAsTouched();
+                return;
+              } else {
+                this.submit(mode);
+              }
+            },
+            error: (err) => {
+                this.manualErrors.push('Error checking item: ' + err.message);   
+                this.form.markAllAsTouched();         
+            }
+          });
+        } else {
+          this.submit(mode);
+        }
+    }
+  
+  
+    /** Al submit valido emetto chiamata al service */
+    submit(mode: string) {
+      super.submit(mode);
+      if (!this.form.invalid) {
+        const m = new OriginStruct(this.form.value);
+        switch (mode) {
+          case 'I': this.originService.addItem(m); break;
+          case 'C': this.originService.addItem(m); break;
+          case 'E': 
+            this.originService.updateItem(m); 
+            this.originService.emitResetAfetrUpdate(m);
+            break;
+          case 'D':
+            this.originService.deleteItem(m);
+            this.originService.emitClearAfetrDelete();
+            break;
+        }
+        this.closeModal.emit();
+      }
+    }
+  
+
 /****************************************
 * Metodi generici di preparazione item
 * 
@@ -89,10 +157,10 @@ export class OriginEditComponent extends GenericEditComponent implements OnInit,
       id: formValue.id,
       dbType: formValue.dbType,
       description: formValue.description,
-      enabled: formValue.status,
-      ip: formValue.host,
+      enabled: formValue.enabled,
+      ip: formValue.ip,
       jdbcCustomString: formValue.jdbc_custom_string,
-      note: formValue.notes,
+      note: formValue.note,
       password: formValue.password,
       port: formValue.port,
       secure: formValue.secure,
@@ -112,14 +180,12 @@ export class OriginEditComponent extends GenericEditComponent implements OnInit,
     this.originService.updateItem(this.setItem(formValue));
   }
 
-  submitForm(form: NgForm) {
-    if (this.editMode === 'E') {
-      form.value.id = this.idItem;  // Assegna il valore manualmente
+  submitForm() {
+    if (this.editMode === 'E' || this.editMode === 'D') {
+      this.form.value.id = this.idItem;  // Assegna il valore manualmente
     }
 
-    if (form) {
-      form.ngSubmit.emit();
-    }
+    this.submitItem(this.editMode);
   }
 
 /****************************************
@@ -143,15 +209,15 @@ export class OriginEditComponent extends GenericEditComponent implements OnInit,
 
                 if (event.mode != "" && event.mode !="I" ) {
                   this.idItem = selectedItem.id;
-                  this.manageForm.setValue({
+                  this.form.patchValue({
                     
                     id: selectedItem.id,
                     dbType: selectedItem.dbType,
                     description: selectedItem.description,
-                    status:selectedItem.enabled,
-                    host: selectedItem.ip,
-                    jdbc_custom_string: selectedItem.jdbcCustomString,
-                    notes:selectedItem.note,
+                    enabled:selectedItem.enabled,
+                    ip: selectedItem.ip,
+                    jdbcCustomString: selectedItem.jdbcCustomString,
+                    note:selectedItem.note,
                     password: selectedItem.password,
                     port: selectedItem.port,
                     secure: selectedItem.secure,
@@ -160,27 +226,93 @@ export class OriginEditComponent extends GenericEditComponent implements OnInit,
                 
                 }
                 if (event.mode ==="I"){
-                  this.manageForm.reset();
-                  this.manageForm.setValue({
+                  this.form.reset({
 
                     id: '',
                     dbType: '',
                     description: '',
-                    status:'S',
-                    host:'',
-                    jdbc_custom_string: '',
-                    notes:'',
+                    enabled:'S',
+                    ip:'',
+                    jdbcCustomString: '',
+                    note:'',
                     password: '',
                     port: '',
                     secure: 'N',
                     user: ''
                   })
                 }
+
+                if (!this.isEditEnabled) {
+                  this.form.disable({ emitEvent: false });
+                } else {
+                this.form.enable({ emitEvent: false });
+                }
+                if (event.mode ==="E"){
+                  this.form.get('id').disable({ emitEvent: false });
+                }
+
           }, );
 
       } 
 
     );
+
+  }
+
+    /*********************************************/
+  /*       metodi di controllo del form        */
+  /*********************************************/ 
+  onDbTypeChange(newType: string) {
+
+  }
+
+  
+  /*********************************************/
+  /*       metodi di controllo del form        */
+  /*********************************************/ 
+  protected getControlsConfig() {
+    return {
+      id:         ['', [Validators.required, Validators.maxLength(20)]],      
+      dbType: ['', Validators.required],
+      description:[''],
+      enabled:['S'],
+      ip:['', Validators.required],
+      jdbcCustomString: [''],
+      note:[''],
+      password: [''],
+      port: [''],
+      secure: ['N'],
+      user: ['', Validators.required]
+    };
+  }
+  
+
+
+   /** Validator di form group per i campi specifici */
+  protected getCrossFieldValidator(): ValidatorFn {
+    return (group: AbstractControl) => {
+      const errs: any = {};
+
+      return Object.keys(errs).length ? errs : null;
+    };
+  }
+
+ /** Riepilogo errori per summary + emissione */
+  get errorSummary(): string[] {
+    const errs: string[] = [...this.manualErrors];
+    if (!(this.submitted || Object.values(this.form.controls).some(c=>c.touched))) {
+      return errs;
+    }
+    const c = this.form.controls;
+    if (c.dbType.errors?.required)      errs.push('Type is mandatory');
+    if (c.ip.errors?.required)      errs.push('Host is mandatory');
+    return errs;
+  }
+
+
+   /** Quando cambia un valore, azzero/disabilito i campi correlati */
+  protected onFormChanges() {
+    const g = this.form;
 
   }
 

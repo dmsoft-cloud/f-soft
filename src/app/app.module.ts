@@ -9,6 +9,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { QuillModule } from 'ngx-quill';
 
 
 
@@ -21,7 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToggleSwitchComponent } from './utils/toggle-switch/toggle-switch.component';
 import { DefaultTableComponent } from './utils/default-table/default-table.component';
 import { DefaultDetailComponent } from './utils/default-detail/default-detail.component';
-import { DefaultTableFilterComponent } from './utils/default-table-filter/default-table-filter.component';
+import { DefaultTableFilterComponent } from './filters/default-table-filter/default-table-filter.component';
 import { ModelsComponent } from './models/models.component';
 import { LogsListComponent } from './logs/logs-list/logs-list.component';
 import { LoginComponent } from './login/login.component';
@@ -66,6 +71,20 @@ import { EmailsListComponent } from './emails/emails-list/emails-list.component'
 import { EmailsDetailComponent } from './emails/emails-detail/emails-detail.component';
 import { EmailEditComponent } from './emails/email-edit/email-edit.component';
 import { DefaultTableNewComponent } from "./utils/default-table-new/default-table-new.component";
+import { ErrorHandlerService } from './utils/error-handler.service';
+import { FlowsFilterFormComponent } from './filters/flows-filter-form/flows-filter-form.component';
+import { OptionsComponent } from './utils/options/options.component';
+import { GenericWizardComponent } from './utils/generic-wizard/generic-wizard.component';
+import { GenericVerticalWizardComponent } from './utils/generic-vertical-wizard/generic-vertical-wizard.component';
+import { FlowWizardComponent } from './flows/flow-wizard/flow-wizard.component';
+import { WizardStepDirective } from './utils/wizard-step.directive';
+import { FlowGoupSectionWizardComponent } from './flows/flow-wizard/flow-goup-section-wizard/flow-goup-section-wizard.component';
+import { SelectFilteredCustomNewComponent } from './utils/select-filtered-custom-new/select-filtered-custom-new.component';
+import { FlowInterfaceSectionWizardComponent } from './flows/flow-wizard/flow-interface-section-wizard/flow-interface-section-wizard.component';
+import { FlowOriginSectionWizardComponent } from './flows/flow-wizard/flow-origin-section-wizard/flow-origin-section-wizard.component';
+import { FlowModelSectionWizardComponent } from './flows/flow-wizard/flow-model-section-wizard/flow-model-section-wizard.component';
+import { BaseEditComponent } from './utils/base-edit/base-edit.component';
+import { FlowLastSectionWizardComponent } from './flows/flow-wizard/flow-last-section-wizard/flow-last-section-wizard.component';
 
 
 
@@ -116,19 +135,36 @@ import { DefaultTableNewComponent } from "./utils/default-table-new/default-tabl
         EmailsComponent,
         EmailsListComponent,
         EmailsDetailComponent,
-        EmailEditComponent
+        EmailEditComponent,
+        FlowsFilterFormComponent,
+        OptionsComponent,
+        GenericWizardComponent,
+        GenericVerticalWizardComponent,
+        FlowWizardComponent,
+        WizardStepDirective,
+        FlowGoupSectionWizardComponent,
+        SelectFilteredCustomNewComponent,
+        FlowInterfaceSectionWizardComponent,
+        FlowOriginSectionWizardComponent,
+        FlowModelSectionWizardComponent,
+        FlowLastSectionWizardComponent
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,
     BrowserAnimationsModule,
     TableModule, // Modulo per p-table
+    QuillModule.forRoot(),
     InputTextModule,
     AppRoutingModule,
     FormsModule,
     CommonModule,
     NgbModule,
+    ToastModule,
+    EditorModule,
     ReactiveFormsModule, DefaultTableNewComponent], 
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+        MessageService,
+        ErrorHandlerService,
         ConfigService,
         {
             provide: APP_INITIALIZER,

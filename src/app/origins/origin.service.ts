@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { OriginStruct } from '../utils/structs/originStruct';
 import { MainService } from '../utils/main.service';
 import { ConfigService } from '../utils/config.service';
+import { ErrorHandlerService } from '../utils/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class OriginService extends MainService {
   ];
   
   
-  constructor(protected http: HttpClient,  protected override configService: ConfigService ) {
+  constructor(protected http: HttpClient,  protected override configService: ConfigService, private errorHandler: ErrorHandlerService ) {
           super(http, configService );
   }
   
@@ -60,6 +61,7 @@ export class OriginService extends MainService {
       //error
       catchError(
         errorRes => {
+          this.errorHandler.handleError(errorRes, 'Failed to load origins');
           console.error("Error retrieving origins:", errorRes);
           return throwError(() => new Error(errorRes.error.error.message));
         }
@@ -78,6 +80,7 @@ export class OriginService extends MainService {
       const url = `${apiBaseUrl}/origins/origin/${id}`;
       return this.http.get<OriginStruct>(url).pipe(
         catchError((errorRes) => {
+          this.errorHandler.handleError(errorRes, 'Failed to get origin');
           console.error("Error retrieving origin:", errorRes);
           return throwError(() => new Error(errorRes.error.error.message));
         })
@@ -101,6 +104,7 @@ export class OriginService extends MainService {
         return this.getOrigins();
       }),
       catchError(error => {
+        this.errorHandler.handleError(error, 'Failed to add item');
         console.error('Errore nell\'aggiornare l\'origin:', error);
         return throwError(() => new Error(error));
       })
@@ -123,6 +127,7 @@ export class OriginService extends MainService {
           return this.getOrigins();
         }),
         catchError(error => {
+          this.errorHandler.handleError(error, 'Failed to update item');
           console.error('Errore nell\'aggiornare l\'origin:', error);
           return throwError(() => new Error(error));
         })
@@ -138,6 +143,7 @@ export class OriginService extends MainService {
         return this.getOrigins();
       }),
       catchError(error => {
+        this.errorHandler.handleError(error, 'Failed to delete item');
         console.error('Errore nella cancellazione dell\'origin:', error);
         return throwError(() => new Error(error));
       })
@@ -150,6 +156,7 @@ export class OriginService extends MainService {
     const url = `${apiBaseUrl}/origins/origin/${id}`;
     return this.http.get<OriginStruct>(url).pipe(
       catchError((errorRes) => {
+        this.errorHandler.handleError(errorRes, 'Failed to get item');
         console.error('Errore nel recuperare l\'origin:', errorRes);
         // Restituisce un errore generico se il messaggio specifico non è disponibile
         return throwError(() => new Error(errorRes.error?.message || 'Errore sconosciuto'));

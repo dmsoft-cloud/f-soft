@@ -2,49 +2,75 @@
 <div data-section class="container mt-3">
     <div class="modal-body">
         <div class="container-fluid">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="basic-tab" [ngClass]="{'active': activeTab === 'basicData'}" (click)="activeTab = 'basicData'" >Basic Data</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="message-tab" [ngClass]="{'active': activeTab === 'messageData'}" (click)="activeTab = 'messageData'" >Message Body</button>
+                </li>
+            </ul>
+            <br>
             <div class="col-md-12">
                 <form #manageForm="ngForm" (ngSubmit)="onManageRequest(manageForm.value, editMode)">
-                    <div class="d-flex" >
-                        <div class="col-md-6  mb-3 pe-3">
-                            <label for="id" class="form-label">{{componentDescription}} Code</label>
-                            <input type="text" class="form-control" id="id" name="id" maxlength="20" ngModel [disabled]="!isEditEnabled" required>
+                    <div class="tab-content" id="myTabContent">
+                        <div [hidden]="activeTab !== 'basicData'">
+                            <div class="d-flex" >
+                                <div class="col-md-6  mb-3 pe-3">
+                                    <label for="id" class="form-label">{{componentDescription}} Id</label>
+                                    <input type="text" class="form-control" id="id" name="id" maxlength="20" ngModel [disabled]="!isEditEnabled" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <dms-toogle-switch lableOn="Enable" lableOff="Disable" lableComponent="Email Enabled" defaultValue="S"  valueOn="S" valueOff="N" ngModel id="enabled" name="enabled" defaultValue="S" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="subject" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                            </div>
+
+                            <!-- Campo per i destinatari To -->
+                            <div class="mb-3">
+                                <label for="toRecipients" class="form-label">TO</label>
+                                <input type="text" class="form-control" id="toRecipients" name="toRecipients" [(ngModel)]="toInput" (keyup.enter)="addToRecipient()" [disabled]="!isEditEnabled" placeholder="Inserisci email e premi Invio">
+                                <div class="mt-2">
+                                    <span *ngFor="let recipient of toRecipients" class="badge bg-primary me-2" >
+                                        {{ recipient.emailAddress }}
+                                        <span class="ms-2"  *ngIf="isEditEnabled" (click)="removeToRecipient(recipient)">×</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Campo per i destinatari CC -->
+                            <div class="mb-3">
+                                <label for="ccRecipients" class="form-label">CC</label>
+                                <input type="text" class="form-control" id="ccRecipients" name="ccRecipients" [(ngModel)]="ccInput" (keyup.enter)="addCcRecipient()" [disabled]="!isEditEnabled" placeholder="Inserisci email e premi Invio">
+                                <div class="mt-2">
+                                    <span *ngFor="let recipient of ccRecipients" class="badge bg-secondary me-2" >
+                                        {{ recipient.emailAddress }}
+                                        <span class="ms-2"   *ngIf="isEditEnabled" (click)="removeCcRecipient(recipient)">×</span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <dms-toogle-switch lableOn="Enable" lableOff="Disable" lableComponent="Email Enabled" defaultValue="S"  valueOn="S" valueOff="N" ngModel id="enabled" name="enabled" defaultValue="S" [disabled]="!isEditEnabled"></dms-toogle-switch>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="subject" class="form-label">Subject</label>
-                        <input type="text" class="form-control" id="subject" name="subject" maxlength="100" ngModel [disabled]="!isEditEnabled">
                     </div>
 
-                     <!-- Campo per i destinatari To -->
-                     <div class="mb-3">
-                        <label for="toRecipients" class="form-label">TO</label>
-                        <input type="text" class="form-control" id="toRecipients" name="toRecipients" [(ngModel)]="toInput" (keyup.enter)="addToRecipient()" [disabled]="!isEditEnabled" placeholder="Inserisci email e premi Invio">
-                        <div class="mt-2">
-                            <span *ngFor="let recipient of toRecipients" class="badge bg-primary me-2" >
-                                {{ recipient.emailAddress }}
-                                <span class="ms-2"  *ngIf="isEditEnabled" (click)="removeToRecipient(recipient)">×</span>
-                            </span>
+                    <div class="tab-content" id="messageTabContent">
+                        <div [hidden]="activeTab !== 'messageData'">
+                            
+                            <editor *ngIf="tinyMceEnabled" apiKey="wazuvay45cor9e80y1jg272gkq0y8bggwzocccqbhuo2jxkh"
+                                id="bodyHtml" name="bodyHtml"   [disabled]="!isEditEnabled"
+                                
+                                [(ngModel)]="bodyHtml"
+                                [init]="getEditorConfig()"
+                            ></editor>
+                            
+                            <quill-editor *ngIf="!tinyMceEnabled"
+                                id="bodyHtml" name="bodyHtml"   [disabled]="!isEditEnabled"
+                                [(ngModel)]="bodyHtml"
+                                 [style]="{height: '250px'}">
+                            </quill-editor>
                         </div>
-                    </div>
-
-                    <!-- Campo per i destinatari CC -->
-                    <div class="mb-3">
-                        <label for="ccRecipients" class="form-label">CC</label>
-                        <input type="text" class="form-control" id="ccRecipients" name="ccRecipients" [(ngModel)]="ccInput" (keyup.enter)="addCcRecipient()" [disabled]="!isEditEnabled" placeholder="Inserisci email e premi Invio">
-                        <div class="mt-2">
-                            <span *ngFor="let recipient of ccRecipients" class="badge bg-secondary me-2" >
-                                {{ recipient.emailAddress }}
-                                <span class="ms-2"   *ngIf="isEditEnabled" (click)="removeCcRecipient(recipient)">×</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="bodyHtml" class="form-label">Body HTML</label>
-                        <textarea class="form-control" id="bodyHtml" name="bodyHtml" ngModel [disabled]="!isEditEnabled"></textarea>
                     </div>
                     
                     <!-- campi nascosti -->

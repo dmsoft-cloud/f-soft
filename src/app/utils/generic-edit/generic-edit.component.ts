@@ -8,7 +8,7 @@ import { filter, Subscription } from 'rxjs';
     styleUrl: './generic-edit.component.css',
     standalone: false
 })
-export class GenericEditComponent {
+export  class GenericEditComponent {
 
 
 

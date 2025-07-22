@@ -1,0 +1,122 @@
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <dms-select-filtered-custom-new
+        label="Origin Id"
+        id="originId"
+        name="originId"
+        [(ngModel)]="originId"
+        (ngModelChange)="onOriginChange($event)"
+        [optionsObservable]="originOptions$"
+        [showEmptyOption]="true"
+        emptyOptionLabel=""
+        emptyOptionValue=""
+        [displayMode]="'code-description'">
+      </dms-select-filtered-custom-new>
+    </div>
+    <div class="col-md-6" >
+      <label for=""></label>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <button class="btn btn-primary" (click)="onNewOrigin()">New Origin</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+  <!-- Sezione sottostante -->
+  <div class="mt-4">
+
+    <!-- Form inserimento e gestione -->
+    <div *ngIf="isNewMode || isCopyMode || isViewMode ">
+      <div class="d-flex align-items-center">
+        <h5 class="mb-0">
+          {{ isNewMode ? 'New Origin' : isCopyMode ? 'Modify Origin ' : 'Origin Details  ' }}
+        </h5>
+        <button *ngIf="!isNewMode && !isCopyMode && selectedOrigin"
+              class="btn-icon ms-2"
+              (click)="enableEdit()"
+              data-bs-toggle="tooltip"
+              title="Copy element">
+          <i class="bi bi-pencil" aria-hidden="true"></i>
+        </button>
+      </div>
+      <br>
+
+
+      <form [formGroup]="form" (ngSubmit)="submitItem(editMode)">
+
+        <!-- summary errori -->
+        <div *ngIf="errorSummary.length" class="alert alert-danger mt-2">
+            <ul>
+            <li *ngFor="let e of errorSummary">{{ e }}</li>
+            </ul>
+        </div>
+        
+        
+        <div class="d-flex pt-3" >
+                        <div class="col-md-6  mb-3 pe-3">
+                          <label for="id" class="form-label">{{componentDescription}} Id</label>
+                          <input type="text" class="form-control" id="id" name="id" formControlName="id"  maxlength="20" >
+                        </div>
+                        <div class="col-md-6  mb-3">
+                          <label for="description" class="form-label">Description</label>
+                          <input type="text" class="form-control" id="description" name="description" formControlName="description"  maxlength="50" >
+                        </div>
+
+        </div>
+                      
+        <div class="d-flex" >
+                        <div class=" col-md-4  mb-3 pe-3">
+                            <dms-select-custom label="DBMS type" 
+                                            id="dbType"
+                                            name="dbType"
+                                            formControlName="dbType"
+                                            [(ngModel)]="dbType"
+                                            (ngModelChange)="onDbTypeChange($event)"
+                                            [options]="dbTypes"
+                                            [showEmptyOption]="true"
+                                            emptyOptionLabel=""
+                                            emptyOptionValue=""
+                                            [displayMode]="'code'">
+                            </dms-select-custom>
+                        </div>
+                        <div class="col-md-4 mb-3 pe-3">
+                            <label for="host" class="form-label">Host</label>
+                           <input type="text" class="form-control" id="ip" name="ip" formControlName="ip" maxlength="100">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="jdbc_custom_string" class="form-label">Jdbc Custom String</label>
+                            <input type="text" class="form-control" id="jdbcCustomString" name="jdbcCustomString" formControlName="jdbcCustomString" maxlength="100">
+                        </div>
+        </div>
+        <div class="d-flex" >
+                        <div class="col-md-3  mb-3 pe-3">
+                            <label for="user" class="form-label">User</label>
+                            <input type="text" class="form-control" id="user" name="user" formControlName="user"  maxlength="100" >
+                        </div>
+                        <div class=" col-md-3  mb-3 pe-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" formControlName="password"  maxlength="100">
+                        </div>
+                        <div class="col-md-3  mb-3 pe-3">
+                            <label for="port" class="form-label">Port</label>
+                            <input type="numeric" class="form-control" id="port" name="port" formControlName="port"  maxlength="100">
+                        </div>
+                        <div class=" col-md-3  mb-3">
+                            <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Secure Connection" valueOn="S" valueOff="N" id="secure" name="secure" formControlName="secure"  defaultValue="N" ></dms-toogle-switch>
+                        </div>
+        </div>
+
+        <input type="hidden" id="note" name="note" formControlName="note" >
+        <input type="hidden" id="enabled" name="enabled" formControlName="enabled" >
+      </form>
+       <div class="row">
+                    <div class=" d-inline-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary custom-secondary-btn col-md-3"  *ngIf="editMode == 'I' || editMode == 'C'"  [disabled]="form.invalid" (click)="submitForm()">{{ isNewMode || isCopyMode ? 'Save Item' : 'Add Item' }}</button>
+                   </div>
+        </div>
+    </div>
+  </div>
+</div>
+

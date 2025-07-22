@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <dms-select-filtered-custom-new
+        label="Group Id"
+        id="groupId"
+        name="groupId"
+        [(ngModel)]="groupId"
+        (ngModelChange)="onGroupChange($event)"
+        [optionsObservable]="groupOptions$"
+        [showEmptyOption]="true"
+        emptyOptionLabel=""
+        emptyOptionValue=""
+        [displayMode]="'code-description'">
+      </dms-select-filtered-custom-new>
+    </div>
+    <div class="col-md-6" >
+      <label for=""></label>
+      <div class="mb-3 justify-content-end">
+        <button class="btn btn-primary me-2" (click)="onNewGroup()">New Group</button>
+      </div>
+      <!--<button class="btn btn-secondary" (click)="onCopyGroup()" [disabled]="!groupId">Copy Group</button>-->
+    </div>
+</div>
+
+  <!-- Sezione sottostante -->
+  <div class="mt-4">
+    <!-- Dettagli gruppo esistente -->
+    <ng-container *ngIf="!isNewMode">
+      <div *ngIf="selectedGroup">
+        <h5>Group Details</h5>
+        <p><strong>ID:</strong> {{ selectedGroup.id }}</p>
+        <p><strong>Description:</strong> {{ selectedGroup.description }}</p>
+      </div>
+    </ng-container>
+
+    <!-- Form per New / Copy -->
+    <div *ngIf="isNewMode || isCopyMode">
+      <h5>{{ isNewMode ? 'New Group' : 'Copy Group'}}</h5>
+      <form #manageForm="ngForm" (ngSubmit)="onManageRequest(manageForm.value, editMode)" >
+        <div class="d-flex" >
+          <div class="col-md-6  mb-3 pe-3">
+                  <label for="id" class="form-label">{{componentDescription}} Id</label>
+                  <input type="text" class="form-control" id="id" name="id" maxlength="20" ngModel [disabled]="!isEditEnabled" required>
+          </div>
+          <div class="col-md-6  mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="description" name="description" maxlength="50" ngModel [disabled]="!isEditEnabled">
+          </div>
+        </div>
+        <input type="hidden" id="note" name="note" ngModel>
+        <input type="hidden" id="status" name="status" [(ngModel)]="enabled">
+      </form>
+       <div class="row">
+                    <div class=" d-inline-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary custom-secondary-btn col-md-3"  *ngIf="editMode == 'I'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Add Group</button>
+                   </div>
+        </div>
+    </div>
+  </div>
+</div>

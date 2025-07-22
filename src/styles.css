@@ -1,30 +1,123 @@
 /* You can add global styles to this file, and also import other style files */
 /* template.component.css */
+/*
 .custom-table thead tr th {
     border-bottom: 1px solid #dee2e6; /* Aggiungi bordatura solo alle righe orizzontali */
-  }
+ /* }*/
   
   .custom-table tbody tr td {
     border-top: none; /* Rimuovi bordatura sulle righe verticali */
   }
 
   :root{
+    --dms-principal-bg-colour: rgb(33, 3, 151);
+
+    /*  navbar   */
+    --dms-navbar-active-text: #007bff;
+    --dms-navlink-color: rgba(0, 0, 0, 0.65);
+    --dms-navlink-actvelink-color:rgb(13, 110, 253);
+    --dms-navitem-color-over: #0d0d0db3;
+    --dms-navitem-bg-color-over: #0d0d0d1a;
+    --dms-btn-circle-bg-color: #fff;
+    --dms-btn-circle-border-color:#ddd;
+
+    /* campi tabella standard */
+    --dms-bg-search-color: #ffffff;
+    --dms-bg-fixed-button:  #ffffff;
+    --dms-bg-table-color:  #ffffff;
+    --input-border-color: #ced4da;
+    --dms-bg-table-button:#ffffff;
+
+
+    /* header bottoni */
+    --dms-header-btn-circle-color-over: #0d0d0db3;
+    --dms-header-btn-circle-bg-color-over: #0d0d0d1a;
+
     --dms-toggle-switch-background: rgb(235, 235, 235);
+    --dms-toggle-switch-background-disabled: rgb(233, 236, 239);
     --dms-toggle-switch-border: transparent;
     --dms-toggle-switch-border-radius: 4px;
     --dms-toggle-switch-font-weight: 500;
+
+    --dms-button-test-custom: rgba(13, 13, 13);
+
+    --dms-modal-title: rgba(33, 3, 151);
+
+    /*wizard */
+    --dms-bg-wizard-graphic-card: var(--bs-light-rgb);
+    --dms-wizard-bg-opacity: 1;
+    --dms-bg-wizard-steps: var(--bs-modal-color);
+    --dms-bg-wizard-body: var(--bs-modal-color);
+
+
 
     --dms-label-font-weight: 600;
     --dms-label-font-size:12px;
 
     --dms-btn-border-grey:#cfcfcfff;
     --dms-btn-reset-hover:#e6e6e6ff;
+    --dms-btn-execute-hover:#bb2d3b;
 
     --dms-modal-width: 1200px;
     --dms-modal-bg: var(--bs-body-bg);
-    --dms-navbar-active-text: #007bff;
+
+    --dms-error-toast-bg: #dc3545;
+    --dms-error-toast-text: #ffffff;
+    --dms-error-toast-border: none;
+    --dms-error-toast-border-radius: 8px;
 
   }
+
+  /* campo search tabella */
+  .bg-theme-input {
+    background-color: var(--dms-bg-search-color);
+    border-color: var(--input-border-color);
+  }
+
+  /* sfondo tabella base */
+  .bg-table-custom {
+    background-color: var(--dms-bg-table-color);
+    border-color: var(--input-border-color);
+  }
+
+  .bg-table-button{
+    --dms-bs-bg-opacity: 1;
+    background-color: rgba(var(--dms-bg-table-button), var(--dms-bs-bg-opacity)) !important;
+    border-color: var(--input-border-color);
+  }
+
+
+  
+  :root[data-bs-theme='dark'] {
+    
+    /*--dms-bg-fixed-button:  #21262d;*/
+    --dms-bg-fixed-button:  rgb(33, 37, 41);
+    --dms-bg-table-color: rgb(33, 37, 41);
+    --dms-bg-table-button: rgb(33, 37, 41);
+    --dms-button-test-custom: #fff;
+    --input-bg-color: #21262d;
+    --input-text-color: #f0f6fc;
+    --input-border-color: #30363d;
+
+    --dms-toggle-switch-background: rgb(33, 37, 41);
+    --dms-toggle-switch-background-disabled: rgb(52, 58, 64);
+
+    /*wizard*/
+
+
+ 
+
+
+
+
+  }
+
+
+
+  .bg-custom-detail{
+    background-color: #fff;
+  }
+
 
   label{
     font-size: var(--dms-label-font-size);
@@ -42,7 +135,25 @@
     border-color: #cfcfcfff;
   }
 
+  .btn-execute{
+    font-size: var(--dms-label-font-size);
+    font-weight: var(--dms-label-font-weight);
+    /*border-color: #cfcfcfff;*/
+  }
+
   .btn-log{
+    font-size: var(--dms-label-font-size);
+    font-weight: var(--dms-label-font-weight);
+    border-color: #cfcfcfff;
+  }
+
+  .btn-filter-apply{
+    font-size: var(--dms-label-font-size);
+    font-weight: var(--dms-label-font-weight);
+    border-color: #cfcfcfff;
+  }
+
+  .btn-filter-reset{
     font-size: var(--dms-label-font-size);
     font-weight: var(--dms-label-font-weight);
     border-color: #cfcfcfff;
@@ -62,6 +173,11 @@
     background-color: var(--dms-btn-reset-hover);
   }
 
+  /*
+  .btn-execute:hover{
+    background-color: var(--dms-btn-execute-hover);
+  }*/
+
 
   .custom-secondary-btn {
     background-color: rgb(70, 166, 124); /* Colore di default */
@@ -78,5 +194,139 @@
     color: var(--dms-navbar-active-text);
   }
 
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+
+
+
+/* navbar e navlink */
+.nav-link{
+  color: var(--dms-navlink-color);
+}
+
+
+
+/*toast per errori*/
+/* Toast di errore personalizzato - con variabili CSS */
+.p-toast .custom-error-toast {
+  background-color: var(--dms-error-toast-bg) !important;
+  border: none !important;
+  border-color: var(--dms-error-toast-border) !important;
+  border-radius: var(--dms-error-toast-border-radius) !important; 
+  color: var(--dms-error-toast-text) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Contenuto del toast */
+.p-toast .custom-error-toast .p-toast-message-content {
+  border: var(--dms-error-toast-border) !important;
+  padding: 1rem;
+}
+
+/* Icona, titolo e testo */
+.p-toast .custom-error-toast .p-toast-message-icon,
+.p-toast .custom-error-toast .p-toast-summary,
+.p-toast .custom-error-toast .p-toast-detail {
+  color: var(--dms-error-toast-text) !important;
+}
+
+/* Pulsante di chiusura */
+.p-toast .custom-error-toast .p-toast-icon-close {
+  color: var(--dms-error-toast-text) !important;
+}
+
+/* Stile aggiuntivo per coerenza con il tema */
+.p-toast .custom-error-toast .p-toast-summary {
+  font-weight: var(--dms-label-font-weight);
+  font-size: var(--dms-label-font-size);
+}
+
+/* Effetto hover per il pulsante di chiusura */
+.p-toast .custom-error-toast .p-toast-icon-close:hover {
+  opacity: 0.8;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+/* Animazione di ingresso */
+@keyframes customToastFadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.p-toast .custom-error-toast {
+  animation: customToastFadeIn 0.3s ease-out;
+}
+
+
+/**************************/
+/* bottoni personalizzati */
+/**************************/
+/* Pulsante neutro, da usare al posto di btn-primary / btn-secondary */
+/*
+.btn.custom-neutral-btn {
+  background-color: rgba(255,255,255,0.03)  !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: rgba(255,255,255,0.8) !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn.custom-neutral-btn:hover:not(:disabled) {
+  background-color: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.2) !important;
+}
+
+.btn.custom-neutral-btn:disabled,
+.btn.custom-neutral-btn[disabled] {
+  background-color: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.05) !important;
+  color: rgba(255,255,255,0.3) !important;
+  cursor: not-allowed;
+  opacity: 1;
+}
+*/
+
+/* Variante per tema scuro */
+
+:root[data-bs-theme="dark"] .btn.custom-neutral-btn {
+  background-color: rgba(255,255,255,0.03)  !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+:root[data-bs-theme="dark"] .btn.custom-neutral-btn:hover:not(:disabled) {
+  background-color: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.2) !important;
+}
+:root[data-bs-theme="dark"] .btn.custom-neutral-btn:disabled,
+:root[data-bs-theme="dark"] .btn.custom-neutral-btn[disabled] {
+  background-color: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.05) !important;
+  color: rgba(255,255,255,0.3) !important;
+}
+
+
+/* Variante per tema light */
+:root[data-bs-theme="light"] .btn.custom-neutral-btn {
+  background-color: rgba(0,0,0,0.03)  !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  color: rgba(0,0,0,0.8) !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+:root[data-bs-theme="light"] .btn.custom-neutral-btn:hover:not(:disabled) {
+  background-color: rgba(0,0,0,0.08) !important;
+  border-color: rgba(0,0,0,0.2) !important;
+}
+:root[data-bs-theme="light"] .btn.custom-neutral-btn:disabled,
+:root[data-bs-theme="light"] .btn.custom-neutral-btn[disabled] {
+  background-color: rgba(0,0,0,0.06) !important;
+  border-color: rgba(0,0,0,0.05) !important;
+  color: rgba(0,0,0,0.3) !important;
+}
+

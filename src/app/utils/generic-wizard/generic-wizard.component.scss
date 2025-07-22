@@ -1,0 +1,122 @@
+
+
+.wizard-wrapper {
+  max-width: 95%;
+  
+  .dms-wizard-graphic-card{
+    background-color: rgba(var(--dms-bg-wizard-graphic-card), var(--dms-wizard-bg-opacity)) !important;
+  }
+
+  .dms-wizard-body{
+     background-color: rgba(var(--dms-bg-wizard-body), var(--dms-wizard-bg-opacity)) !important;
+  }
+
+  .intro-card {
+    background-color: #fdfdfd;
+    border: 1px solid #eaeaea;
+    img {
+      max-height: 100px;
+    }
+  }
+
+  .step-card {
+    border: 1px solid #ddd;
+  }
+
+  h5 {
+    font-weight: 600;
+  }
+
+  select, input {
+    min-height: 45px;
+  }
+}
+
+.steps {
+  background-color: var(--dms-bg-wizard-steps);
+
+  .step {
+    cursor: pointer;
+    position: relative;
+    
+    .circle {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      font-weight: 600;
+      color: #666;
+      /*&.active {
+        border-color: #007bff;
+        background-color: #007bff;
+        color: #fff;
+      }*/
+    }
+    .step-label {
+      font-size: 0.875rem;
+      color: #999;
+    }
+
+    &.active {
+      .circle {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        color: #fff;
+      }
+      .step-label {
+        font-weight: 600;
+        color: var(--bs-primary);
+      }
+    }
+
+  }
+}
+
+
+
+/* override per tema dark basato su data-bs-theme */
+:host-context(html[data-bs-theme="dark"]) {
+  .steps {
+
+    .step {
+      .circle {
+        border: 2px solid var(--dms-btn-border-grey);
+        color: var(--dms-navlink-color);
+        background-color: transparent;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+      }
+
+      .step-label {
+        margin-top: 0.5rem;
+        color: var(--dms-navlink-color);
+        font-size: var(--dms-label-font-size);
+        font-weight: var(--dms-label-font-weight);
+        transition: color 0.2s;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        .circle {
+          border-color: rgba(255, 255, 255, 0.2);
+          color: rgba(255, 255, 255, 0.2);
+        }
+        .step-label {
+          color: rgba(255, 255, 255, 0.2);
+        }
+      }
+
+      &.active {
+        .circle {
+          background-color: var(--dms-navbar-active-text);
+          border-color: var(--dms-navbar-active-text);
+          color: #fff;
+        }
+        .step-label {
+          color: var(--dms-navbar-active-text);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

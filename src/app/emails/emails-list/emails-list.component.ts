@@ -22,6 +22,11 @@ export class EmailsListComponent extends DefaultTableComponent  implements OnIni
 
  subscription: Subscription;
 
+ /**********valori per gestire componente inizializzato solo all'apertura modale************************/    
+ showEditComponent: boolean = false;
+ selectedItem: any;
+ modalMode: string = '';
+
  constructor(private emailService: EmailService, private modalServiceF: NgbModal, private elF: ElementRef )  {
    super(modalServiceF, elF);
  }
@@ -38,8 +43,8 @@ export class EmailsListComponent extends DefaultTableComponent  implements OnIni
  loadTableData(){
    this.columns = [
      { header: 'Id', field: 'id', type: '' },
-     { header: 'Status', field: 'enabled', type: '' },
-     { header: 'Subject', field: 'subject', type: '' }
+     { header: 'Subject', field: 'subject', type: '' },
+     { header: 'Enabled', field: 'enabled', type: 'enabled' }
    ];
    this.subscription = this.emailService.emailChanged.subscribe(
      (emails: EmailStruct[]) => {
@@ -74,6 +79,11 @@ export class EmailsListComponent extends DefaultTableComponent  implements OnIni
 
 onManageItem(event : {item: any, mode: string}): void {
   this.emailService.manageItem.next(event);
+
+  /****************per gestire componente inizializzato solo all'apertura modale***************************/ 
+  this.selectedItem = event.item;
+  this.modalMode = event.mode;
+  this.showEditComponent = true;
 }
 
 
@@ -83,7 +93,10 @@ refreshTable(): void {
 
 onCloseModal(){
   this.defaultTableComponent.closeModal();
+  this.showEditComponent = false;
 }
+
+
 
 clearErr(){
   this.isError=null;

@@ -24,12 +24,12 @@ export class LogsListComponent extends DefaultTableComponent  implements OnInit 
 
   loadTableData(){
     this.columns = [
-      { header: 'ID', field: 'id', type: '' },
+      { header: 'Id', field: 'id', type: '' },
       { header: 'Host', field: 'host', type: '' },
-      { header: 'ID Flusso', field: 'id_flusso', type: '' },
-      { header: 'Esito', field: 'esito', type: '' },
-      { header: 'Timestamp Inizio', field: 'timestamp_inizio', type: '' },
-      { header: 'Timestamp Fine', field: 'timestamp_fine', type: '' }
+      { header: 'Flow Id ', field: 'id_flusso', type: '' },
+      { header: 'Result', field: 'esito', type: '' },
+      { header: 'Timestamp Start', field: 'timestamp_inizio', type: '' },
+      { header: 'Timestamp End', field: 'timestamp_fine', type: '' }
     ];
 
     this.items = this.logService.getLogs();

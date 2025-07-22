@@ -1,0 +1,103 @@
+/* select-filtered-custom.component.css */
+
+/* 1) wrapper flessibile */
+.dms-select-wrapper {
+  position: relative;
+  width: 100%;         /* si adatta al container, come un form-select normale */
+
+  .form-select {
+    /* altezza totale = 2.25rem (line-height) + 2px (bordo) */
+    height: calc(2.25rem + 2px) !important;
+    /* padding top/bottom = .375rem, left/right = .75rem (come bootstrap) */
+    padding: .375rem .75rem !important;
+    line-height: 1.5;
+  }
+}
+
+
+/* 4) il dropdown deve stare in overlay */
+.dms-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  border: 1px solid #ced4da;       /* stesso colore di .form-select */
+  border-radius: .25rem;           /* stesso border-radius di bootstrap */
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+/* resto invariato */
+.dms-filter-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  outline: none;
+}
+
+.dms-options-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dms-options-list .dms-option {
+  display: flex;
+  align-items: center;
+  /* altezza esatta di un .form-select di Bootstrap: calc(2.25rem + 2px) */
+  height: calc(2.25rem + 2px);
+  /* padding orizzontale identico a .form-select (.75rem = 12px) */
+  padding: 0 .75rem;
+  cursor: pointer;
+}
+
+.dms-option:hover {
+  background-color: #f0f0f0;
+}
+.dms-options-list .dms-option.empty {
+  font-style: italic;
+}
+.dms-no-results {
+  padding: 8px 12px;
+  color: #888;
+  font-style: italic;
+}
+
+
+
+/* Solo per dark mode, quando il tema viene propagato con data-bs-theme="dark" */
+:host-context([data-bs-theme="dark"]) {
+  .dms-select-wrapper {
+    .form-select {
+      background-color: var(--dms-bg-select-filtered); /* #21262d :contentReference[oaicite:0]{index=0} */
+      border-color: var(--input-border-color);  /* #30363d :contentReference[oaicite:1]{index=1} */
+      color: var(--dms-color-select-filtered);           /* #f0f6fc :contentReference[oaicite:2]{index=2} */
+    }
+
+    .dms-dropdown {
+      background-color: var(--dms-bg-select-filtered);
+      border-color: var(--input-border-color);
+
+      .dms-filter-input {
+        background-color: var(--dms-bg-select-filtered);
+        border-color: var(--input-border-color);
+        color: var(--dms-color-select-filtered);
+      }
+
+      .dms-options-list {
+        .dms-option {
+          color: var(--dms-color-select-filtered);
+          &:hover {
+            background-color: rgba(255,255,255,0.08); /* effetto hover chiaro su dark :contentReference[oaicite:3]{index=3} */
+          }
+        }
+        .dms-no-results {
+          color: var(--dms-bg-select-filtered);
+        }
+      }
+    }
+  }
+}

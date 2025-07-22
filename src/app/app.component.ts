@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { Router } from '@angular/router';
 import { ConfigService } from './utils/config.service';
 import { StyleService } from './utils/style.service';
+import { ThemeService } from './utils/theme.service';
+import { OptionsComponent } from './utils/options/options.component';
 
 @Component({
     selector: 'dms-root',
@@ -16,11 +18,12 @@ export class AppComponent implements OnInit{
   containerHeight = '100vh';
   isAuth : boolean = false;
   toolBarSubscription : Subscription;
+  @ViewChild('optionsPanel') optionsPanel!: OptionsComponent;
 
   apiBaseUrl: string | undefined;
   googleApiConfig: { baseUrl: string, apiKey: string } | undefined;
 
-  constructor(private authService : AuthService, private router : Router, private configService: ConfigService, private styleService: StyleService){}
+  constructor(private authService : AuthService, private router : Router, private configService: ConfigService, private styleService: StyleService, private themeService: ThemeService ){}
 
   ngOnInit(): void {
     this.apiBaseUrl = this.configService.getApiBaseUrl();
@@ -29,6 +32,11 @@ export class AppComponent implements OnInit{
     this.styleService.currentHeight.subscribe((height) => {
       this.containerHeight = height;
     });
+
+    const user = JSON.parse(localStorage.getItem('userData') || '{}');
+    const userTheme = user.theme || 'default-theme.css';
+    this.themeService.loadTheme(userTheme);
+
     /*
     console.log('API Base URL:', this.apiBaseUrl);
     console.log('Google API Config:', this.googleApiConfig);
@@ -47,6 +55,11 @@ export class AppComponent implements OnInit{
   onNavigate(activeAuth: boolean) {
     //console.log(activeAuth)
     this.isAuth = activeAuth;
+  }
+
+  //per apertura pannello opzioni
+  openOptionsPanel() {
+    this.optionsPanel.open();
   }
 
 }

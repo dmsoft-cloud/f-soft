@@ -1,0 +1,150 @@
+:root {
+    /* SFONDO generale */
+    --dms-principal-bg-colour: #ffffff;
+
+    /*  navbar   */
+    --dms-navbar-active-text: #007bff;
+    --dms-navlink-color: rgba(0, 0, 0, 0.65);
+    --dms-navlink-actvelink-color:rgb(13, 110, 253);
+    --dms-navitem-color-over: #0d0d0db3;
+    --dms-navitem-bg-color-over: #0d0d0d1a;
+
+    /* COLORI BASE */
+    --dms-btn-execute-hover: #198754; /* greenish */
+    --dms-btn-reset-hover: #f8f9fa; /* very light gray */
+    --dms-modal-bg: #fefefe;
+
+
+    --dms-label-font-size: 13px;
+    --dms-label-font-weight: 500;
+    --dms-error-toast-bg: #f8d7da;
+    --dms-error-toast-text: #842029;
+    --dms-error-toast-border: 1px solid #f5c2c7;
+    --dms-error-toast-border-radius: 10px;
+    --dms-btn-border-grey: #dee2e6;
+    --dms-toggle-switch-background: #f1f1f1;
+    --dms-toggle-switch-border: rgb(222, 226, 230);
+    --dms-toggle-switch-border-radius: 6px;
+  }
+
+  /* toogle swicth    */
+.toggle-switch .radiogroup .lab{
+  height: 100%;
+   color: #0d0d0dff;
+   cursor: pointer;
+}
+
+/*****************************/
+/*   sezioni standard pagine */ 
+/*   di gestione             */
+/*****************************/
+.right-custom-section {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.035), rgba(255, 255, 255, 0));
+    /*background:  rgba(0, 0, 0, 0.035);*/
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+
+  .main-table-custom {
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.035), rgba(255, 255, 255, 0));
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+  
+  /*****************************/
+  /*   sezioni standard cards  */ 
+  /*   dashboard               */
+  /*****************************/
+  
+    .main-card-custom{
+      background: linear-gradient(to left, rgba(0, 0, 0, 0.035), rgba(255, 255, 255, 0));
+      border-left: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+    }
+    
+  @media (min-width: 1200px) {
+    .main-card-offset-left {
+      margin-left: 1.5%;
+    }
+
+    .main-card-offset-right {
+      margin-right: 1.5%;
+    }
+
+    .col-md-4-main-card{
+      flex: 0 0 calc(33.3333% - 2%);
+      max-width: calc(33.3333% - 2%);
+    }
+
+    .col-md-8-main-card{
+      flex: 0 0 calc(66.6667% - 1%);
+      max-width: calc(66.6667% - 1%);
+      margin-right: 1.5%;
+      
+    }
+  }
+
+
+
+  @media (min-width: 1200px) {
+    .mr-xl-custom {
+      margin-right: 0px; /* spazio visivo fra i due componenti */
+      padding-right: 50px;
+      padding-left: 50px;
+    }
+
+    .ml-xl-custom {
+      margin-left: 0px; /* spazio visivo fra i due componenti */
+      padding-right: 50px;
+      padding-left: 20px;
+    }
+
+    .custom-col-left {
+      flex: 0 0 63%;
+      max-width: 63%;
+    }
+  
+    .custom-offset-right {
+      margin-left: 2.5%;
+    }
+
+    .main-canvas-costum-pt{
+      margin-top: 20px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .mr-xl-custom {
+      margin-right: 0px; /* spazio visivo fra i due componenti */
+      padding-right: 50px;
+      padding-left: 50px;
+    }
+
+    .ml-xl-custom {
+      margin-left: 0px; /* spazio visivo fra i due componenti */
+      padding-right: 50px;
+      padding-left: 50px;
+    }
+
+    .custom-col-left {
+      flex: 0 0 63%;
+      max-width: 63%;
+    }
+  
+    .custom-offset-right {
+      margin-left: 3.66%;
+    }
+
+    .main-canvas-costum-pt{
+      margin-top: 20px;
+    }
+  }

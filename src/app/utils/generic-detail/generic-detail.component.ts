@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEnca
 import { NgForm } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AuditlogStruct } from '../structs/auditlogStruct';
+import { GenericWizardComponent } from '../generic-wizard/generic-wizard.component';
+import { GenericVerticalWizardComponent } from '../generic-vertical-wizard/generic-vertical-wizard.component';
 
 @Component({
     selector: 'dms-generic-detail',
@@ -14,13 +16,17 @@ export class GenericDetailComponent {
 
   @Input() buttonDescription: string = "Default Descriptions";
   @Input() isQuickEditEnabled: boolean = false;
+  @Input() wizardActive: boolean = false;
 
   @Output() quickEdit = new EventEmitter<boolean>(); 
   @Output() itemInsert = new EventEmitter<{item: any, mode: string}>();
+  @Output() openWizard = new EventEmitter<void>();
+  @Output() closeModalEvent = new EventEmitter<void>(); //evento chiusura modale
   
   @ViewChild('content') modalContent!: ElementRef;
   @ViewChild('insertForm') insertForm!: NgForm;
 
+  showLateralWizard = false;
   auditlog: AuditlogStruct = new AuditlogStruct();
 
   private modalRef: NgbModalRef | null = null; //componente per gestione modale
@@ -71,6 +77,11 @@ export class GenericDetailComponent {
     }
   }
 
+  simpleCloseModal(modal: any): void{
+    modal.dismiss('Cross click');
+    this.closeModalEvent.emit();
+  }
+
 
   onCreatePost(formData: any) {
     console.log('Insert Form Data:', formData);
@@ -85,5 +96,25 @@ export class GenericDetailComponent {
       form.ngSubmit.emit();
     }
   }
+
+  openWizardModal() {
+    /*this.modalService.open(GenericWizardComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false
+    });*/
+    this.openWizard.emit();
+  }
+
+  openLateralWizard() {
+    /*this.modalService.open(GenericVerticalWizardComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false
+    });*/
+    this.openWizard.emit();
+  }
+
+
 
 }
