@@ -12,27 +12,29 @@
             </ul>
             <br>
             <div class="col-md-12">
-                <form #manageForm="ngForm" (ngSubmit)="onManageRequest(manageForm.value, editMode)">
+                <form [formGroup]="form" (ngSubmit)="submitItem(editMode)">
                     <div class="tab-content" id="myTabContent">
                         <div [hidden]="activeTab !== 'basicData'">
                             <div class="d-flex" >
                                 <div class="col-md-6  mb-3 pe-3">
                                     <label for="id" class="form-label">{{componentDescription}} Id</label>
-                                    <input type="text" class="form-control" id="id" name="id" maxlength="20" ngModel [disabled]="!isEditEnabled" required>
+                                    <input type="text" class="form-control" id="id" name="id" formControlName="id"  maxlength="20" [ngClass]="{ 'is-invalid': isInvalid('id') }" >
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <dms-toogle-switch lableOn="Enable" lableOff="Disable" lableComponent="Email Enabled" defaultValue="S"  valueOn="S" valueOff="N" ngModel id="enabled" name="enabled" defaultValue="S" [disabled]="!isEditEnabled"></dms-toogle-switch>
+                                    <dms-toogle-switch lableOn="Enable" lableOff="Disable" lableComponent="Email Enabled" defaultValue="S"  valueOn="S" valueOff="N" id="enabled" name="enabled" formControlName="enabled"  defaultValue="S" ></dms-toogle-switch>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="subject" class="form-label">Subject</label>
-                                <input type="text" class="form-control" id="subject" name="subject" maxlength="100" ngModel [disabled]="!isEditEnabled">
+                                <input type="text" class="form-control" id="subject" name="subject" formControlName="subject"  maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('id') }"  >
                             </div>
 
                             <!-- Campo per i destinatari To -->
                             <div class="mb-3">
                                 <label for="toRecipients" class="form-label">TO</label>
-                                <input type="text" class="form-control" id="toRecipients" name="toRecipients" [(ngModel)]="toInput" (keyup.enter)="addToRecipient()" [disabled]="!isEditEnabled" placeholder="Inserisci email e premi Invio">
+                                <input type="text" class="form-control" id="toRecipients" name="toRecipients"  formControlName="toInput"
+                                    (keyup.enter)="addToRecipient()"
+                                    placeholder="Insert an email and press Enter">
                                 <div class="mt-2">
                                     <span *ngFor="let recipient of toRecipients" class="badge bg-primary me-2" >
                                         {{ recipient.emailAddress }}
@@ -44,7 +46,8 @@
                             <!-- Campo per i destinatari CC -->
                             <div class="mb-3">
                                 <label for="ccRecipients" class="form-label">CC</label>
-                                <input type="text" class="form-control" id="ccRecipients" name="ccRecipients" [(ngModel)]="ccInput" (keyup.enter)="addCcRecipient()" [disabled]="!isEditEnabled" placeholder="Inserisci email e premi Invio">
+                                <input type="text" class="form-control" id="ccRecipients" name="ccRecipients" formControlName="ccInput"
+                                        (keyup.enter)="addCcRecipient()"  placeholder="Insert an email and press Enter">
                                 <div class="mt-2">
                                     <span *ngFor="let recipient of ccRecipients" class="badge bg-secondary me-2" >
                                         {{ recipient.emailAddress }}
@@ -59,22 +62,24 @@
                         <div [hidden]="activeTab !== 'messageData'">
                             
                             <editor *ngIf="tinyMceEnabled" apiKey="wazuvay45cor9e80y1jg272gkq0y8bggwzocccqbhuo2jxkh"
-                                id="bodyHtml" name="bodyHtml"   [disabled]="!isEditEnabled"
+                                id="bodyHtml" name="bodyHtml" formControlName="bodyHtml" 
                                 
                                 [(ngModel)]="bodyHtml"
                                 [init]="getEditorConfig()"
+                                [ngClass]="{ 'is-invalid': isInvalid('id') }" 
                             ></editor>
                             
                             <quill-editor *ngIf="!tinyMceEnabled"
-                                id="bodyHtml" name="bodyHtml"   [disabled]="!isEditEnabled"
+                                id="bodyHtml" name="bodyHtml" formControlName="bodyHtml"
                                 [(ngModel)]="bodyHtml"
-                                 [style]="{height: '250px'}">
+                                 [style]="{height: '250px'}"
+                                 [ngClass]="{ 'is-invalid': isInvalid('id') }" >
                             </quill-editor>
                         </div>
                     </div>
                     
                     <!-- campi nascosti -->
-                    <input type="hidden" id="note" name="note" ngModel>
+                    <input type="hidden" id="note" name="note" formControlName="note">
                 </form>
             </div>    
         </div>
@@ -86,10 +91,10 @@
                     <div class=" d-inline-flex justify-content-end">
                         <div></div>
                         <button type="button" class="btn btn-light col-md-3 pe-3 me-3" *ngIf="editMode == 'E' || editMode == 'C'" >Reset {{ componentDescription }}</button>
-                        <button type="button" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'I' || editMode == ''"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Insert {{ componentDescription }}</button>
-                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'C'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)" >Copy {{ componentDescription }}</button>
-                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'D'" (click)="submitForm(manageForm)">Delete {{ componentDescription }}</button>
-                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'E'"  [disabled]="!manageForm.valid"  (click)="submitForm(manageForm)">Update {{ componentDescription }}</button>
+                        <button type="button" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'I' || editMode == ''"  [disabled]="form.invalid"  (click)="submitForm()">Insert {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'C'" [disabled]="form.invalid"  (click)="submitForm()" >Copy {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'D'" (click)="submitForm()">Delete {{ componentDescription }}</button>
+                        <button type="submit" class="btn btn-secondary col-md-3"  *ngIf="editMode == 'E'"  [disabled]="form.invalid"  (click)="submitForm()">Update {{ componentDescription }}</button>
                     </div>
                 </div>
             </div>

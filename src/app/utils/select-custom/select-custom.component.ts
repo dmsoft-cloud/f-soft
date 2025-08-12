@@ -26,6 +26,8 @@ export class SelectCustomComponent implements OnInit, ControlValueAccessor {
   @Input() displayMode: 'code-description' | 'code' | 'description' = 'code-description';
   @Input() defaultValue?: string; // input per il valore predefinito
   @Input() id: string = 'custom-select';
+  @Input() selectNgClass: { [klass: string]: any } | string = {};
+
 
   @Input() showEmptyOption: boolean = false; // Abilita o disabilita la riga vuota
   @Input() emptyOptionValue: string = ''; // Valore della riga vuota

@@ -61,4 +61,11 @@ export abstract  class BaseEditComponent implements OnInit, OnDestroy {
     this.submitted = false;
   }
 
+  //metodo di verifica validità campo
+  isInvalid(controlName: string): boolean {
+    const control = this.form?.get(controlName);
+    //return !!(control && control.invalid && (control.touched || control.dirty));
+    return !!(control && control.invalid && Object.values(this.form.controls).some(c=>c.touched));
+  }
+
 }

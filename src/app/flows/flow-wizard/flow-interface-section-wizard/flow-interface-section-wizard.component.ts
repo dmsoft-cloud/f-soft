@@ -74,14 +74,16 @@ export class FlowInterfaceSectionWizardComponent extends InterfaceEditComponent 
         this.initialInterfaceId = this.selectedInterface.id;
         this.isViewMode = true;
         this.interfaceService.manageItem.next({item : this.selectedInterface , mode : "S"});
+        this.selection.emit(id);
+        this.validityChange.emit(!!id);
       });
     } else {
       this.selectedInterface = undefined;
       this.initialInterfaceId = '';
+      this.selection.emit(null);
+      this.validityChange.emit(!!id);
     }
     this.editMode = '';
-    this.selection.emit(id);
-    this.validityChange.emit(!!id);
   }
 
 

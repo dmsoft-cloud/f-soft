@@ -108,7 +108,7 @@ export class OriginEditComponent extends BaseEditComponent implements OnInit, On
           this.originService.getOrigin(id).subscribe({
             next: (existingItem) => {
               if (existingItem) {
-                this.manualErrors.push('Id already exist !!');
+                this.manualErrors.push('ID already exists !');
                 this.form.markAllAsTouched();
                 return;
               } else {
@@ -304,8 +304,10 @@ export class OriginEditComponent extends BaseEditComponent implements OnInit, On
       return errs;
     }
     const c = this.form.controls;
+    if (c.id.errors?.required)      errs.push('ID is mandatory');
     if (c.dbType.errors?.required)      errs.push('Type is mandatory');
     if (c.ip.errors?.required)      errs.push('Host is mandatory');
+    if (c.user.errors?.required)      errs.push('User is mandatory');
     return errs;
   }
 

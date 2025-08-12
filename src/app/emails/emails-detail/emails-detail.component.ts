@@ -58,7 +58,8 @@ export class EmailsDetailComponent extends GenericDetailComponent implements OnI
             enabled: selectedItem.enabled,
             note: selectedItem.note,
             recipients: selectedItem.recipients         
-          })
+          });
+          this.toggleQuickEdit(false);
       } 
     );
 

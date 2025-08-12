@@ -56,7 +56,8 @@ export class GroupsDetailComponent extends GenericDetailComponent implements OnI
             description: selectedItem.description,
             notes: selectedItem.notes,
             status: selectedItem.enabled
-          })
+          });
+          this.toggleQuickEdit(false);
       } 
     );
 

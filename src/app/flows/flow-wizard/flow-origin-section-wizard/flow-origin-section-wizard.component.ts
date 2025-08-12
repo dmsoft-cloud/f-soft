@@ -72,14 +72,16 @@ export class FlowOriginSectionWizardComponent extends OriginEditComponent  {
         this.initialOriginId = this.selectedOrigin.id;
         this.isViewMode = true;
         this.originService.manageItem.next({item : this.selectedOrigin , mode : "S"});
+        this.selection.emit(id);
+        this.validityChange.emit(!!id);
       });
     } else {
       this.selectedOrigin = undefined;
       this.initialOriginId = '';
+      this.selection.emit(null);
+      this.validityChange.emit(!!id);
     }
     this.editMode = '';
-    this.selection.emit(id);
-    this.validityChange.emit(!!id);
   }
 
 

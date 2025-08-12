@@ -64,14 +64,16 @@ export class FlowGoupSectionWizardComponent extends GroupEditComponent {
       this.groupService.getGroup(id).subscribe(group => {
         this.selectedGroup = group;
         this.initialGroupId = this.selectedGroup.id;
+        this.selection.emit(id);
+        this.validityChange.emit(!!id);
       });
     } else {
       this.selectedGroup = undefined;
       this.initialGroupId = '';
+      this.selection.emit(null);
+      this.validityChange.emit(!!id);
     }
     this.editMode = '';
-    this.selection.emit(id);
-    this.validityChange.emit(!!id);
   }
 
 

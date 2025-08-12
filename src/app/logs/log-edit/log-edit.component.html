@@ -1,0 +1,66 @@
+<div data-section class="container mt-3">
+    <div class="modal-body">
+        <div class="container-fluid">
+
+            <div class="col-md-12 d-inline-flex">
+                <div class="col-md-1  mb-3 pe-3">
+                        <label for="logProgrLog" class="form-label">Prog Log </label>
+                        <input type="text" class="form-control" id="logProgrLog" name="logProgrLog" [ngModel]="currentItem?.logProgrLog" maxlength="20"  [disabled]="!isEditEnabled" >
+                </div>
+                <div class="col-md-3  mb-3 pe-3">
+                        <label for="logId" class="form-label">Flow Id</label>
+                        <input type="text" class="form-control" id="logId" name="logId" ngModel maxlength="20"  [disabled]="!isEditEnabled" >
+                </div>
+                <div class="col-md-2  mb-3 pe-3">
+                        <label for="logEsito" class="form-label">Result</label>
+                        <input type="text" class="form-control" id="logEsito" name="logEsito" [ngModel]="currentItem?.logEsito"  [disabled]="!isEditEnabled">
+                </div>
+            </div>
+            
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="basic-tab" [ngClass]="{'active': activeTab === 'basicData'}" (click)="activeTab = 'basicData'" >Basic Data</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="flagData-tab" [ngClass]="{'active': activeTab === 'connectionData'}" (click)="activeTab = 'connectionData'" >Additional Connection Data</button>
+                </li>
+            </ul>
+            <br>
+            <div class="col-md-12">
+                <form #manageForm="ngForm">
+                    <div class="tab-content" id="baseContent">
+                            <div [hidden]="activeTab !== 'basicData'">
+                                <div class="d-flex" >
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="logTipFlusso" class="form-label">Type</label>
+                                        <input type="text" class="form-control" id="logTipFlusso" name="logTipFlusso" ngModel  [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-4  mb-3 pe-3">
+                                        <label for="logDirezione" class="form-label">Direction</label>
+                                        <input type="text" class="form-control" id="logDirezione" name="logDirezione" ngModel  [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-4  mb-3 ">
+                                            <dms-toogle-switch lableOn="Enabled" lableOff="Disabled" lableComponent="Flow status" defaultValue="S"  valueOn="S" valueOff="N" id="logStato" name="logStato" ngModel defaultValue="S" [disabled]="!isEditEnabled" ></dms-toogle-switch>
+                                    </div>
+                                </div>
+                                <div class="d-flex" >
+
+                                    <div class="col-md-6  mb-3 pe-3">
+                                                <label for="logTsFine" class="form-label">End Time</label>
+                                                <input type="text" class="form-control" id="logTsFine" name="logTsFine" ngModel  [disabled]="!isEditEnabled">
+                                    </div>
+                                    <div class="col-md-6  mb-3">
+                                            <label for="logTsInizio" class="form-label">Start Time </label>
+                                            <input type="text" class="form-control" id="logTsInizio" name="logTsInizio" ngModel  [disabled]="!isEditEnabled">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>

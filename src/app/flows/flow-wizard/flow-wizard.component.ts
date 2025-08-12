@@ -41,7 +41,7 @@ export class FlowWizardComponent implements AfterViewInit {
   flowCardImage = 'assets/img/flow_dark.png';
 
   @ViewChild(FlowGoupSectionWizardComponent) groupStep!: FlowGoupSectionWizardComponent;
-  @ViewChild(FlowModelSectionWizardComponent) modelStep!: FlowModelSectionWizardComponent;
+  @ViewChild('modelStep') modelStep!: FlowModelSectionWizardComponent;
   @ViewChild(FlowOriginSectionWizardComponent) originStep!: FlowOriginSectionWizardComponent;
   @ViewChild(FlowInterfaceSectionWizardComponent) interfaceStep!: FlowInterfaceSectionWizardComponent;
   @ViewChild(FlowLastSectionWizardComponent) lastSectionComponent!: FlowLastSectionWizardComponent;
@@ -59,6 +59,9 @@ export class FlowWizardComponent implements AfterViewInit {
   selectedModelId?: string;
   selectedOriginId?: string;
   selectedInterfaceId?: string;
+
+  /** Lista di step (per indice) da saltare: es. [2] per il terzo */
+  skipStepsIndices: number[] = [];
 
 
   constructor(public activeModal: NgbActiveModal,  private wizardState: FlowWizardStateService) {}
@@ -96,24 +99,32 @@ export class FlowWizardComponent implements AfterViewInit {
 
   storeSelectedItem(newId: string){
     const step = this.wizard.currentStep;
-    switch (step) {
-      case 0: // Group step
+    const label = this.wizard.steps[this.wizard.currentStep].label;
+    switch (label) {
+      case 'Group': // Group step
         this.selectedGroupId = newId;
         // use the selected object from the child component
         this.wizardData.group = this.groupStep?.selectedGroup!;
         this. wizardState.updateState('group', this.wizardData.group);
         break;
-      case 1: // Model step
+      case 'Model': // Model step
         this.selectedModelId = newId;
         this.wizardData.model = this.modelStep?.selectedModel!;
         this.wizardState.updateState('model', this.wizardData.model);
+         // se type D, mostro tutti; se I, salto il terzo (Origin)
+         if (this.wizardData.model.type === 'D') {
+           this.skipStepsIndices = [];
+         } else {
+           this.skipStepsIndices = [2]; //salto lo step origin e lo annullo se già popolato
+           this.selectedOriginId = null;
+         }
         break;
-      case 2: // Origin step
+      case 'Origin': // Origin step
         this.selectedOriginId = newId;
         this.wizardData.origin = this.originStep?.selectedOrigin!;
         this.wizardState.updateState('origin', this.wizardData.origin);
         break;
-      case 3: // Interface step
+      case 'Interface': // Interface step
         this.selectedInterfaceId = newId;
         this.wizardData.interface = this.interfaceStep?.selectedInterface!;
         this.wizardState.updateState('interface', this.wizardData.interface);
@@ -137,7 +148,11 @@ export class FlowWizardComponent implements AfterViewInit {
 
   
   activeCompleteWizard(validity : boolean){
-    this.stepValidity[4]=validity;
+    //this.stepValidity[4]=validity;
+    // trova l’indice dell’ultimo step (Finalize Flow)
+     const last = this.wizard.steps.findIndex(s => s.label === 'Finalize Flow');
+     if (last >= 0) this.stepValidity[last] = validity;
+     this.wizard.stepValidity = this.stepValidity
   }
 
  

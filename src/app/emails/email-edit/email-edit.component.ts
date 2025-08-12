@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,  OnChanges, SimpleChanges } from '@angular/core';
 import { filter, map, Observable, Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { EditorComponent } from '@tinymce/tinymce-angular';
 
 
@@ -10,6 +10,7 @@ import { GenericEditComponent } from '../../utils/generic-edit/generic-edit.comp
 import { enumToSelectOptions, SelectOption } from '../../utils/select-custom/select-option.model';
 import { EmailService } from '../email.service';
 import { EmailStruct } from '../../utils/structs/emailStruct';
+import { BaseEditComponent } from '../../utils/base-edit/base-edit.component';
 
 @Component({
     selector: 'dms-email-edit',
@@ -17,7 +18,12 @@ import { EmailStruct } from '../../utils/structs/emailStruct';
     styleUrl: './email-edit.component.css',
     standalone: false
 })
-export class EmailEditComponent extends GenericEditComponent implements OnInit, OnDestroy {
+export class EmailEditComponent extends BaseEditComponent implements OnInit, OnDestroy {
+
+  @Input() record: EmailStruct | null = null; 
+  @Output() invalidFields = new EventEmitter<string[]>();
+  manualErrors: string[] = [];
+
   @Output() closeModal = new EventEmitter();
   @Input() componentDescription: string = "";
   @ViewChild('manageForm', { static: false }) manageForm: NgForm;
@@ -33,26 +39,25 @@ export class EmailEditComponent extends GenericEditComponent implements OnInit, 
 
   toRecipients: { emailId: string; emailAddress: string; type: string }[] = [];
   ccRecipients: { emailId: string; emailAddress: string; type: string }[] = [];
-  toInput: string = "";
-  ccInput: string = "";
   public bodyHtml: string = '';
   tinyMceEnabled: boolean = false; 
 
   constructor( private emailService: EmailService, private router: Router, private cd: ChangeDetectorRef, 
-    private fb: FormBuilder ) {super()}
+    protected fb: FormBuilder ) {super(fb)}
   
       get isEditEnabled(): boolean {
         return (this.editMode === 'E' || this.editMode === 'C' || this.editMode === 'I');
       }
   
       ngOnInit(): void {
-  
+        super.ngOnInit();
         this.setupNavigationListener();
         this.initializeComponent();
   
       }
   
       ngOnDestroy(): void {
+        super.ngOnDestroy();
         if (this.navigationSubscription) {
           this.navigationSubscription.unsubscribe();
         }
@@ -73,9 +78,6 @@ export class EmailEditComponent extends GenericEditComponent implements OnInit, 
 
       
     onManageRequest(formValue : any, mode :  string){    
-      console.log("modalità getione form: " + mode )
-      console.log("valore Form:  ");
-      console.log(formValue);
       switch (mode) {
         case 'I':
           this.addItem(formValue);
@@ -99,6 +101,55 @@ export class EmailEditComponent extends GenericEditComponent implements OnInit, 
       /*modal.close();
       */
     }
+
+
+    submitItem(mode: string){
+          this.manualErrors.length = 0;
+          const id = this.form.get('id')?.value;
+    
+          if (mode === 'I' || mode === 'C' ) {
+            this.emailService.getEmail(id).subscribe({
+              next: (existingItem) => {
+                if (existingItem) {
+                  this.manualErrors.push('ID already exists !');
+                  this.form.markAllAsTouched();
+                  return;
+                } else {
+                  this.submit(mode);
+                }
+              },
+              error: (err) => {
+                  this.manualErrors.push('Error checking item: ' + err.message);   
+                  this.form.markAllAsTouched();         
+              }
+            });
+          } else {
+            this.submit(mode);
+          }
+      }
+    
+    
+      /** Al submit valido emetto chiamata al service */
+      submit(mode: string) {
+        super.submit(mode);
+        if (!this.form.invalid) {
+          const m = this.setItem(this.form.value);
+          switch (mode) {
+            case 'I': this.emailService.addItem(m); break;
+            case 'C': this.emailService.addItem(m); break;
+            case 'E': 
+              this.emailService.updateItem(m); 
+              this.emailService.emitResetAfetrUpdate(m);
+              break;
+            case 'D':
+              this.emailService.deleteItem(m);
+              this.emailService.emitClearAfetrDelete();
+              break;
+          }
+          this.closeModal.emit();
+        }
+      }
+    
 
 /****************************************
 * Metodi generici di preparazione item
@@ -135,14 +186,12 @@ updateItem(formValue : any){
   this.emailService.updateItem(this.setItem(formValue));
 }
 
-submitForm(form: NgForm) {
-  if (this.editMode === 'E') {
-    form.value.id = this.idItem;  // Assegna il valore manualmente
-  }
+submitForm() {
+    if (this.editMode === 'E' || this.editMode === 'D') {
+      this.form.value.id = this.idItem;  // Assegna il valore manualmente
+    }
 
-  if (form) {
-    form.ngSubmit.emit();
-  }
+    this.submitItem(this.editMode);
 }
 
 
@@ -169,7 +218,7 @@ submitForm(form: NgForm) {
                     this.idItem = selectedItem.id;
                     this.toRecipients = selectedItem.recipients.filter(r => r.type === 'TO');
                     this.ccRecipients = selectedItem.recipients.filter(r => r.type === 'CC');
-                    this.manageForm.setValue({                   
+                    this.form.patchValue({                   
                       id: selectedItem.id,
                       subject: selectedItem.subject,
                       bodyHtml: selectedItem.bodyHtml,
@@ -195,6 +244,14 @@ submitForm(form: NgForm) {
                       ccRecipients: [] 
                     })
                   }
+                  if (!this.isEditEnabled) {
+                    this.form.disable({ emitEvent: false });
+                  } else {
+                    this.form.enable({ emitEvent: false });
+                  }
+                  if (event.mode ==="E"){
+                    this.form.get('id').disable({ emitEvent: false });
+                  }
             }, );
 
         } 
@@ -211,26 +268,30 @@ submitForm(form: NgForm) {
 ******************************************/
 
     addToRecipient() {
-      if (this.toInput && this.isEditEnabled) {
+      if (this.form.get('toInput')?.value != '' && this.isEditEnabled) {
         const newRecipient = {
           emailId: this.idItem, // Usa idItem come emailId
-          emailAddress: this.toInput,
+          emailAddress: this.form.get('toInput')?.value,
           type: 'To'
         };
         this.toRecipients.push(newRecipient);
-        this.toInput = "";
+        this.form.patchValue({
+          toInput:''
+        });
       }
     }
 
     addCcRecipient() {
-      if (this.ccInput && this.isEditEnabled) {
+      if (this.form.get('ccInput')?.value != '' && this.isEditEnabled) {
         const newRecipient = {
           emailId: this.idItem, // Usa idItem come emailId
-          emailAddress: this.ccInput,
+          emailAddress: this.form.get('ccInput')?.value,
           type: 'CC'
         };
         this.ccRecipients.push(newRecipient);
-        this.ccInput = "";
+        this.form.patchValue({
+          ccInput:''
+        });
       }
     }
 
@@ -262,5 +323,45 @@ submitForm(form: NgForm) {
         height: 400
       };
     }
+
+  
+     /*********************************************/
+  /*       metodi di controllo del form        */
+  /*********************************************/ 
+  protected getControlsConfig() {
+    return {
+      id:         ['', [Validators.required, Validators.maxLength(20)]],
+      subject:['', [Validators.required]],
+      bodyHtml:[''],
+      enabled:['S'],
+      note:[''],
+      toInput:[''],
+      ccInput:['']
+    };
+  }
+  
+
+
+   /** Validator di form group per i campi specifici */
+  protected getCrossFieldValidator(): ValidatorFn {
+    return (group: AbstractControl) => {
+      const errs: any = {};
+
+      return Object.keys(errs).length ? errs : null;
+    };
+  }
+
+ /** Riepilogo errori per summary + emissione */
+  get errorSummary(): string[] {
+    const errs: string[] = [...this.manualErrors];
+   
+    return errs;
+  }
+
+
+   /** Quando cambia un valore, azzero/disabilito i campi correlati */
+  protected onFormChanges() {
+    const g = this.form;
+  }
 
 }

@@ -146,7 +146,7 @@ export class FlowEditComponent extends BaseEditComponent implements OnInit, OnDe
             this.flowService.getFlow(id).subscribe({
               next: (existingItem) => {
                 if (existingItem) {
-                  this.manualErrors.push('Id already exist !!');
+                  this.manualErrors.push('ID already exists !');
                   this.form.markAllAsTouched();
                   return;
                 } else {
@@ -510,9 +510,9 @@ submitForm() {
     if (c.file.errors?.required)      errs.push('File is mandatory');
 
     const gf = this.form.errors;
-    if (gf?.notificationFlowRequired) errs.push('Notifiction Flow is mandatory');
-    if (gf?.notificationOkRequired) errs.push('Notifiction Ok is mandatory');
-    if (gf?.notificationKoRequired) errs.push('Notifiction Ko is mandatory');
+    if (gf?.notificationFlowRequired) errs.push('Notification Flow is mandatory');
+    if (gf?.notificationOkRequired) errs.push('Notification Ok is mandatory');
+    if (gf?.notificationKoRequired) errs.push('Notification Ko is mandatory');
     if (gf?.originRequired) errs.push('Origin is mandatory');
 
 

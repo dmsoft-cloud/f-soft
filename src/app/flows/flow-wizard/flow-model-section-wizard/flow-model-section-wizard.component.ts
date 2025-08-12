@@ -70,14 +70,16 @@ export class FlowModelSectionWizardComponent extends ModelsEditComponent {
         this.initialModelId = this.selectedModel.id;
         this.isViewMode = true;
         this.modelService.manageItem.next({item : this.selectedModel , mode : "S"});
+        this.selection.emit(id);
+        this.validityChange.emit(!!id);
       });
     } else {
       this.selectedModel = undefined;
       this.initialModelId = '';
+      this.selection.emit(null);
+      this.validityChange.emit(!!id);
     }
     this.editMode = '';
-    this.selection.emit(id);
-    this.validityChange.emit(!!id);
   }
 
 

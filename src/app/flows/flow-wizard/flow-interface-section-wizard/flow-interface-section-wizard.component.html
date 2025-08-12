@@ -67,12 +67,12 @@
                             <div class="d-flex" >
                                 <div class="col-md-6  mb-3 pe-3">
                                     <label for="id" class="form-label">{{componentDescription}} Id</label>
-                                    <input type="text" class="form-control" id="id" name="id" formControlName="id" maxlength="20">
+                                    <input type="text" class="form-control" id="id" name="id" formControlName="id" maxlength="20" [ngClass]="{ 'is-invalid': isInvalid('id') }">
                                 </div>
 
                                 <div class="col-md-6  mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <input type="text" class="form-control" id="descriptionn" name="description" formControlName="description" maxlength="100">
+                                    <input type="text" class="form-control" id="descriptionn" name="description" formControlName="description" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('description') }">
                                 </div>
                             </div>
                             <div class="d-flex" >
@@ -81,6 +81,7 @@
                                         id="connectionType"
                                         name="connectionType"
                                         formControlName="connectionType"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('connectionType') }"
                                         [(ngModel)]="connType"
                                         [options]="connectionTypes"
                                         [isDisabled]="!isEditEnabled"
@@ -92,21 +93,21 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="user" class="form-label">User</label>
-                                    <input type="text" class="form-control" id="user" name="user" formControlName="user" maxlength="100">
+                                    <input type="text" class="form-control" id="user" name="user" formControlName="user" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('user') }">
                                 </div>
                             </div>
                             <div class="d-flex" >
                                 <div class="col-md-6 mb-3 pe-3">
                                     <label for="host" class="form-label">Host</label>
-                                    <input type="text" class="form-control" id="host" name="host" formControlName="host" maxlength="100">
+                                    <input type="text" class="form-control" id="host" name="host" formControlName="host" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('host') }">
                                 </div>
                                 <div class="col-md-3 mb-3 pe-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" formControlName="password" maxlength="20">
+                                    <input type="password" class="form-control" id="password" name="password" formControlName="password" maxlength="20" [ngClass]="{ 'is-invalid': isInvalid('password') }">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="port" class="form-label">Port</label>
-                                    <input type="number" class="form-control" id="port" name="port" formControlName="port" maxlength="5">
+                                    <input type="number" class="form-control" id="port" name="port" formControlName="port" maxlength="5" [ngClass]="{ 'is-invalid': isInvalid('port') }">
                                 </div>
                             </div>
                         </div>
@@ -126,7 +127,7 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="sftpAlias" class="form-label">Sftp Alias</label>
-                                    <input type="text" class="form-control" id="sftpAlias" name="sftpAlias" maxlength="20" formControlName="sftpAlias">
+                                    <input type="text" class="form-control" id="sftpAlias" name="sftpAlias" maxlength="20" formControlName="sftpAlias" [ngClass]="{ 'is-invalid': isInvalid('sftpAlias') }">
                                 </div>
                             </div>
                             <div class="d-flex" >

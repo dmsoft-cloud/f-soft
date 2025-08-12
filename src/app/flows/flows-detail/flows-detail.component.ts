@@ -77,7 +77,8 @@ export class FlowsDetailComponent extends GenericDetailComponent implements OnIn
             remoteFolder: selectedItem.remoteFolder,
             remoteFile: selectedItem.remoteFile,
             lengthFixed: selectedItem.lengthFixed
-          })
+          });
+          this.toggleQuickEdit(false);
       } 
     );
 

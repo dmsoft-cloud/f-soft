@@ -2,6 +2,7 @@
     <label [attr.for]="label" class="form-label">{{label}}</label>
     <select 
       class="form-control"
+      [ngClass]="selectNgClass"
       [id]="id"
       [disabled]="isDisabled"
       (change)="onValueChange($event)">

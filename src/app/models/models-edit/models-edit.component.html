@@ -29,7 +29,7 @@
                                 <div class="d-flex" >
                                     <div class="col-md-6  mb-3 pe-3">
                                         <label for="id" class="form-label">{{componentDescription}} Id</label>
-                                        <input type="text" class="form-control" id="id" name="id" maxlength="20" formControlName="id"> 
+                                        <input type="text" class="form-control" id="id" name="id" maxlength="20" formControlName="id" [ngClass]="{ 'is-invalid': isInvalid('id') }"> 
                                     </div>
                                     <div class="col-md-3  mb-3 pe-3">
                                         <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Enabled" defaultValue="S"  valueOn="S" valueOff="N"  id="enabled" name="enabled" formControlName="enabled" ></dms-toogle-switch>
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <input type="text" class="form-control" id="description" name="description" formControlName="description" maxlength="100">
+                                    <input type="text" class="form-control" id="description" name="description" formControlName="description" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('description') }">
                                 </div>
                                 <div class="d-flex" >
                                     <div class=" col-md-3  mb-3 pe-3">
@@ -48,6 +48,7 @@
                                             id="type"
                                             name="type"
                                             formControlName="type"
+                                            [selectNgClass]="{ 'is-invalid': isInvalid('type') }"
                                             [(ngModel)]="type"
                                             (ngModelChange)="onTypeChange($event)"
                                             [options]="types"
@@ -62,6 +63,7 @@
                                             id="direction"
                                             name="direction"
                                             formControlName="direction"
+                                            [selectNgClass]="{ 'is-invalid': isInvalid('direction') }"
                                             [(ngModel)]="direction"
                                             (ngModelChange)="onDirectionChange($event)"
                                             [options]="directions"
@@ -106,6 +108,7 @@
                                 <div class="d-flex" >
                                     <div class="col-md-4  mb-3 pe-3">
                                         <dms-select-custom label="Internationalization" id="internationalization" name="internationalization" formControlName="internationalization" [(ngModel)]="locale" [options]="localeList"
+                                             [selectNgClass]="{ 'is-invalid': isInvalid('internationalization') }"
                                              [showEmptyOption]="true" emptyOptionLabel="" emptyOptionValue="" [displayMode]="'code'"> 
                                         </dms-select-custom>
                                     </div>
@@ -120,11 +123,11 @@
                                 <div class="d-flex" >                   
                                     <div class="col-md-4  mb-3 pe-3">
                                         <label for="database" class="form-label">Database</label>
-                                        <input type="text" class="form-control" id="database" name="database" formControlName="database" maxlength="50">
+                                        <input type="text" class="form-control" id="database" name="database" formControlName="database" maxlength="50" [ngClass]="{ 'is-invalid': isInvalid('database') }">
                                     </div>
                                     <div class="col-md-4  mb-3 pe-3">
                                         <label for="schema" class="form-label">Schema</label>
-                                        <input type="text" class="form-control" id="schema" name="schema" formControlName="schema" maxlength="50" >
+                                        <input type="text" class="form-control" id="schema" name="schema" formControlName="schema" maxlength="50" [ngClass]="{ 'is-invalid': isInvalid('schema') }" >
                                     </div>
                                     <div class="col-md-4  mb-3">
                                         <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Integrity Check" defaultValue="N"  valueOn="S" valueOff="N" id="integrityCheck" name="integrityCheck" formControlName="integrityCheck"   ></dms-toogle-switch>
@@ -141,7 +144,7 @@
                                 <div class="d-flex" >
                                     <div class="col-md-4  mb-3 pe-3">
                                         <label for="sourceCharset" class="form-label">Source Charset</label>
-                                        <input type="tet" class="form-control" id="sourceCharset" name="sourceCharset" formControlName="sourceCharset" maxlength="20">
+                                        <input type="text" class="form-control" id="sourceCharset" name="sourceCharset" formControlName="sourceCharset" maxlength="20">
                                     </div>
                                     <div class="col-md-4  mb-3 pe-3">
                                         <label for="destCharset" class="form-label">Destination Charset</label>
@@ -152,6 +155,7 @@
                                             id="fileFormat"
                                             name="fileFormat"
                                             formControlName="fileFormat"
+                                             [selectNgClass]="{ 'is-invalid': isInvalid('fileFormat') }"
                                             [(ngModel)]="fileFormat"
                                             [options]="fileFormats"
                                             [showEmptyOption]="true"
@@ -172,6 +176,7 @@
                                             id="recordDelimiter"
                                             name="recordDelimiter"
                                             formControlName="recordDelimiter"
+                                             [selectNgClass]="{ 'is-invalid': isInvalid('recordDelimiter') }"
                                             [(ngModel)]="recordDelimiter"
                                             [options]="recordDelimiters"
                                             [showEmptyOption]="true"
@@ -193,6 +198,7 @@
                                             id="stringDelimiter"
                                             name="stringDelimiter"
                                             formControlName="stringDelimiter"
+                                             [selectNgClass]="{ 'is-invalid': isInvalid('stringDelimiter') }"
                                             [(ngModel)]="stringDelimiter"
                                             [options]="stringDelimiters"
                                             [showEmptyOption]="true"

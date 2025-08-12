@@ -80,6 +80,7 @@ export class ModelsDetailComponent extends GenericDetailComponent implements OnI
                     integrityCheck: selectedItem.integrityCheck,
                     createFile: selectedItem.createFile
           })
+          this.toggleQuickEdit(false);
       } 
     );
     

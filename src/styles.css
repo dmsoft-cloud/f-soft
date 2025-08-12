@@ -267,6 +267,14 @@ body { margin: 0; font-family: Inter, -apple-system, BlinkMacSystemFont, system-
 
 
 /**************************/
+/* campi con errore       */
+/**************************/
+.is-invalid {
+  border: 1px solid red !important;
+  border-radius: 4px;
+}
+
+/**************************/
 /* bottoni personalizzati */
 /**************************/
 /* Pulsante neutro, da usare al posto di btn-primary / btn-secondary */

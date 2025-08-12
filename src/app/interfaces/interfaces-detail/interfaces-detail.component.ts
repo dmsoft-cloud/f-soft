@@ -61,7 +61,8 @@ export class InterfacesDetailComponent extends GenericDetailComponent implements
             trustHost : selectedItem.trustHost,
             status: selectedItem.enabled,
             notes: selectedItem.note
-          })
+          });
+          this.toggleQuickEdit(false);
       } 
     );
 

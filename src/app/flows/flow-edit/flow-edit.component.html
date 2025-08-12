@@ -25,7 +25,7 @@
                             <div class="d-flex" >
                                 <div class="col-md-6  mb-3 pe-3">
                                     <label for="id" class="form-label">{{componentDescription}} Id</label>
-                                    <input type="text" class="form-control" id="id" formControlName="id" maxlength="20" >
+                                    <input type="text" class="form-control" id="id" formControlName="id" maxlength="20"  [ngClass]="{ 'is-invalid': isInvalid('id') }" >
                                 </div>
                                 <div class="col-md-6  mb-3 ">
                                     <dms-toogle-switch lableOn="Yes" lableOff="No" lableComponent="Enabled" defaultValue="S"  valueOn="S" valueOff="N" id="enabled"  formControlName="enabled"></dms-toogle-switch>
@@ -33,13 +33,14 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <input type="text" class="form-control" id="description"  formControlName="description" maxlength="100" >
+                                <input type="text" class="form-control" id="description"  formControlName="description" maxlength="100"  [ngClass]="{ 'is-invalid': isInvalid('description') }" >
                             </div>
                             <div class="d-flex" >
                                 <div class=" col-md-6  mb-3 pe-3">                                    
                                     <dms-select-custom label="Model" 
                                         id="model"
                                         formControlName="model"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('model') }"
                                         [(ngModel)]="model"
                                         [optionsObservable]="modelOptions$"
                                         (ngModelChange)="onModelChange($event)"
@@ -53,6 +54,7 @@
                                     <dms-select-custom label="Origin" 
                                         id="origin"
                                         formControlName="origin"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('origin') }"
                                         [(ngModel)]="origin"
                                         [optionsObservable]="originOptions$"
                                         (ngModelChange)="onOriginChange($event)"
@@ -69,6 +71,7 @@
                                     <dms-select-custom label="Interface" 
                                         id="interfaceId"
                                         formControlName="interfaceId"
+                                         [selectNgClass]="{ 'is-invalid': isInvalid('interfaceId') }"
                                         [(ngModel)]="interfaceId"
                                         [optionsObservable]="interfaceOptions$"
                                         (ngModelChange)="onInterfaceChange($event)"
@@ -84,6 +87,7 @@
                                         label="Group Id" 
                                         id="groupId"
                                         formControlName="groupId"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('groupId') }"
                                         [(ngModel)]="groupId"
                                         [optionsObservable]="groupOptions$"
                                         [showEmptyOption]="true"
@@ -106,6 +110,7 @@
                                         label="Notification Code" 
                                         id="notificationFlow"
                                         formControlName="notificationFlow"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('notificationFlow') }"
                                         [(ngModel)]="notificationFlow"
                                         [optionsObservable]="communicationOptions$"
                                         [showEmptyOption]="true"
@@ -119,6 +124,7 @@
                                         label="Notification Ok" 
                                         id="notificationOk"
                                         formControlName="notificationOk"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('notificationOk') }"
                                         [(ngModel)]="notificationOk"
                                         [optionsObservable]="communicationOptions$"
                                         [showEmptyOption]="true"
@@ -132,6 +138,7 @@
                                         label="Notification Ko" 
                                         id="notificationKo"
                                         formControlName="notificationKo"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('notificationKo') }"
                                         [(ngModel)]="notificationKo"
                                         [optionsObservable]="communicationOptions$"
                                         [showEmptyOption]="true"

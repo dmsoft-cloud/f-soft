@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, EventEmitter, Output, ModuleWithComponentFactories, ViewChild, ElementRef, TemplateRef, ContentChild} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EntityUtils, YesNo} from '../../common/baseEntity'
-import { TableTypeConfig, DEFAULT_TABLE_TYPES, IconResolver } from '../table-types';
+import { TableTypeConfig, IconResolver, StringResolver } from '../table-types';
 
 
 /**********************************************************************************************
@@ -21,7 +21,7 @@ interface TableColumn {
   type?: string;
   width?: number;
   minWidth?: number; 
-  iconResolver?: IconResolver; // Permette di sovrascrivere il resolver per questa colonna
+  iconResolver?: IconResolver | StringResolver; // Permette di sovrascrivere il resolver per questa colonna
 }
 
 @Component({
@@ -83,7 +83,7 @@ export class DefaultTableComponent implements OnInit {
   /*                   Modale di gestione                                 */
   /************************************************************************/
   @ViewChild('content') modalContent!: ElementRef;
-  private modalRef: NgbModalRef | null = null; //componente per gestione modale
+  protected modalRef: NgbModalRef | null = null; //componente per gestione modale
 
 
 
@@ -291,6 +291,10 @@ export class DefaultTableComponent implements OnInit {
     this.openModal(this.modalContent, mode, item);
   }
 
+  get isModalActive(): boolean {
+    return  document.querySelector('.modal-dialog') ? true : false  ;
+  }
+
   openModal(content: any, mode: string, item: any) {
     this.modalMode=mode;
     this.modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', windowClass: 'dms-modal', size: 'xl', backdrop: 'static'  }); //backdrop serve a non far chiudere la modale se clicco fuori da essa
@@ -342,6 +346,7 @@ export class DefaultTableComponent implements OnInit {
     if (column.iconResolver) {
       return column.iconResolver(value);
     }
+    
     
     // Altrimenti usa il resolver dal config
     return EntityUtils.resolveTableIcon(column.type, value, this.customTableTypes);

@@ -1,4 +1,4 @@
-import {   Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter } from '@angular/core';
+import {   Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { WizardStepDirective } from '../wizard-step.directive'; 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorHandlerService } from '../error-handler.service';
@@ -9,7 +9,7 @@ import { ErrorHandlerService } from '../error-handler.service';
   templateUrl: './generic-wizard.component.html',
   styleUrl: './generic-wizard.component.scss'
 })
-export class GenericWizardComponent implements AfterContentInit {
+export class GenericWizardComponent implements AfterContentInit, OnChanges {
 
   /** Contenuto della Top Card */
   @Input() cardTitle = '';
@@ -18,6 +18,9 @@ export class GenericWizardComponent implements AfterContentInit {
 
   /** Array di flag per indicare se lo step i-esimo è valido */
   @Input() stepValidity: boolean[] = [];
+
+  /** Indici (nell’ordine dichiarato) degli step da saltare */
+  @Input() skipStepsIndices: number[] = [];
 
   /** Template‐steps raccolti dal contenuto */
   @ContentChildren(WizardStepDirective) stepsTpl!: QueryList<WizardStepDirective>;
@@ -36,8 +39,29 @@ export class GenericWizardComponent implements AfterContentInit {
   constructor(public activeModal: NgbActiveModal, private errorHandler: ErrorHandlerService) {}
 
   ngAfterContentInit() {
-    this.steps = this.stepsTpl.toArray();
+    /*this.steps = this.stepsTpl.toArray();
     this.goTo(0);
+    */
+    this.refreshSteps();
+    // se le children cambiano (es. *ngIf) ricalcola steps
+    this.stepsTpl.changes.subscribe(() => this.refreshSteps());
+    this.goTo(0);
+  }
+
+   ngOnChanges(changes: SimpleChanges) {
+     if (changes['skipStepsIndices'] && !changes['skipStepsIndices'].firstChange) {
+       this.refreshSteps();
+     }
+  }
+
+  private refreshSteps() {
+    const all = this.stepsTpl.toArray();
+    this.steps = all.filter((_, idx) => !this.skipStepsIndices.includes(idx));
+
+    // ricade currentStep/maxStepReached dentro i nuovi bounds
+    const last = this.steps.length - 1;
+    if (this.currentStep > last) this.currentStep = last;
+    this.maxStepReached = Math.min(this.maxStepReached, last);
   }
 
   goTo(idx: number) {

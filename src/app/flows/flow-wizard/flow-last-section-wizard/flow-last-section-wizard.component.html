@@ -29,41 +29,41 @@
                             <div class="d-flex" >
                                 <div class="col-md-6  mb-3 pe-3">
                                     <label for="id" class="form-label">{{componentDescription}} Id</label>
-                                    <input type="text" class="form-control" id="id" formControlName="id" maxlength="20" >
+                                    <input type="text" class="form-control" id="id" formControlName="id" maxlength="20" [ngClass]="{ 'is-invalid': isInvalid('id') }">
                                 </div>
 
                                 <div class="col-md-6  mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <input type="text" class="form-control" id="description"  formControlName="description" maxlength="100" >
+                                    <input type="text" class="form-control" id="description"  formControlName="description" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('description') }" >
                                 </div>
                             </div>
                             <div class="d-flex" >
                                 <div class=" col-md-4  mb-3 pe-3 ">
                                     <label for="dbTable" class="form-label">Table</label>
-                                    <input type="text" class="form-control" id="dbTable"  formControlName="dbTable" maxlength="50" >
+                                    <input type="text" class="form-control" id="dbTable"  formControlName="dbTable" maxlength="50" [ngClass]="{ 'is-invalid': isInvalid('dbTable') }">
                                 </div>
                                 <div class=" col-md-4  mb-3 pe-3 ">
                                     <label for="folder" class="form-label">Folder</label>
-                                    <input type="text" class="form-control" id="folder"  formControlName="folder" maxlength="100" >
+                                    <input type="text" class="form-control" id="folder"  formControlName="folder" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('folder') }" >
                                 </div>
                                 <div class=" col-md-4  mb-3 ">
                                     <label for="file" class="form-label">File</label>
-                                    <input type="text" class="form-control" id="file"  formControlName="file" maxlength="100" >
+                                    <input type="text" class="form-control" id="file"  formControlName="file" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('file') }" >
                                 </div>
                             </div>
                             
                             <div class="d-flex" >
                                 <div class=" col-md-4  mb-3 pe-3 ">
                                     <label for="remoteFolder" class="form-label">Remote Folder</label>
-                                    <input type="text" class="form-control" id="remoteFolder"  formControlName="remoteFolder" maxlength="100" >
+                                    <input type="text" class="form-control" id="remoteFolder"  formControlName="remoteFolder" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('remoteFolder') }" >
                                 </div>
                                 <div class=" col-md-4  mb-3 pe-3 ">
                                     <label for="remoteFile" class="form-label">Remote File</label>
-                                    <input type="text" class="form-control" id="remoteFile"  formControlName="remoteFile" maxlength="100">
+                                    <input type="text" class="form-control" id="remoteFile"  formControlName="remoteFile" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('remoteFile') }">
                                 </div>
                                 <div class=" col-md-4  mb-3 ">
                                     <label for="lengthFixed" class="form-label">Length of Fixed Export</label>
-                                    <input type="text" class="form-control" id="lengthFixed"  formControlName="lengthFixed" maxlength="100" >
+                                    <input type="number" class="form-control" id="lengthFixed"  formControlName="lengthFixed" maxlength="100" [ngClass]="{ 'is-invalid': isInvalid('lengthFixed') }" >
                                 </div>
                                 
                             </div>
@@ -85,6 +85,7 @@
                                         label="Notification Code" 
                                         id="notificationFlow"
                                         formControlName="notificationFlow"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('notificationFlow') }"
                                         [(ngModel)]="notificationFlow"
                                         [optionsObservable]="communicationOptions$"
                                         [showEmptyOption]="true"
@@ -98,6 +99,7 @@
                                         label="Notification Ok" 
                                         id="notificationOk"
                                         formControlName="notificationOk"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('notificationOk') }"
                                         [(ngModel)]="notificationOk"
                                         [optionsObservable]="communicationOptions$"
                                         [showEmptyOption]="true"
@@ -111,6 +113,7 @@
                                         label="Notification Ko" 
                                         id="notificationKo"
                                         formControlName="notificationKo"
+                                        [selectNgClass]="{ 'is-invalid': isInvalid('notificationKo') }"
                                         [(ngModel)]="notificationKo"
                                         [optionsObservable]="communicationOptions$"
                                         [showEmptyOption]="true"

@@ -141,7 +141,7 @@ export class ModelsEditComponent extends BaseEditComponent implements OnInit, On
         this.modelService.getModel(id).subscribe({
           next: (existingItem) => {
             if (existingItem) {
-              this.manualErrors.push('Id already exist !!');
+              this.manualErrors.push('ID already exists !');
               this.form.markAllAsTouched();
               return;
             } else {
@@ -434,6 +434,7 @@ export class ModelsEditComponent extends BaseEditComponent implements OnInit, On
       return errs;
     }
     const c = this.form.controls;
+    if (c.id.errors?.required)      errs.push('ID is mandatory');
     if (c.type.errors?.required)      errs.push('Type is mandatory');
     if (c.direction.errors?.required) errs.push('Direction is mandatory');
 

@@ -1,4 +1,4 @@
-import { DEFAULT_TABLE_TYPES, TableTypeConfig } from "../utils/table-types";
+import { getDefaultTableTypes, TableTypeConfig } from "../utils/table-types";
 
 export enum YesNo {
     YES = "YES",
@@ -16,9 +16,15 @@ export class EntityUtils {
       return value === YesNo.YES || value === YesNo.S || value === YesNo.Y;
   } 
 
-  static resolveTableIcon(type: string, value: any, customTypes: TableTypeConfig = {}): { icon: string, class?: string, title?: string } {
+  static resolveTableIcon(type: string, value: any, customTypes: TableTypeConfig = {}): { icon: string, class?: string, title?: string } |
+              { text: string, class?: string, title?: string }
+    {
+
     // Combina i tipi predefiniti con quelli custom (i custom hanno precedenza)
-    const allTypes = { ...DEFAULT_TABLE_TYPES, ...customTypes };
+    
+    const defaultTypes = getDefaultTableTypes();
+        //const allTypes = { ...DEFAULT_TABLE_TYPES, ...customTypes };
+    const allTypes = { ...defaultTypes, ...customTypes };
     const resolver = allTypes[type];
     
     if (resolver) {

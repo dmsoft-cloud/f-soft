@@ -11,7 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     styleUrl: './interfaces-list.component.css',
     standalone: false
 })
-export class InterfacesListComponent extends DefaultTableComponent  implements OnInit, OnDestroy{
+export class InterfacesListComponent extends DefaultTableComponent  implements OnInit, OnDestroy {
   @Input() componentDescription: string;
   @ViewChild(DefaultTableComponent) defaultTableComponent!: DefaultTableComponent;
 
@@ -38,7 +38,7 @@ export class InterfacesListComponent extends DefaultTableComponent  implements O
       { header: 'Id', field: 'id', type: ''},
       { header: 'Description', field: 'description', type: '' },
       { header: 'Host', field: 'host', type: '' },
-      { header: 'Connection Type', field: 'connectionType', type: '' },
+      { header: 'Connection Type', field: 'connectionType', type: 'connectionType' },
       { header: 'Port', field: 'port', type: '' },
       { header: 'Enabled', field: 'enabled', type: 'enabled' }
     ];

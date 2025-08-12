@@ -71,11 +71,11 @@
                                 <div class="d-flex pt-3" >
                                   <div class="col-md-6  mb-3 pe-3">
                                     <label for="id" class="form-label">{{componentDescription}} Id</label>
-                                    <input type="text" class="form-control" id="id" name="id" formControlName="id" maxlength="20">
+                                    <input type="text" class="form-control" id="id" name="id" formControlName="id" maxlength="20" [ngClass]="{ 'is-invalid': isInvalid('id') }">
                                   </div>
                                   <div class="col-md-6  mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <input type="text" class="form-control" id="description" name="description" maxlength="50" formControlName="description">
+                                    <input type="text" class="form-control" id="description" name="description" maxlength="50" formControlName="description" [ngClass]="{ 'is-invalid': isInvalid('description') }">
                                   </div>
                                 </div>
                                 <div class="d-flex" >
@@ -84,6 +84,7 @@
                                       id="type"
                                       name="type"
                                       formControlName="type"
+                                      [selectNgClass]="{ 'is-invalid': isInvalid('type') }"
                                       [(ngModel)]="type"
                                       [options]="types"
                                       [showEmptyOption]="true"
@@ -97,6 +98,7 @@
                                       id="direction"
                                       name="direction"
                                       formControlName="direction"
+                                       [selectNgClass]="{ 'is-invalid': isInvalid('direction') }"
                                       [(ngModel)]="direction"
                                       [options]="directions"
                                       [showEmptyOption]="true"
@@ -148,6 +150,7 @@
                                 <div class="d-flex" >
                                     <div class="col-md-4  mb-3 pe-3">
                                         <dms-select-custom label="Internationalization" id="internationalization" name="internationalization" formControlName="internationalization"
+                                            [selectNgClass]="{ 'is-invalid': isInvalid('internationalization') }"
                                             [(ngModel)]="locale" [options]="localeList"
                                             [showEmptyOption]="true" emptyOptionLabel="" emptyOptionValue="" [displayMode]="'code'"> 
                                         </dms-select-custom>
@@ -167,11 +170,11 @@
                                     </div>
                                     <div class="col-md-4  mb-3 pe-3">
                                         <label for="database" class="form-label">Database</label>
-                                        <input type="text" class="form-control" id="database" name="database" maxlength="50" ngModel formControlName="database">
+                                        <input type="text" class="form-control" id="database" name="database" maxlength="50" ngModel formControlName="database" [ngClass]="{ 'is-invalid': isInvalid('database') }">
                                     </div>
                                     <div class="col-md-4  mb-3 pe-3">
                                         <label for="schema" class="form-label">Schema</label>
-                                        <input type="text" class="form-control" id="schema" name="schema" maxlength="50" formControlName="schema">
+                                        <input type="text" class="form-control" id="schema" name="schema" maxlength="50" formControlName="schema" [ngClass]="{ 'is-invalid': isInvalid('schema') }">
                                     </div>
                                 </div>
 
@@ -200,6 +203,7 @@
                                             id="fileFormat"
                                             name="fileFormat"
                                             formControlName="fileFormat"
+                                            [selectNgClass]="{ 'is-invalid': isInvalid('fileFormat') }"
                                             [(ngModel)]="fileFormat"
                                             [options]="fileFormats"
                                             [showEmptyOption]="true"
@@ -220,6 +224,7 @@
                                             id="recordDelimiter"
                                             name="recordDelimiter"
                                             formControlName="recordDelimiter"
+                                            [selectNgClass]="{ 'is-invalid': isInvalid('recordDelimiter') }"
                                             [(ngModel)]="recordDelimiter"
                                             [options]="recordDelimiters"
                                             [showEmptyOption]="true"
@@ -241,6 +246,7 @@
                                             id="stringDelimiter"
                                             name="stringDelimiter"
                                             formControlName="stringDelimiter"
+                                             [selectNgClass]="{ 'is-invalid': isInvalid('stringDelimiter') }"
                                             [(ngModel)]="stringDelimiter"
                                             [options]="stringDelimiters"
                                             [showEmptyOption]="true"

@@ -85,6 +85,7 @@ import { FlowOriginSectionWizardComponent } from './flows/flow-wizard/flow-origi
 import { FlowModelSectionWizardComponent } from './flows/flow-wizard/flow-model-section-wizard/flow-model-section-wizard.component';
 import { BaseEditComponent } from './utils/base-edit/base-edit.component';
 import { FlowLastSectionWizardComponent } from './flows/flow-wizard/flow-last-section-wizard/flow-last-section-wizard.component';
+import { LogEditComponent } from './logs/log-edit/log-edit.component';
 
 
 
@@ -147,7 +148,8 @@ import { FlowLastSectionWizardComponent } from './flows/flow-wizard/flow-last-se
         FlowInterfaceSectionWizardComponent,
         FlowOriginSectionWizardComponent,
         FlowModelSectionWizardComponent,
-        FlowLastSectionWizardComponent
+        FlowLastSectionWizardComponent,
+        LogEditComponent
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,

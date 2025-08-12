@@ -1,9 +1,27 @@
+<div style="color: aliceblue;">{{isEditOpen}}</div>
 <dms-default-table class="row main-canvas mx-auto mx-3 px-5 pt-2 main-canvas-costum-pt  main-table-custom"
-    [columns]="columns"
-     [items]="items" (reloadTableEvent)="refreshTable()"
+    [columns]="columns" 
+        [items]="items" 
+        [filteredItems]="filteredItems"  
+        [isAddEmpyRows]="isAddEmpyRows" 
+        [totalPages]="totalPages"
+        [currentPage]="currentPage"
+        [modalMode]="modalMode"
+        [componentDescription]="componentDescription"
+        
+        (reloadTableEvent)="refreshTable()"  
+        (rowManaged)="onManageItem($event)"
      [isFilterSectionVisible]="isFilterSectionVisible"
      [itemsPerPage]="itemsPerPage"
-     [buttonConfig]="{ show: false, edit: false, delete: false, copy: false }">
+     [buttonConfig]="{ show: true, edit: false, delete: false, copy: false }">
+
+    
+
+      <div data-section >
+
+                <dms-log-edit  [componentDescription]="componentDescription"  (closeModal)="onCloseModal()" ></dms-log-edit>
+      </div>
+
 
 
 </dms-default-table>

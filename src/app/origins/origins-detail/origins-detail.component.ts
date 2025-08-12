@@ -60,7 +60,8 @@ export class OriginsDetailComponent extends GenericDetailComponent implements On
             port: selectedItem.port,
             secure: selectedItem.secure,
             user: selectedItem.user
-          })
+          });
+          this.toggleQuickEdit(false);
       } 
     );
     

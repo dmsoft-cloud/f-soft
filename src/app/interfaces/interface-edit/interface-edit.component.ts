@@ -112,7 +112,7 @@ export class InterfaceEditComponent extends BaseEditComponent implements OnInit 
         this.interfaceService.getInterface(id).subscribe({
           next: (existingItem) => {
             if (existingItem) {
-              this.manualErrors.push('Id already exist !!');
+              this.manualErrors.push('ID already exists !');
               this.form.markAllAsTouched();
               return;
             } else {
@@ -275,6 +275,7 @@ export class InterfaceEditComponent extends BaseEditComponent implements OnInit 
       } 
     );
 
+
   }
 
   
@@ -331,6 +332,7 @@ export class InterfaceEditComponent extends BaseEditComponent implements OnInit 
       return errs;
     }
     const c = this.form.controls;
+    if (c.id.errors?.required)      errs.push('ID is mandatory');
     if (c.connectionType.errors?.required)      errs.push('Connection Type is mandatory');
     if (c.host.errors?.required) errs.push('Host is mandatory');
     if (c.port.errors?.required) errs.push('Port is mandatory');
